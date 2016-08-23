@@ -37,11 +37,11 @@
             </li>
             <li><a href="#"><i class="fa fa-user"></i><span>สังกัด/หน่วยงาน</span></a>
               <ul class="sub-menu">
-                <li onclick="modi_mMenu('major')">
+                <li onclick="modi_maJor('major')">
                   <a href="#">เพิ่มข้อมูล คณะ/หน่วยงาน
                   </a>
                 </li>
-                <li>
+                <li onclick="modi_maJor('subject')">
                   <a href="#">เพิ่มข้อมูล ภาควิชา/หลักสูตร
                   </a>
                 </li>
@@ -72,5 +72,13 @@
     function modi_sMenu(title){
       var title = title;
       $('#main_view').load("<?php echo base_url('main/view_menu')?>/"+title);
+    }
+    function modi_maJor(title){
+      var title = title;
+      $('#main_view').load("<?php echo base_url('main/view_major')?>/"+title);
+    }
+    function modi_maJor(title){
+      var title = title;
+      $('#main_view').load("<?php echo base_url('main/view_major')?>/"+title);
     }
   </script>

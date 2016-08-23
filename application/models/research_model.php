@@ -31,6 +31,26 @@ class Research_model extends CI_Model
 			return $result;
 	
 	}
+
+	function getMajor(){
+		$sql = 'select * from major order by mMajorId asc';
+		$result = $this->db->query($sql)->result_array();
+		
+			return $result;
+		
+	}
+
+	function getSubject(){
+		$sql = "select mSubjectId,mSubjectName,mMajorName,subject.mMajorId 
+		from subject,major 
+		where subject.mMajorId = major.mMajorId 
+		order by mSubjectId asc";
+
+		$result = $this->db->query($sql)->result_array();
+		
+			return $result;
+	
+	}
         
         
 	

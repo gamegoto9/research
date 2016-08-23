@@ -5,7 +5,11 @@
 		<hr width="100%">
 	</div>
 	<div class="pull-right">
-		<button type="button" class="btn btn-success btn-block" id="test" onclick="showModel('add');"><span><i class="fa fa-plus"></i> เพิ่มเมนู</span></button>
+		<button type="button" class="btn btn-success btn-block" id="test" onclick="showModel('add');"><span><i class="fa fa-plus"></i><?php if ($title_id == 0) {
+			echo "เพิ่มคณะ/หน่วยงาน";
+		}else{
+			echo "เพิ่มภาควิชา/หลักสูตร";
+		}?></span></button>
 	</div>
 	<br><br>
 	<div id="showDataTable">
@@ -33,14 +37,18 @@
 
 	var load_view;
 	var title_id = <?php echo $title_id; ?>;
+
+	//console.log(load_view);
+
+	
 	
 	$(document).ready(function() {
 
 		if(title_id === 0){
 
-			$('#showDataTable').load("<?php echo base_url('main/modi_mMenu')?>");
+			$('#showDataTable').load("<?php echo base_url('main/modi_mMajor')?>");
 		}else{
-			$('#showDataTable').load("<?php echo base_url('main/modi_sMenu')?>");
+			$('#showDataTable').load("<?php echo base_url('main/modi_mSubject')?>");
 		}
 
 
@@ -55,9 +63,9 @@
 
 	function showModel(view){
 
-		console.log("true");
+		
 		load_view = view;
-		$('#model_view').load("<?php echo base_url('main/mMenu_form/');?>/"+load_view+"/"+title_id);
+		$('#model_view').load("<?php echo base_url('main/mMajor_form/');?>/"+load_view+"/"+title_id);
 		$('#myModel').modal('show');
 
 		// $(document).keypress(function(event) {
@@ -77,7 +85,7 @@
 			id:xid,
 			menu_type : title_id
 		};
-		$('#model_view').load('<?php echo site_url('main/mMenu_form_edit'); ?>',sdata);
+		$('#model_view').load('<?php echo site_url('main/mMajor_form_edit'); ?>',sdata);
 		$('#myModel').modal('show');
 	}
 	
@@ -88,7 +96,7 @@
 		bootbox.confirm("Are you sure?", function(result) {
 			if(result){
 
-				var faction = "<?php echo site_url('/main/action_mMenu/'); ?>/"+load_view+"/"+title_id;
+				var faction = "<?php echo site_url('/main/action_mMajor/'); ?>/"+load_view+"/"+title_id;
 				var fdata = {id:xid};
 				$.post(faction, fdata, function(jdata){
 
@@ -103,13 +111,11 @@
 
 						});
 
-						
-
 						if(title_id === 0){
 
-							$('#showDataTable').load("<?php echo base_url('main/modi_mMenu')?>");
+							$('#showDataTable').load("<?php echo base_url('main/modi_mMajor')?>");
 						}else{
-							$('#showDataTable').load("<?php echo base_url('main/modi_sMenu')?>");
+							$('#showDataTable').load("<?php echo base_url('main/modi_mSubject')?>");
 						}
 
 
@@ -139,7 +145,7 @@
 		bootbox.confirm("Are you sure?", function(result) {
 			if(result){
 
-				var faction = "<?php echo site_url('/main/action_mMenu/'); ?>/"+load_view+"/"+title_id;
+				var faction = "<?php echo site_url('/main/action_mMajor/'); ?>/"+load_view+"/"+title_id;
 				var fdata = $("#form_data").serialize();
 				$.post(faction, fdata, function(jdata){
 
@@ -159,9 +165,10 @@
 						bootbox.hideAll();
 
 						if(title_id === 0){
-							$('#showDataTable').load("<?php echo base_url('main/modi_mMenu')?>");
+
+							$('#showDataTable').load("<?php echo base_url('main/modi_mMajor')?>");
 						}else{
-							$('#showDataTable').load("<?php echo base_url('main/modi_sMenu')?>");
+							$('#showDataTable').load("<?php echo base_url('main/modi_mSubject')?>");
 						}
 
 

@@ -48,13 +48,25 @@ class Main extends CI_Controller {
     $data['mainMenu'] = $this->research_model->getMainMenu();
     $data['id_menu'] = "0";
     $this->load->view('research/backend/mMenuTable',$data);
-}
+    }
+
+    public function modi_mMajor(){
+    $data['mainMenu'] = $this->research_model->getMajor();
+    $data['id_menu'] = "0";
+    $this->load->view('research/backend/mMajorTable',$data);
+    }
 
 public function modi_sMenu(){
 
     $data['mainMenu'] = $this->research_model->getSubMenu();
     $data['id_menu'] = "1";
     $this->load->view('research/backend/mMenuTable',$data);
+}
+public function modi_mSubject(){
+
+    $data['mainMenu'] = $this->research_model->getSubject();
+    $data['id_menu'] = "1";
+    $this->load->view('research/backend/mMajorTable',$data);
 }
 
 public function view_menu($title){
@@ -66,6 +78,16 @@ public function view_menu($title){
         $data['title_id'] = 1;
     }
     $this->load->view('research/backend/mMenu_view',$data);
+}
+public function view_major($title){
+    if($title == "major"){
+        $data['title'] = "เพิ่ม แก้ไข คณะ/หน่วยงาน";
+        $data['title_id'] = 0;
+    }else{
+        $data['title'] = "เพิ่ม แก้ไข เมนูย่อย";
+        $data['title_id'] = 1;
+    }
+    $this->load->view('research/backend/mMajor_view',$data);
 }
 public function check_login() {
 
@@ -138,6 +160,20 @@ public function mMenu_form($view,$id){
     }
 }
 
+public function mMajor_form($view,$id){
+
+    if($id == 0){
+        $data['send'] = "add";
+        $data['menu_id'] = 0;
+        $this->load->view('research/backend/mMajor_form',$data);
+    }else{
+        $data['send'] = "add";
+        $data['menu_id'] = 1;
+        $data['mainMenu'] = $this->research_model->getMajor();
+        $this->load->view('research/backend/mMajor_form',$data);
+    }
+}
+
 public function mMenu_form_edit(){
 
     $id = $this->input->post('id');
@@ -161,6 +197,32 @@ public function mMenu_form_edit(){
     }
 
     $this->load->view('research/backend/mMenu_form',$data);
+    
+}
+
+public function mMajor_form_edit(){
+
+    $id = $this->input->post('id');
+    $menu_type = $this->input->post('menu_type');
+
+    if($menu_type == 0){
+
+        $sql = "select * from major where mMajorId = '$id'";
+        $data['dataValue'] = $this->db->query($sql)->row_array();
+        $data['send'] = "edit";
+        $data['menu_id'] = 0;
+    }else{
+        $sql = "select mSubjectId,mSubjectName,mMajorName,subject.mMajorId 
+        from subject,major 
+        where subject.mMajorId = major.mMajorId and
+        mSubjectId = '$id'";
+        $data['dataValue'] = $this->db->query($sql)->row_array();
+        $data['mainMenu'] = $this->research_model->getMajor();
+        $data['send'] = "edit";
+        $data['menu_id'] = 1;
+    }
+
+    $this->load->view('research/backend/mMajor_form',$data);
     
 }
 
@@ -264,7 +326,7 @@ public function action_mMenu($actions,$menu_type){
        $this->form_validation->set_rules('data_mMenu', 'หรือเพิ่ม เมนูหลักก่อน จึงจะสามารถเพิ่มเมนูย่อยได้', 'required');
 
        $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
-       
+
 
        if ($this->form_validation->run() == FALSE) {
 
@@ -349,7 +411,189 @@ public function action_mMenu($actions,$menu_type){
 }
 
 
+public function action_mMajor($actions,$menu_type){
 
+    if($menu_type == 0){
+        // mainMenu
+
+        if($actions == "add"){
+
+
+         $this->load->library('form_validation');
+         $this->form_validation->set_rules('mMenuName_txt', 'ชื่อคณะ/หน่วยงาน', 'required');
+
+         $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+
+         if ($this->form_validation->run() == FALSE) {
+
+            $msg = form_error('mMenuName_txt');
+            
+
+            echo json_encode(array(
+                'is_successful' => FALSE,
+                'msg' => $msg
+                ));
+
+
+        } else {
+
+            $mMenuName = $this->input->post('mMenuName_txt');
+
+            $sql = "insert into major (mMajorName) values ('$mMenuName')";
+            $result = $this->db->query($sql);
+
+
+            echo json_encode(array(
+                'is_successful' => TRUE,
+                'msg' =>  'บันทึกข้อมูลเรียบร้อย'
+                ));
+        }
+    }else if($actions == "edit"){
+
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('mMenuName_txt', 'ชื่อคณะ/หน่วยงาน', 'required');
+        $this->form_validation->set_rules('mMenuId_txt', 'ไม่มีคณะ/หน่วยงาน', 'required');
+
+        $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+
+        if ($this->form_validation->run() == FALSE) {
+
+            $msg = form_error('mMenuName_txt');
+            $msg = form_error('mMenuId_txt');
+
+
+
+            echo json_encode(array(
+                'is_successful' => FALSE,
+                'msg' => $msg
+                ));
+        } else {
+
+            $mMenuName = $this->input->post('mMenuName_txt');
+            $mMenuId = $this->input->post('mMenuId_txt');
+
+            $sql = "update major set  mMajorName = '$mMenuName' where mMajorId = '$mMenuId'";
+            $result = $this->db->query($sql);
+
+
+            echo json_encode(array(
+                'is_successful' => TRUE,
+                'msg' =>  'แก้ไขข้อมูลเรียบร้อย'
+                ));
+
+
+
+
+        }
+
+    }else if($actions == "delete"){
+
+        $id = $this->input->post('id');
+        $sql = "delete from major where mMajorId = '$id'";
+        $result = $this->db->query($sql);
+
+
+        echo json_encode(array(
+            'is_successful' => TRUE,
+            'msg' =>  'ลบข้อมูลเรียบร้อย'
+            ));
+
+
+    }
+}else{
+    // subMenu
+
+    if($actions == "add"){
+
+
+     $this->load->library('form_validation');
+     $this->form_validation->set_rules('sMenuName_txt', 'ชื่อภาควิชา/หลักสูตร', 'required');
+     $this->form_validation->set_rules('data_mMenu', 'หรือเพิ่ม คณะหรือหน่วยงานก่อน จึงจะสามารถเพิ่มภาควิชา/หลักสูตรได้', 'required');
+
+     $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+     
+
+     if ($this->form_validation->run() == FALSE) {
+
+        $msg = form_error('sMenuName_txt');
+        $msg.= form_error('data_mMenu');
+
+
+        echo json_encode(array(
+            'is_successful' => FALSE,
+            'msg' => $msg
+            ));
+    } else {
+
+        $sMenuName1 = $this->input->post('sMenuName_txt');
+        $mMenuId1 = $this->input->post('data_mMenu');
+
+        $sql = "insert into subject (mSubjectName,mMajorId) values ('$sMenuName1','$mMenuId1')";
+        $result = $this->db->query($sql);
+
+
+        echo json_encode(array(
+            'is_successful' => TRUE,
+            'msg' => 'บันทึกข้อมูลเรียบร้อย'
+            ));
+    }
+}else if($actions == "edit"){
+
+    $this->load->library('form_validation');
+    $this->form_validation->set_rules('sMenuName_txt', 'ชื่อภาควิชา/หลักสูตร', 'required');
+    $this->form_validation->set_rules('sMenuId_txt', 'ไม่มีรหัสคณะ ไม่สามารถแก้ไขได้', 'required');
+
+    $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+
+    if ($this->form_validation->run() == FALSE) {
+
+        $msg = form_error('sMenuName_txt');
+        $msg = form_error('sMenuId_txt');
+
+
+
+        echo json_encode(array(
+            'is_successful' => FALSE,
+            'msg' => $msg
+            ));
+    } else {
+
+        $sMenuName = $this->input->post('sMenuName_txt');
+        $sMenuId = $this->input->post('sMenuId_txt');
+        $mMenuId = $this->input->post('data_mMenu');
+
+        $sql = "update subject set  mSubjectName = '$sMenuName',mMajorId = '$mMenuId' where mSubjectId = '$sMenuId'";
+        $result = $this->db->query($sql);
+
+
+        echo json_encode(array(
+            'is_successful' => TRUE,
+            'msg' =>  'แก้ไขข้อมูลเรียบร้อย'
+            ));
+
+
+
+
+    }
+
+}else if($actions == "delete"){
+
+    $id = $this->input->post('id');
+    $sql = "delete from subject where mSubjectId = '$id'";
+    $result = $this->db->query($sql);
+
+
+    echo json_encode(array(
+        'is_successful' => TRUE,
+        'msg' =>  'ลบข้อมูลเรียบร้อย'
+        ));
+
+
+}
+
+}
+
+}
 
 
 
