@@ -33,7 +33,7 @@
 
 	var load_view;
 	var title_id = <?php echo $title_id; ?>;
-
+	var aaa = "aaaaa";
 	$(document).ready(function() {
 
 		if(title_id === 0){
