@@ -15,6 +15,7 @@
             </li>
             <?php
             if($this->session->userdata('status') == 1){
+              // admin UI
             ?>
             <li><a href="#"><i class="fa fa-bars"></i><span>เมนู</span></a>
               <ul class="sub-menu">
@@ -29,6 +30,19 @@
               <ul class="sub-menu">
                 <li>
                   <a href="#">พิ่มเติม แก้ไข ข้อมุลผู้ใช้
+                  </a>
+                </li>
+                
+              </ul>
+            </li>
+            <li><a href="#"><i class="fa fa-user"></i><span>สังกัด/หน่วยงาน</span></a>
+              <ul class="sub-menu">
+                <li onclick="modi_mMenu('major')">
+                  <a href="#">เพิ่มข้อมูล คณะ/หน่วยงาน
+                  </a>
+                </li>
+                <li>
+                  <a href="#">เพิ่มข้อมูล ภาควิชา/หลักสูตร
                   </a>
                 </li>
                 
