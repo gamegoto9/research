@@ -1,7 +1,7 @@
 <div>
 	
 	<div>
-		<h3>เพิ่ม แก้ไข เมนูหลัก</h3>
+		<h3><?php echo $title; ?></h3>
 		<hr width="100%">
 	</div>
 	<div class="pull-right">
@@ -32,19 +32,40 @@
 <script type="text/javascript">
 
 	var load_view;
+	var title_id = <?php echo $title_id; ?>;
 
 	$(document).ready(function() {
 
-		$('#showDataTable').load("<?php echo base_url('main/modi_mMenu')?>");
+		if(title_id === 0){
+
+			$('#showDataTable').load("<?php echo base_url('main/modi_mMenu')?>");
+		}else{
+			$('#showDataTable').load("<?php echo base_url('main/modi_sMenu')?>");
+		}
+
+
+		if ($("#mMenuName_txt").is(':focus')) {
+			alert("hello");
+		}
+		
 
 	} );
+
+
 
 	function showModel(view){
 
 		console.log("true");
 		load_view = view;
-		$('#model_view').load("<?php echo base_url('main/mMenu_form/');?>/"+load_view);
+		$('#model_view').load("<?php echo base_url('main/mMenu_form/');?>/"+load_view+"/"+title_id);
 		$('#myModel').modal('show');
+
+		// $(document).keypress(function(event) {
+		// 	var keycode = event.keyCode || event.which;
+		// 	if(keycode == '13') {
+		// 		btn_save();   
+		// 	}
+		// });
 
 
 	}
@@ -53,11 +74,13 @@
 
 		load_view = "edit";
 		var sdata = {
-			id:xid
+			id:xid,
+			menu_type : title_id
 		};
 		$('#model_view').load('<?php echo site_url('main/mMenu_form_edit'); ?>',sdata);
 		$('#myModel').modal('show');
 	}
+	
 
 	function showModel_delete(xid){
 		
@@ -65,7 +88,7 @@
 		bootbox.confirm("Are you sure?", function(result) {
 			if(result){
 
-				var faction = "<?php echo site_url('/main/action_mMenu/'); ?>/"+load_view;
+				var faction = "<?php echo site_url('/main/action_mMenu/'); ?>/"+load_view+"/"+title_id;
 				var fdata = {id:xid};
 				$.post(faction, fdata, function(jdata){
 
@@ -82,7 +105,12 @@
 
 						
 
-						$('#showDataTable').load("<?php echo base_url('main/modi_mMenu')?>");
+						if(title_id === 0){
+
+							$('#showDataTable').load("<?php echo base_url('main/modi_mMenu')?>");
+						}else{
+							$('#showDataTable').load("<?php echo base_url('main/modi_sMenu')?>");
+						}
 
 
 					}else{
@@ -111,7 +139,7 @@
 		bootbox.confirm("Are you sure?", function(result) {
 			if(result){
 
-				var faction = "<?php echo site_url('/main/action_mMenu/'); ?>/"+load_view;
+				var faction = "<?php echo site_url('/main/action_mMenu/'); ?>/"+load_view+"/"+title_id;
 				var fdata = $("#form_data").serialize();
 				$.post(faction, fdata, function(jdata){
 
@@ -130,7 +158,11 @@
 						$('#myModel').modal('hide');
 						bootbox.hideAll();
 
-						$('#showDataTable').load("<?php echo base_url('main/modi_mMenu')?>");
+						if(title_id === 0){
+							$('#showDataTable').load("<?php echo base_url('main/modi_mMenu')?>");
+						}else{
+							$('#showDataTable').load("<?php echo base_url('main/modi_sMenu')?>");
+						}
 
 
 					}else{

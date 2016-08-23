@@ -18,9 +18,9 @@
             ?>
             <li><a href="#"><i class="fa fa-bars"></i><span>เมนู</span></a>
               <ul class="sub-menu">
-                <li onclick="modi_mMenu()"><a href="#">เพิ่ม แก้ไข เมนูหลัก</a>
+                <li onclick="modi_mMenu('main')"><a href="#">เพิ่ม แก้ไข เมนูหลัก</a>
                 </li>
-                <li><a href="#"><span class="label label-primary pull-right">New</span>เพิ่ม แก้ไข เมนูย่อย</a>
+                <li onclick="modi_sMenu('sub')"><a href="#"><span class="label label-primary pull-right">New</span>เพิ่ม แก้ไข เมนูย่อย</a>
                 </li>
               </ul>
             </li>
@@ -51,7 +51,12 @@
   </div>
 
   <script type="text/javascript">
-    function modi_mMenu(){
-      $('#main_view').load("<?php echo base_url('main/view_menu')?>");
+    function modi_mMenu(title){
+      var title = title;
+      $('#main_view').load("<?php echo base_url('main/view_menu')?>/"+title);
+    }
+    function modi_sMenu(title){
+      var title = title;
+      $('#main_view').load("<?php echo base_url('main/view_menu')?>/"+title);
     }
   </script>

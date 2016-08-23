@@ -21,7 +21,11 @@ class Research_model extends CI_Model
 	}
 
 	function getSubMenu(){
-		$sql = 'select * from submenu order by sMenuId asc';
+		$sql = "select sMenuId,sMenuName,mMenuName,submenu.mMenuId 
+		from submenu,mainmenu 
+		where submenu.mMenuId = mainmenu.mMenuId 
+		order by sMenuId asc";
+
 		$result = $this->db->query($sql)->result_array();
 		
 			return $result;

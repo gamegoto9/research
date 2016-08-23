@@ -46,11 +46,26 @@ class Main extends CI_Controller {
 
    public function modi_mMenu(){
     $data['mainMenu'] = $this->research_model->getMainMenu();
+    $data['id_menu'] = "0";
     $this->load->view('research/backend/mMenuTable',$data);
 }
 
-public function view_menu(){
-    $this->load->view('research/backend/mMenu_view');
+public function modi_sMenu(){
+
+    $data['mainMenu'] = $this->research_model->getSubMenu();
+    $data['id_menu'] = "1";
+    $this->load->view('research/backend/mMenuTable',$data);
+}
+
+public function view_menu($title){
+    if($title == "main"){
+        $data['title'] = "เพิ่ม แก้ไข เมนูหลัก";
+        $data['title_id'] = 0;
+    }else{
+        $data['title'] = "เพิ่ม แก้ไข เมนูย่อย";
+        $data['title_id'] = 1;
+    }
+    $this->load->view('research/backend/mMenu_view',$data);
 }
 public function check_login() {
 
@@ -109,10 +124,16 @@ public function check_login() {
 }
 
 
-public function mMenu_form($view){
+public function mMenu_form($view,$id){
 
-    if($view == "add"){
+    if($id == 0){
         $data['send'] = "add";
+        $data['menu_id'] = 0;
+        $this->load->view('research/backend/mMenu_form',$data);
+    }else{
+        $data['send'] = "add";
+        $data['menu_id'] = 1;
+        $data['mainMenu'] = $this->research_model->getMainMenu();
         $this->load->view('research/backend/mMenu_form',$data);
     }
 }
@@ -120,29 +141,135 @@ public function mMenu_form($view){
 public function mMenu_form_edit(){
 
     $id = $this->input->post('id');
+    $menu_type = $this->input->post('menu_type');
 
-    $sql = "select * from mainmenu where mMenuId = '$id'";
-    $data['dataValue'] = $this->db->query($sql)->row_array();
-    $data['send'] = "edit";
+    if($menu_type == 0){
+
+        $sql = "select * from mainmenu where mMenuId = '$id'";
+        $data['dataValue'] = $this->db->query($sql)->row_array();
+        $data['send'] = "edit";
+        $data['menu_id'] = 0;
+    }else{
+        $sql = "select sMenuId,sMenuName,mMenuName,submenu.mMenuId 
+        from submenu,mainmenu 
+        where submenu.mMenuId = mainmenu.mMenuId and
+        sMenuId = '$id'";
+        $data['dataValue'] = $this->db->query($sql)->row_array();
+        $data['mainMenu'] = $this->research_model->getMainMenu();
+        $data['send'] = "edit";
+        $data['menu_id'] = 1;
+    }
 
     $this->load->view('research/backend/mMenu_form',$data);
     
 }
 
-public function action_mMenu($actions){
+public function action_mMenu($actions,$menu_type){
+
+    if($menu_type == 0){
+        // mainMenu
+
+        if($actions == "add"){
+
+
+           $this->load->library('form_validation');
+           $this->form_validation->set_rules('mMenuName_txt', 'ชื่อเมนู', 'required');
+
+           $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+
+           if ($this->form_validation->run() == FALSE) {
+
+            $msg = form_error('mMenuName_txt');
+            
+
+            echo json_encode(array(
+                'is_successful' => FALSE,
+                'msg' => $msg
+                ));
+
+
+        } else {
+
+            $mMenuName = $this->input->post('mMenuName_txt');
+
+            $sql = "insert into mainmenu (mMenuName) values ('$mMenuName')";
+            $result = $this->db->query($sql);
+
+
+            echo json_encode(array(
+                'is_successful' => TRUE,
+                'msg' =>  'บันทึกข้อมูลเรียบร้อย'
+                ));
+        }
+    }else if($actions == "edit"){
+
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('mMenuName_txt', 'ชื่อเมนู', 'required');
+        $this->form_validation->set_rules('mMenuId_txt', 'ไม่มีรหัส', 'required');
+
+        $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+
+        if ($this->form_validation->run() == FALSE) {
+
+            $msg = form_error('mMenuName_txt');
+            $msg = form_error('mMenuId_txt');
+
+
+
+            echo json_encode(array(
+                'is_successful' => FALSE,
+                'msg' => $msg
+                ));
+        } else {
+
+            $mMenuName = $this->input->post('mMenuName_txt');
+            $mMenuId = $this->input->post('mMenuId_txt');
+
+            $sql = "update mainmenu set  mMenuName = '$mMenuName' where mMenuId = '$mMenuId'";
+            $result = $this->db->query($sql);
+
+
+            echo json_encode(array(
+                'is_successful' => TRUE,
+                'msg' =>  'แก้ไขข้อมูลเรียบร้อย'
+                ));
+
+
+
+
+        }
+
+    }else if($actions == "delete"){
+
+        $id = $this->input->post('id');
+        $sql = "delete from mainmenu where mMenuId = '$id'";
+        $result = $this->db->query($sql);
+
+
+        echo json_encode(array(
+            'is_successful' => TRUE,
+            'msg' =>  'ลบข้อมูลเรียบร้อย'
+            ));
+
+
+    }
+}else{
+    // subMenu
 
     if($actions == "add"){
 
 
        $this->load->library('form_validation');
-       $this->form_validation->set_rules('mMenuName_txt', 'mMenuName_txt', 'required');
+       $this->form_validation->set_rules('sMenuName_txt', 'ชื่อเมนูย่อย', 'required');
+       $this->form_validation->set_rules('data_mMenu', 'หรือเพิ่ม เมนูหลักก่อน จึงจะสามารถเพิ่มเมนูย่อยได้', 'required');
 
        $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+       
 
        if ($this->form_validation->run() == FALSE) {
 
-        $msg = form_error('ชื่อเมนู');
-
+        $msg = form_error('sMenuName_txt');
+        $msg.= form_error('data_mMenu');
 
 
         echo json_encode(array(
@@ -151,33 +278,30 @@ public function action_mMenu($actions){
             ));
     } else {
 
-        $mMenuName = $this->input->post('mMenuName_txt');
+        $sMenuName1 = $this->input->post('sMenuName_txt');
+        $mMenuId1 = $this->input->post('data_mMenu');
 
-        $sql = "insert into mainmenu (mMenuName) values ('$mMenuName')";
+        $sql = "insert into submenu (sMenuName,mMenuId) values ('$sMenuName1','$mMenuId1')";
         $result = $this->db->query($sql);
 
-        
+
         echo json_encode(array(
             'is_successful' => TRUE,
-            'msg' =>  $mMenuName
+            'msg' => 'บันทึกข้อมูลเรียบร้อย'
             ));
-
-        
-
-
     }
 }else if($actions == "edit"){
 
     $this->load->library('form_validation');
-    $this->form_validation->set_rules('mMenuName_txt', 'mMenuName_txt', 'required');
-    $this->form_validation->set_rules('mMenuId_txt', 'mMenuId_txt', 'required');
+    $this->form_validation->set_rules('sMenuName_txt', 'ชื่อเมนู', 'required');
+    $this->form_validation->set_rules('sMenuId_txt', 'ไม่มีรหัส', 'required');
 
     $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
 
     if ($this->form_validation->run() == FALSE) {
 
-        $msg = form_error('ชื่อเมนู');
-        $msg = form_error('ไม่มีรหัส');
+        $msg = form_error('sMenuName_txt');
+        $msg = form_error('sMenuId_txt');
 
 
 
@@ -187,19 +311,20 @@ public function action_mMenu($actions){
             ));
     } else {
 
-        $mMenuName = $this->input->post('mMenuName_txt');
-        $mMenuId = $this->input->post('mMenuId_txt');
+        $sMenuName = $this->input->post('sMenuName_txt');
+        $sMenuId = $this->input->post('sMenuId_txt');
+        $mMenuId = $this->input->post('data_mMenu');
 
-        $sql = "update mainmenu set  mMenuName = '$mMenuName' where mMenuId = '$mMenuId'";
+        $sql = "update submenu set  sMenuName = '$sMenuName',mMenuId = '$mMenuId' where sMenuId = '$sMenuId'";
         $result = $this->db->query($sql);
 
-        
+
         echo json_encode(array(
             'is_successful' => TRUE,
-            'msg' =>  $mMenuName
+            'msg' =>  'แก้ไขข้อมูลเรียบร้อย'
             ));
 
-        
+
 
 
     }
@@ -207,15 +332,17 @@ public function action_mMenu($actions){
 }else if($actions == "delete"){
 
     $id = $this->input->post('id');
-    $sql = "delete from mainmenu where mMenuId = '$id'";
+    $sql = "delete from submenu where sMenuId = '$id'";
     $result = $this->db->query($sql);
 
 
-        echo json_encode(array(
-            'is_successful' => TRUE,
-            'msg' =>  'ลบข้อมูลเรียบร้อย'
-            ));
-    
+    echo json_encode(array(
+        'is_successful' => TRUE,
+        'msg' =>  'ลบข้อมูลเรียบร้อย'
+        ));
+
+
+}
 
 }
 
