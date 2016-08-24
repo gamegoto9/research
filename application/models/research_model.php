@@ -16,7 +16,7 @@ class Research_model extends CI_Model
 		$sql = 'select * from mainmenu order by mMenuId asc';
 		$result = $this->db->query($sql)->result_array();
 		
-			return $result;
+		return $result;
 		
 	}
 
@@ -28,15 +28,15 @@ class Research_model extends CI_Model
 
 		$result = $this->db->query($sql)->result_array();
 		
-			return $result;
-	
+		return $result;
+
 	}
 
 	function getMajor(){
 		$sql = 'select * from major order by mMajorId asc';
 		$result = $this->db->query($sql)->result_array();
 		
-			return $result;
+		return $result;
 		
 	}
 
@@ -48,10 +48,45 @@ class Research_model extends CI_Model
 
 		$result = $this->db->query($sql)->result_array();
 		
-			return $result;
-	
+		return $result;
+
 	}
-        
-        
+
+	function getUserData(){
+		$sql = "SELECT
+		`user`.username,
+		`user`.`password`,
+		`user`.uName,
+		`user`.`statusId`,
+		`user`.mSubjectId,
+		`user`.note,
+		`user`.uId,
+		`subject`.mSubjectName,
+		major.mMajorName
+		FROM
+		major
+		INNER JOIN `subject` ON major.mMajorId = `subject`.mMajorId
+		INNER JOIN `user` ON `subject`.mSubjectId = `user`.mSubjectId
+		WHERE
+		`user`.`statusId` = '0'
+		ORDER BY `user`.uId asc";
+
+		$result = $this->db->query($sql)->result_array();
+		
+		return $result;
+
+	}
+
+	function getStatusUser(){
+		$sql = "select * from status_user";
+		$result = $this->db->query($sql)->result_array();
+		
+		return $result;
+
+	}
+
+
+
+
 	
 }

@@ -30,31 +30,31 @@ class Main extends CI_Controller {
 
     public function admin(){
        //$data['page'] = "0";
-       $this->load->view('content_view');
-   }
+     $this->load->view('content_view');
+ }
 
-   function contentShow(){
-       $this->load->view('research/site/content_view');
-   }
-   function slideShow(){
-       $this->load->view('research/site/includes/slidebar');
-   }
+ function contentShow(){
+     $this->load->view('research/site/content_view');
+ }
+ function slideShow(){
+     $this->load->view('research/site/includes/slidebar');
+ }
 
-   function logIn(){
-       $this->load->view('research/backend/login');
-   }
+ function logIn(){
+     $this->load->view('research/backend/login');
+ }
 
-   public function modi_mMenu(){
+ public function modi_mMenu(){
     $data['mainMenu'] = $this->research_model->getMainMenu();
     $data['id_menu'] = "0";
     $this->load->view('research/backend/mMenuTable',$data);
-    }
+}
 
-    public function modi_mMajor(){
+public function modi_mMajor(){
     $data['mainMenu'] = $this->research_model->getMajor();
     $data['id_menu'] = "0";
     $this->load->view('research/backend/mMajorTable',$data);
-    }
+}
 
 public function modi_sMenu(){
 
@@ -67,6 +67,13 @@ public function modi_mSubject(){
     $data['mainMenu'] = $this->research_model->getSubject();
     $data['id_menu'] = "1";
     $this->load->view('research/backend/mMajorTable',$data);
+}
+
+public function modi_user(){
+
+    $data['mainMenu'] = $this->research_model->getUserData();
+    
+    $this->load->view('research/backend/userTable',$data);
 }
 
 public function view_menu($title){
@@ -88,6 +95,13 @@ public function view_major($title){
         $data['title_id'] = 1;
     }
     $this->load->view('research/backend/mMajor_view',$data);
+}
+public function view_user(){
+
+    $data['title'] = "เพิ่ม แก้ไข ผู้ใช้งานระบบ";
+
+    
+    $this->load->view('research/backend/user_view',$data);
 }
 public function check_login() {
 
@@ -174,6 +188,17 @@ public function mMajor_form($view,$id){
     }
 }
 
+public function user_form($view){
+
+
+    $data['send'] = "add";
+    $data['major'] = $this->research_model->getMajor();
+    $data['subject'] = $this->research_model->getSubject();
+    $data['status'] = $this->research_model->getStatusUser();
+    $this->load->view('research/backend/user_form',$data);
+
+}
+
 public function mMenu_form_edit(){
 
     $id = $this->input->post('id');
@@ -234,12 +259,12 @@ public function action_mMenu($actions,$menu_type){
         if($actions == "add"){
 
 
-           $this->load->library('form_validation');
-           $this->form_validation->set_rules('mMenuName_txt', 'ชื่อเมนู', 'required');
+         $this->load->library('form_validation');
+         $this->form_validation->set_rules('mMenuName_txt', 'ชื่อเมนู', 'required');
 
-           $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+         $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
 
-           if ($this->form_validation->run() == FALSE) {
+         if ($this->form_validation->run() == FALSE) {
 
             $msg = form_error('mMenuName_txt');
             
@@ -321,14 +346,14 @@ public function action_mMenu($actions,$menu_type){
     if($actions == "add"){
 
 
-       $this->load->library('form_validation');
-       $this->form_validation->set_rules('sMenuName_txt', 'ชื่อเมนูย่อย', 'required');
-       $this->form_validation->set_rules('data_mMenu', 'หรือเพิ่ม เมนูหลักก่อน จึงจะสามารถเพิ่มเมนูย่อยได้', 'required');
+     $this->load->library('form_validation');
+     $this->form_validation->set_rules('sMenuName_txt', 'ชื่อเมนูย่อย', 'required');
+     $this->form_validation->set_rules('data_mMenu', 'หรือเพิ่ม เมนูหลักก่อน จึงจะสามารถเพิ่มเมนูย่อยได้', 'required');
 
-       $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+     $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
 
 
-       if ($this->form_validation->run() == FALSE) {
+     if ($this->form_validation->run() == FALSE) {
 
         $msg = form_error('sMenuName_txt');
         $msg.= form_error('data_mMenu');
@@ -419,12 +444,12 @@ public function action_mMajor($actions,$menu_type){
         if($actions == "add"){
 
 
-         $this->load->library('form_validation');
-         $this->form_validation->set_rules('mMenuName_txt', 'ชื่อคณะ/หน่วยงาน', 'required');
+           $this->load->library('form_validation');
+           $this->form_validation->set_rules('mMenuName_txt', 'ชื่อคณะ/หน่วยงาน', 'required');
 
-         $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+           $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
 
-         if ($this->form_validation->run() == FALSE) {
+           if ($this->form_validation->run() == FALSE) {
 
             $msg = form_error('mMenuName_txt');
             
@@ -506,14 +531,14 @@ public function action_mMajor($actions,$menu_type){
     if($actions == "add"){
 
 
-     $this->load->library('form_validation');
-     $this->form_validation->set_rules('sMenuName_txt', 'ชื่อภาควิชา/หลักสูตร', 'required');
-     $this->form_validation->set_rules('data_mMenu', 'หรือเพิ่ม คณะหรือหน่วยงานก่อน จึงจะสามารถเพิ่มภาควิชา/หลักสูตรได้', 'required');
+       $this->load->library('form_validation');
+       $this->form_validation->set_rules('sMenuName_txt', 'ชื่อภาควิชา/หลักสูตร', 'required');
+       $this->form_validation->set_rules('data_mMenu', 'หรือเพิ่ม คณะหรือหน่วยงานก่อน จึงจะสามารถเพิ่มภาควิชา/หลักสูตรได้', 'required');
 
-     $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
-     
+       $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
 
-     if ($this->form_validation->run() == FALSE) {
+
+       if ($this->form_validation->run() == FALSE) {
 
         $msg = form_error('sMenuName_txt');
         $msg.= form_error('data_mMenu');
@@ -594,6 +619,108 @@ public function action_mMajor($actions,$menu_type){
 }
 
 }
+
+
+
+
+public function action_user($actions){
+
+
+    if($actions == "add"){
+
+
+       $this->load->library('form_validation');
+       $this->form_validation->set_rules('uName', 'ชื่อ-นามสกุล', 'required');
+       $this->form_validation->set_rules('data_major', 'ชื่อคณะ/หน่วยงาน', 'required');
+       $this->form_validation->set_rules('note', 'ความเชี่ยวชาญ', 'required');
+       $this->form_validation->set_rules('data_subject', 'ภาควิชา/หลักสูตร', 'required');
+       $this->form_validation->set_rules('username', 'ชื่อผู้ใช้', 'required');
+       $this->form_validation->set_rules('password', 'รหัสผ่าน', 'required');
+       $this->form_validation->set_rules('uStatus', 'สถานะ', 'required');
+
+       $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+
+       if ($this->form_validation->run() == FALSE) {
+
+        $msg = form_error('uName');
+        $msg .= form_error('data_major');
+        $msg .= form_error('note');
+        $msg .= form_error('data_subject');
+        $msg .= form_error('username');
+        $msg .= form_error('password');
+        $msg .= form_error('uStatus');
+
+
+        echo json_encode(array(
+            'is_successful' => FALSE,
+            'msg' => $msg
+            ));
+
+
+    } else {
+
+        $uName = $this->input->post('uName');
+        $uMajor = $this->input->post('data_major');
+        $uNote = $this->input->post('note');
+        $uSubject = $this->input->post('data_subject');
+        $username = $this->input->post('username');
+        $password = $this->input->post('password');
+        $status = $this->input->post('uStatus');
+
+        $sql = "insert into major values ('$username','$password','$uName','$uStatus','$uSubject','$uNote')";
+        $result = $this->db->query($sql);
+
+
+        echo json_encode(array(
+            'is_successful' => TRUE,
+            'msg' =>  'บันทึกข้อมูลเรียบร้อย'
+            ));
+    }
+}else if($actions == "edit"){
+
+    $this->load->library('form_validation');
+    $this->form_validation->set_rules('mMenuName_txt', 'ชื่อคณะ/หน่วยงาน', 'required');
+    $this->form_validation->set_rules('mMenuId_txt', 'ไม่มีคณะ/หน่วยงาน', 'required');
+
+    $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+
+    if ($this->form_validation->run() == FALSE) {
+
+        $msg = form_error('mMenuName_txt');
+        $msg = form_error('mMenuId_txt');
+
+        echo json_encode(array(
+            'is_successful' => FALSE,
+            'msg' => $msg
+            ));
+    } else {
+
+        $mMenuName = $this->input->post('mMenuName_txt');
+        $mMenuId = $this->input->post('mMenuId_txt');
+
+        $sql = "update major set  mMajorName = '$mMenuName' where mMajorId = '$mMenuId'";
+        $result = $this->db->query($sql);
+
+
+        echo json_encode(array(
+            'is_successful' => TRUE,
+            'msg' =>  'แก้ไขข้อมูลเรียบร้อย'
+            ));
+    }
+
+}else if($actions == "delete"){
+
+    $id = $this->input->post('id');
+    $sql = "delete from major where mMajorId = '$id'";
+    $result = $this->db->query($sql);
+    echo json_encode(array(
+        'is_successful' => TRUE,
+        'msg' =>  'ลบข้อมูลเรียบร้อย'
+        ));
+}
+}
+
+
 
 
 

@@ -28,7 +28,7 @@
 
             <li><a href="#"><i class="fa fa-user"></i><span>ข้อมูลผุ้ใช้</span></a>
               <ul class="sub-menu">
-                <li>
+                <li onclick="modi_uSer()">
                   <a href="#">พิ่มเติม แก้ไข ข้อมุลผู้ใช้
                   </a>
                 </li>
@@ -80,5 +80,9 @@
     function modi_maJor(title){
       var title = title;
       $('#main_view').load("<?php echo base_url('main/view_major')?>/"+title);
+    }
+    function modi_uSer(){
+      
+      $('#main_view').load("<?php echo base_url('main/view_user')?>");
     }
   </script>
