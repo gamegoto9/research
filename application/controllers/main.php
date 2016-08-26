@@ -132,12 +132,14 @@ public function check_login() {
 
         if ($rowcount > 0) {
 //                $result = array('user','status','name','Pid');
-
+            
             foreach ($query->result_array() as $row) {
+
+               
 
                 $dataArray = array(
                     'user'  => $data['username'],
-                    'status'     => $row['status'],
+                    'status'     => $row['statusId'],
                     'name' => $row['uName']
                     );
 
@@ -148,7 +150,7 @@ public function check_login() {
 
             echo json_encode(array(
                 'is_successful' => TRUE,
-                'msg' => $row['uName']
+                'msg' => 'เรียบร้อย รอซักครู่'
                 ));
         } else {
             echo json_encode(array(
@@ -667,13 +669,14 @@ public function action_user($actions){
         $password = $this->input->post('password');
         $status = $this->input->post('uStatus');
 
-        $sql = "insert into major values ('$username','$password','$uName','$uStatus','$uSubject','$uNote')";
+        $sql = "insert into user (username,password,uName,statusId,mSubjectId,note) 
+        values ('$username','$password','$uName','$status','$uSubject','$uNote')";
         $result = $this->db->query($sql);
 
 
         echo json_encode(array(
             'is_successful' => TRUE,
-            'msg' =>  'บันทึกข้อมูลเรียบร้อย'
+            'msg' => 'บันทึกข้อมูลเรียบร้อย'
             ));
     }
 }else if($actions == "edit"){
@@ -720,6 +723,23 @@ public function action_user($actions){
 }
 }
 
+
+function select_type_major(){
+
+    $majorId = $this->input->post('id');
+
+    $sql = "select mSubjectId,mSubjectName
+        from subject
+        where mMajorId = '$majorId'";
+
+
+       $data = $this->db->query($sql)->result_array();
+
+        echo json_encode(array(
+            'is_successful' => TRUE,
+            'data' => $data
+        ));
+}
 
 
 

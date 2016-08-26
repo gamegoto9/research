@@ -7,28 +7,28 @@
 	<div>
 		<form id="form_data">
 
-				<div class="form-group">
-					<label for="uName">ชื่อ - นามสกุล</label>
-					<input type="text" class="form-control" id="uName" name="uName" placeholder="ชื่อ - นามสกุล" value="<?php 
-					if($send == 'edit'){
-						echo $dataValue['uName'];
-					}
-					?>">
-					<input type="hidden" class="form-control" id="uId" name="uId" value="<?php 
-					if($send == 'edit'){
-						echo $dataValue['uName'];
-					}
-					?>">
-				</div>
+			<div class="form-group">
+				<label for="uName">ชื่อ - นามสกุล</label>
+				<input type="text" class="form-control" id="uName" name="uName" placeholder="ชื่อ - นามสกุล" value="<?php 
+				if($send == 'edit'){
+					echo $dataValue['uName'];
+				}
+				?>">
+				<input type="hidden" class="form-control" id="uId" name="uId" value="<?php 
+				if($send == 'edit'){
+					echo $dataValue['uName'];
+				}
+				?>">
+			</div>
 
-				<div class="form-group">
+			<div class="form-group">
 
-					<label for="mMajorName">ชื่อคณะ/หน่วยงาน</label>
-					<select class="form-control" id="data_major" name="data_major">
-						<?php 
-							foreach ($major as $uMajor){								
+				<label for="mMajorName">ชื่อคณะ/หน่วยงาน</label>
+				<select class="form-control" id="data_major" name="data_major">
+					<?php 
+					foreach ($major as $uMajor){								
 						?>
-							<option value="<?php echo $uMajor['mMajorId']; ?>"><?php echo $uMajor['mMajorName']; ?></option>
+						<option value="<?php echo $uMajor['mMajorId']; ?>"><?php echo $uMajor['mMajorName']; ?></option>
 						<?php } ?>	
 					</select>
 				</div>
@@ -46,11 +46,7 @@
 
 					<label for="mMenuName">ภาควิชา/หลักสูตร</label>
 					<select class="form-control" id="data_subject" name="data_subject">
-						<?php 
-							foreach ($subject as $uSubject){								
-						?>
-							<option value="<?php echo $uSubject['mSubjectId']; ?>"><?php echo $uSubject['mSubjectName']; ?></option>
-						<?php } ?>	
+						
 					</select>
 				</div>
 
@@ -61,24 +57,24 @@
 						echo $dataValue['username'];
 					}
 					?>">
-					
+
 				</div>
 
 				<div class="form-group">
 					<label for="password">รหัสผ่าน</label>
 					<?php 
 					if($send == 'edit'){
-					?>
+						?>
 						<input type="text" class="form-control" id="password" name="password" placeholder="Password" value="<?php echo $dataValue['password']; ?>">
-					<?php
+						<?php
 					}else{
-					?>
+						?>
 						<input type="password" class="form-control" id="password" name="password" placeholder="Password">
-					<?php
+						<?php
 					}
 					?>
-					
-					
+
+
 				</div>
 
 				<div class="form-group">
@@ -86,23 +82,66 @@
 					<label for="uStatus">สถานะผู้ใช้</label>
 					<select class="form-control" id="uStatus" name="uStatus">
 						<?php 
-							foreach ($status as $uStatus){								
-						?>
+						foreach ($status as $uStatus){								
+							?>
 							<option value="<?php echo $uStatus['statusId']; ?>"><?php echo $uStatus['statusName']; ?></option>
-						<?php } ?>	
-					</select>
-				</div>
+							<?php } ?>	
+						</select>
+					</div>
 
-			</form>
+				</form>
+			</div>
 		</div>
-	</div>
 
-	<script>
-		$(document).ready(function() {
-			
+		<script>
+			$(document).ready(function() {
 
-		});
-	</script>
+				$('#data_subject').prop('disabled', 'disabled');
+
+				$('#data_major').change(function() {
+
+						//alert($("#data_major").val());
+
+						var faction = "<?php echo site_url('main/select_type_major/'); ?>";
+						var fdata = {id: $("#data_major").val()};
+
+						$.post(faction, fdata, function(jdata) {
+
+							if (jdata.is_successful) {
+
+								alert('aaa');
+								var options;
+
+								if(jdata.data.length > 0){
+
+									for (var i = 0; i < jdata.data.length; i++) {
+										options += '<option value="' + jdata.data[i].mSubjectId + '">' +
+										jdata.data[i].mSubjectName + '</option>';
+									}
+
+									$('#data_subject').html(options);
+
+									$('#data_subject').prop('disabled', false);
+								}else{
+									options += '<option value=""> ไม่มีข้อมูล</option>';
+
+									$('#data_subject').html(options);
+									$('#data_subject').prop('disabled', 'disabled');
+								}
+
+							} else {
+
+								alert("NOOOOOO");
+
+							}
+
+						}, 'json');
+
+					});
+
+
+			});
+		</script>
 
 
 

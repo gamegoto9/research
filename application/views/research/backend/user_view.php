@@ -41,6 +41,9 @@
 
 		
 			$('#showDataTable').load("<?php echo base_url('main/modi_user')?>");
+			
+
+			
 
 	} );
 

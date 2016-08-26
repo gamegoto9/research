@@ -71,7 +71,8 @@ $this->load->view('includes/footer');
     $(document).ready(function(){
 
         $("#btn_save").click(function(){
-           
+
+
                 
                     var faction = "<?php echo site_url('/main/check_login'); ?>";
                     var fdata = $("#form_data").serialize();
@@ -88,7 +89,8 @@ $this->load->view('includes/footer');
                                 history: false
                                 
                             });
-                            
+
+                    
                             $(window.location).attr('href', '<?php echo base_url('/main/admin');?>');
                         }else{
   
