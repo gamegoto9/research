@@ -132,15 +132,16 @@ public function check_login() {
 
         if ($rowcount > 0) {
 //                $result = array('user','status','name','Pid');
-            
+
             foreach ($query->result_array() as $row) {
 
-               
+
 
                 $dataArray = array(
                     'user'  => $data['username'],
                     'status'     => $row['statusId'],
-                    'name' => $row['uName']
+                    'name' => $row['uName'],
+                    'uId' => $row['uId']
                     );
 
                 $this->session->set_userdata($dataArray);
@@ -161,6 +162,9 @@ public function check_login() {
     }
 }
 
+public function myAccount($uid){
+
+}
 
 public function mMenu_form($view,$id){
 
@@ -200,6 +204,33 @@ public function user_form($view){
     $this->load->view('research/backend/user_form',$data);
 
 }
+
+public function user_form_view($id){
+
+
+    
+     $sql = "SELECT
+    `user`.username,
+    `user`.`password`,
+    `user`.uName,
+    status_user.statusName,
+    `subject`.mSubjectName,
+    major.mMajorName,
+    `user`.note,
+    `user`.uId
+    FROM
+    major
+    INNER JOIN `subject` ON major.mMajorId = `subject`.mMajorId
+    INNER JOIN `user` ON `subject`.mSubjectId = `user`.mSubjectId
+    INNER JOIN status_user ON `user`.statusId = status_user.statusId
+    WHERE  uId = '$id'
+    ";
+
+    $data['dataValue'] = $this->db->query($sql)->row_array();
+    $this->load->view('research/backend/user_see_view',$data);
+
+}
+
 
 public function mMenu_form_edit(){
 
@@ -252,6 +283,45 @@ public function mMajor_form_edit(){
     $this->load->view('research/backend/mMajor_form',$data);
     
 }
+
+public function user_form_edit(){
+
+    $id = $this->input->post('id');
+
+
+    $sql = "SELECT
+    `user`.username,
+    `user`.`password`,
+    `user`.uName,
+    status_user.statusName,
+    `user`.statusId,
+    `user`.mSubjectId,
+    `subject`.mSubjectName,
+    `subject`.mMajorId,
+    major.mMajorName,
+    `user`.note,
+    `user`.uId
+    FROM
+    major
+    INNER JOIN `subject` ON major.mMajorId = `subject`.mMajorId
+    INNER JOIN `user` ON `subject`.mSubjectId = `user`.mSubjectId
+    INNER JOIN status_user ON `user`.statusId = status_user.statusId
+    WHERE  uId = '$id' 
+    ";
+
+    $data['dataValue'] = $this->db->query($sql)->row_array();
+    $data['major'] = $this->research_model->getMajor();
+    $data['subject'] = $this->research_model->getSubject();
+    $data['status'] = $this->research_model->getStatusUser();
+
+    $data['send'] = "edit";
+
+    
+
+    $this->load->view('research/backend/user_form_edit',$data);
+    
+}
+
 
 public function action_mMenu($actions,$menu_type){
 
@@ -668,7 +738,7 @@ public function action_user($actions){
         $username = $this->input->post('username');
         $password = $this->input->post('password');
         $status = $this->input->post('uStatus');
-
+       
         $sql = "insert into user (username,password,uName,statusId,mSubjectId,note) 
         values ('$username','$password','$uName','$status','$uSubject','$uNote')";
         $result = $this->db->query($sql);
@@ -682,15 +752,25 @@ public function action_user($actions){
 }else if($actions == "edit"){
 
     $this->load->library('form_validation');
-    $this->form_validation->set_rules('mMenuName_txt', 'ชื่อคณะ/หน่วยงาน', 'required');
-    $this->form_validation->set_rules('mMenuId_txt', 'ไม่มีคณะ/หน่วยงาน', 'required');
+       $this->form_validation->set_rules('uName', 'ชื่อ-นามสกุล', 'required');
+       $this->form_validation->set_rules('data_major', 'ชื่อคณะ/หน่วยงาน', 'required');
+       $this->form_validation->set_rules('note', 'ความเชี่ยวชาญ', 'required');
+       $this->form_validation->set_rules('data_subject', 'ภาควิชา/หลักสูตร', 'required');
+       $this->form_validation->set_rules('username', 'ชื่อผู้ใช้', 'required');
+       $this->form_validation->set_rules('password', 'รหัสผ่าน', 'required');
+       $this->form_validation->set_rules('uStatus', 'สถานะ', 'required');
 
     $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
 
     if ($this->form_validation->run() == FALSE) {
 
-        $msg = form_error('mMenuName_txt');
-        $msg = form_error('mMenuId_txt');
+        $msg = form_error('uName');
+        $msg .= form_error('data_major');
+        $msg .= form_error('note');
+        $msg .= form_error('data_subject');
+        $msg .= form_error('username');
+        $msg .= form_error('password');
+        $msg .= form_error('uStatus');
 
         echo json_encode(array(
             'is_successful' => FALSE,
@@ -698,10 +778,16 @@ public function action_user($actions){
             ));
     } else {
 
-        $mMenuName = $this->input->post('mMenuName_txt');
-        $mMenuId = $this->input->post('mMenuId_txt');
+        $uName = $this->input->post('uName');
+        $uId = $this->input->post('uId');
+        $uNote = $this->input->post('note');
+        $uSubject = $this->input->post('data_subject');
+        $username = $this->input->post('username');
+        $password = $this->input->post('password');
+        $status = $this->input->post('uStatus');
 
-        $sql = "update major set  mMajorName = '$mMenuName' where mMajorId = '$mMenuId'";
+
+        $sql = "update user set  username = '$username', password = '$password',uName = '$uName', statusId = '$status',mSubjectId='$uSubject',note = '$uNote' where uId = '$uId'";
         $result = $this->db->query($sql);
 
 
@@ -714,7 +800,7 @@ public function action_user($actions){
 }else if($actions == "delete"){
 
     $id = $this->input->post('id');
-    $sql = "delete from major where mMajorId = '$id'";
+    $sql = "delete from user where uId = '$id'";
     $result = $this->db->query($sql);
     echo json_encode(array(
         'is_successful' => TRUE,
@@ -729,15 +815,15 @@ function select_type_major(){
     $majorId = $this->input->post('id');
 
     $sql = "select mSubjectId,mSubjectName
-        from subject
-        where mMajorId = '$majorId'";
+    from subject
+    where mMajorId = '$majorId'";
 
 
-       $data = $this->db->query($sql)->result_array();
+    $data = $this->db->query($sql)->result_array();
 
-        echo json_encode(array(
-            'is_successful' => TRUE,
-            'data' => $data
+    echo json_encode(array(
+        'is_successful' => TRUE,
+        'data' => $data
         ));
 }
 

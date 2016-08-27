@@ -18,7 +18,7 @@
 <script src="<?PHP echo base_url('assets/lib/bootstrap.slider/js/bootstrap-slider.js'); ?>" type="text/javascript"></script>
 <script type="text/javascript" src="<?PHP echo base_url('assets/js/page-form-elements.js'); ?>"></script>
 <!-- datatable -->
-<script type="text/javascript" src="<?php echo base_url(); ?>assets/lib/jquery.datatables/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/lib/jquery.datatables/js/jquery.dataTables.js"></script>
 
 <!-- bootbox -->
 	<script src="<?php echo base_url('assets/UI/bootstrap_extras/bootbox/bootbox.min.js'); ?>"></script>
@@ -26,7 +26,8 @@
 	<link href="<?php echo base_url('assets/UI/bootstrap_extras/pnotify/jquery.pnotify.default.icons.css') ?>" rel="stylesheet">
 	<link href="<?php echo base_url('assets/UI/bootstrap_extras/pnotify/jquery.pnotify.default.css') ?>" rel="stylesheet">
 	<script src="<?php echo base_url('assets/UI/bootstrap_extras/pnotify/jquery.pnotify.js') ?>"></script>
-
+<!-- jquery upload -->
+<script type="text/javascript" src="<?PHP echo base_url('assets/lib/jquery.upload/js/jquery.fileupload.js'); ?>"></script>
 
 
 <script type="text/javascript">

@@ -27,7 +27,7 @@
 				<td><?php echo $mMenu['mSubjectName']; ?></td>
 				<td><?php echo $mMenu['username']; ?></td>
 				
-				<td><a class="btn btn-primary" onclick="showModel_edit(<?php echo $mMenu['uId'];?>);"><i class="fa fa-exclamation-circle"></i></a></td> 
+				<td><a class="btn btn-primary" onclick="showModel_view(<?php echo $mMenu['uId'];?>);"><i class="fa fa-exclamation-circle"></i></a></td> 
 				<td><a class="btn btn-warning" onclick="showModel_edit(<?php echo $mMenu['uId'];?>);"><i class="fa fa-edit"></i></a></td>
 				<td><a class="btn btn-danger" onclick="showModel_delete(<?php echo $mMenu['uId']; ?>);"><i class="fa fa-trash-o"></i></a></td>
 			</tr>

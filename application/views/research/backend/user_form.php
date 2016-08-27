@@ -1,7 +1,7 @@
 
-<div class="modal-header">
+<div class="modal-header" style="background-color: #65ca65;">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	<h4 class="modal-title">เพิ่มผู้ใช้งานระบบ</h4>
+	<h4 class="modal-title"><font color="#fff">เพิ่มผู้ใช้งานระบบ</font></h4>
 </div>
 <div class="modal-body">
 	<div>
@@ -35,70 +35,81 @@
 
 				<div class="form-group">
 					<label for="note">ความเชี่ยวชาญ</label>
-					<input type="text" class="form-control" id="note" name="note" placeholder="ความเชี่ยวชาญ" value="<?php 
-					if($send == 'edit'){
-						echo $dataValue['note'];
-					}
-					?>">	
-				</div>
+					<textarea class="form-control" rows="4" id="note" name="note" placeholder="ความเชี่ยวชาญ"><?php 
+						if($send == 'edit'){
+							echo $dataValue['note'];
+						}
+						?></textarea>	
+					</div>
 
-				<div class="form-group">
+					<div class="form-group">
 
-					<label for="mMenuName">ภาควิชา/หลักสูตร</label>
-					<select class="form-control" id="data_subject" name="data_subject">
-						
-					</select>
-				</div>
+						<label for="mMenuName">ภาควิชา/หลักสูตร</label>
+						<select class="form-control" id="data_subject" name="data_subject">
 
-				<div class="form-group">
-					<label for="username">ชื่อผู้ใช้</label>
-					<input type="text" class="form-control" id="username" name="username" placeholder="Username" value="<?php 
-					if($send == 'edit'){
-						echo $dataValue['username'];
-					}
-					?>">
-
-				</div>
-
-				<div class="form-group">
-					<label for="password">รหัสผ่าน</label>
-					<?php 
-					if($send == 'edit'){
-						?>
-						<input type="text" class="form-control" id="password" name="password" placeholder="Password" value="<?php echo $dataValue['password']; ?>">
-						<?php
-					}else{
-						?>
-						<input type="password" class="form-control" id="password" name="password" placeholder="Password">
-						<?php
-					}
-					?>
-
-
-				</div>
-
-				<div class="form-group">
-
-					<label for="uStatus">สถานะผู้ใช้</label>
-					<select class="form-control" id="uStatus" name="uStatus">
-						<?php 
-						foreach ($status as $uStatus){								
-							?>
-							<option value="<?php echo $uStatus['statusId']; ?>"><?php echo $uStatus['statusName']; ?></option>
-							<?php } ?>	
 						</select>
 					</div>
 
-				</form>
+					<div class="form-group">
+						<label for="username">ชื่อผู้ใช้</label>
+						<input type="text" class="form-control" id="username" name="username" placeholder="Username" value="<?php 
+						if($send == 'edit'){
+							echo $dataValue['username'];
+						}
+						?>">
+
+					</div>
+
+					<div class="form-group">
+						<label for="password">รหัสผ่าน</label>
+						<?php 
+						if($send == 'edit'){
+							?>
+							<input type="text" class="form-control" id="password" name="password" placeholder="Password" value="<?php echo $dataValue['password']; ?>">
+							<?php
+						}else{
+							?>
+							<input type="password" class="form-control" id="password" name="password" placeholder="Password">
+							<?php
+						}
+						?>
+
+
+					</div>
+
+					<div class="form-group">
+
+						<label for="uStatus">สถานะผู้ใช้</label>
+						<select class="form-control" id="uStatus" name="uStatus">
+							<?php 
+							foreach ($status as $uStatus){								
+								?>
+								<option value="<?php echo $uStatus['statusId']; ?>"><?php echo $uStatus['statusName']; ?></option>
+								<?php } ?>	
+							</select>
+
+							<input type="hidden" class="form-control" id="page" name="page" value="<?php echo $send; ?>">
+
+						</div>
+
+					<!-- 	<div class="form-group">
+
+							<label for="uStatus">รูปภาพ</label>
+							<input id="filePic" name="tilePic" type="file" class="file">
+
+						</div> -->
+
+					</form>
+				</div>
 			</div>
-		</div>
 
-		<script>
-			$(document).ready(function() {
+			<script>
+				$(document).ready(function() {
 
-				$('#data_subject').prop('disabled', 'disabled');
+					
+					$('#data_subject').prop('disabled', 'disabled');
 
-				$('#data_major').change(function() {
+					$('#data_major').change(function() {
 
 						//alert($("#data_major").val());
 
@@ -109,7 +120,7 @@
 
 							if (jdata.is_successful) {
 
-								alert('aaa');
+								//alert('aaa');
 								var options;
 
 								if(jdata.data.length > 0){
@@ -140,8 +151,9 @@
 					});
 
 
-			});
-		</script>
+
+				});
+			</script>
 
 
 

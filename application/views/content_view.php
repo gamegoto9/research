@@ -11,21 +11,43 @@ $this->load->view('includes/slidebar');
                     <li><a href="#">Category</a></li>
                     <li class="active">Sub Category</li>
                 </ol>-->
-    </div>
+            </div>
 
-    <div class="cl-mcont">
-<!--        <h3 class="text-center">Content goes here!</h3>  -->
+            <div class="cl-mcont">
+                <!--        <h3 class="text-center">Content goes here!</h3>  -->
 
-        <div id="main_view">
+                <div id="main_view">
+
+                </div>
+
+            </div>
 
         </div>
 
-    </div>
+        <?php
+        $this->load->view('includes/footer');
+        ?>
 
-</div>
 
-<?php
-$this->load->view('includes/footer');
-?>
+        <script type="text/javascript">
+            function account(uid){
+                var a = uid;
+                alert(a);
+                var sdata = {
+                    id:uid
+                };
+                var page = '<?php echo site_url('main/user_form_edit');?>';
+                alert(page);
 
+                $.ajax({
+                    type: "POST",
+                    url: page,
+                    data: sdata
+                }).done(function(data) {
+                    $('#main_view').html(data);
+                });
+
+
+            }
+        </script>
 
