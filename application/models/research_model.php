@@ -85,6 +85,13 @@ class Research_model extends CI_Model
 
 	}
 
+	function getDataAllTune(){
+		$sql = "select * from tune";
+		$result = $this->db->query($sql)->result_array();
+		
+		return $result;
+	}
+
 
 
 

@@ -2,7 +2,7 @@
 <?php if($menu_id == 0){ ?>
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		<h4 class="modal-title">เพิ่มเมนูหลัก</h4>
+		<h4 class="modal-title">เพิ่มหัวข้อวิจัย</h4>
 	</div>
 	<div class="modal-body">
 		<div>
@@ -37,7 +37,7 @@
 	<?php }else{ ?>
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			<h4 class="modal-title">เพิ่มเมนูย่อย</h4>
+			<h4 class="modal-title">เพิ่มหัวข้อโครงการ</h4>
 		</div>
 		<div class="modal-body">
 			<div>

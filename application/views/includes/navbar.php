@@ -1,9 +1,9 @@
 <div id="head-nav" class="navbar navbar-default navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" data-toggle="collapse" data-target=".navbar-collapse" class="navbar-toggle"><span class="fa fa-gear"></span></button><a href="#" class="navbar-brand"><span>Clean Zone</span></a>
-        </div>
-        <div class="navbar-collapse collapse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" data-toggle="collapse" data-target=".navbar-collapse" class="navbar-toggle"><span class="fa fa-gear"></span></button><a href="#" class="navbar-brand"><span>Clean Zone</span></a>
+    </div>
+    <div class="navbar-collapse collapse">
           <!-- <ul class="nav navbar-nav">
             <li class="active"><a href="#">Home</a></li>
             <li><a href="#about">About</a></li>
@@ -53,9 +53,9 @@
               <ul class="dropdown-menu">
                 <li onclick="account(<?PHP echo $this->session->userdata('uId'); ?>)"><a href="#">My Account</a></li>
                 <li><a href="#">Profile</a></li>
-               
+
                 <li class="divider"></li>
-                <li><a href="#">Sign Out</a></li>
+                <li onclick="logout()" ><a href="#">Sign Out</a></li>
               </ul>
             </li>
           </ul>
@@ -63,5 +63,27 @@
         </div>
       </div>
     </div>
+
+    <script type="text/javascript">
+      function logout(){
+        bootbox.confirm("ยืนยันการออกระบบ?", function(result) {
+          if(result){
+
+            var page = '<?php echo site_url('main/logout');?>';
+
+            $.ajax({
+              type: "POST",
+              url: page
+            }).done(function(data) {
+              $(window.location).attr('href', '<?php echo base_url('/main/logIn');?>');
+            });
+           
+
+
+          }
+
+        }); 
+      }
+    </script>
 
     

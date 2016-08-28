@@ -29,6 +29,8 @@
 <!-- jquery upload -->
 <script type="text/javascript" src="<?PHP echo base_url('assets/lib/jquery.upload/js/jquery.fileupload.js'); ?>"></script>
 
+	<script type="text/javascript" src="<?PHP echo base_url('assets/js/bootstrap-select.min.js'); ?>"></script>
+
 
 <script type="text/javascript">
 	$(document).ready(function() {

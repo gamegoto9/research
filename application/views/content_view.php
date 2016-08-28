@@ -3,6 +3,7 @@ $this->load->view('includes/header');
 $this->load->view('includes/navbar');
 $this->load->view('includes/slidebar');
 ?>
+
 <div id="pcont" class="container-fluid" >
     <div class="page-head">
         <h3>ระบบโครงการงานวิจัย .......</h3>
@@ -19,6 +20,8 @@ $this->load->view('includes/slidebar');
                 <div id="main_view">
 
                 </div>
+                <div id="main_view2">
+                </div>
 
             </div>
 
@@ -32,12 +35,12 @@ $this->load->view('includes/slidebar');
         <script type="text/javascript">
             function account(uid){
                 var a = uid;
-                alert(a);
+                //alert(a);
                 var sdata = {
                     id:uid
                 };
                 var page = '<?php echo site_url('main/user_form_edit');?>';
-                alert(page);
+                //alert(page);
 
                 $.ajax({
                     type: "POST",
@@ -45,6 +48,7 @@ $this->load->view('includes/slidebar');
                     data: sdata
                 }).done(function(data) {
                     $('#main_view').html(data);
+                    $('#main_view2').load("<?php echo base_url('main/edit_this')?>");
                 });
 
 

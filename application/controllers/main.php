@@ -43,6 +43,10 @@ class Main extends CI_Controller {
  function logIn(){
      $this->load->view('research/backend/login');
  }
+ function logout(){
+
+     $this->session->sess_destroy();
+ }
 
  public function modi_mMenu(){
     $data['mainMenu'] = $this->research_model->getMainMenu();
@@ -78,30 +82,55 @@ public function modi_user(){
 
 public function view_menu($title){
     if($title == "main"){
-        $data['title'] = "เพิ่ม แก้ไข เมนูหลัก";
+        $data['title'] = "เพิ่ม หัวข้อวิจัย";
         $data['title_id'] = 0;
     }else{
-        $data['title'] = "เพิ่ม แก้ไข เมนูย่อย";
+        $data['title'] = "เพิ่ม หัวข้อโครงการ";
         $data['title_id'] = 1;
     }
     $this->load->view('research/backend/mMenu_view',$data);
 }
 public function view_major($title){
     if($title == "major"){
-        $data['title'] = "เพิ่ม แก้ไข คณะ/หน่วยงาน";
+        $data['title'] = "เพิ่ม คณะ/หน่วยงาน";
         $data['title_id'] = 0;
     }else{
-        $data['title'] = "เพิ่ม แก้ไข เมนูย่อย";
+        $data['title'] = "เพิ่ม ภาควิชา/หลักสูตร";
         $data['title_id'] = 1;
     }
     $this->load->view('research/backend/mMajor_view',$data);
 }
 public function view_user(){
 
-    $data['title'] = "เพิ่ม แก้ไข ผู้ใช้งานระบบ";
+    $data['title'] = "เพิ่ม ข้อมูลนักวิจัย";
 
     
     $this->load->view('research/backend/user_view',$data);
+}
+
+public function view_money(){
+    $data['title'] = "เพิ่ม ทุนวิจัย/โครงการ";  
+    $data['mains'] = $this->research_model->getMainMenu();
+    $data['projects'] = $this->research_model->getSubMenu(); 
+    $this->load->view('research/backend/money_view',$data);
+}
+
+public function getDataTune(){
+
+    $id = $this->input->post('id');
+
+    $sql = "select tId,tName
+    from tune
+    where sMenuId = '$id'";
+
+
+    $data = $this->db->query($sql)->result_array();
+
+    echo json_encode(array(
+        'is_successful' => TRUE,
+        'data' => $data
+        ));
+
 }
 public function check_login() {
 
@@ -205,29 +234,61 @@ public function user_form($view){
 
 }
 
+
+public function money_form($view){
+
+
+    $data['send'] = "add";
+    $data['mains'] = $this->research_model->getMainMenu();
+    $data['projects'] = $this->research_model->getSubMenu(); 
+    $this->load->view('research/backend/money_form',$data);
+
+}
+
+
 public function user_form_view($id){
 
 
-    
-     $sql = "SELECT
-    `user`.username,
-    `user`.`password`,
-    `user`.uName,
-    status_user.statusName,
-    `subject`.mSubjectName,
-    major.mMajorName,
-    `user`.note,
-    `user`.uId
-    FROM
-    major
-    INNER JOIN `subject` ON major.mMajorId = `subject`.mMajorId
-    INNER JOIN `user` ON `subject`.mSubjectId = `user`.mSubjectId
-    INNER JOIN status_user ON `user`.statusId = status_user.statusId
-    WHERE  uId = '$id'
-    ";
 
-    $data['dataValue'] = $this->db->query($sql)->row_array();
-    $this->load->view('research/backend/user_see_view',$data);
+ $sql = "SELECT
+ `user`.username,
+ `user`.`password`,
+ `user`.uName,
+ status_user.statusName,
+ `subject`.mSubjectName,
+ major.mMajorName,
+ `user`.note,
+ `user`.uId
+ FROM
+ major
+ INNER JOIN `subject` ON major.mMajorId = `subject`.mMajorId
+ INNER JOIN `user` ON `subject`.mSubjectId = `user`.mSubjectId
+ INNER JOIN status_user ON `user`.statusId = status_user.statusId
+ WHERE  uId = '$id'
+ ";
+
+ $data['dataValue'] = $this->db->query($sql)->row_array();
+ $this->load->view('research/backend/user_see_view',$data);
+
+}
+
+public function money_form_view($id){
+
+
+
+ $sql = "SELECT
+ tune.tName,
+ submenu.sMenuName,
+ mainmenu.mMenuName
+ FROM
+ tune
+ INNER JOIN submenu ON tune.sMenuId = submenu.sMenuId
+ INNER JOIN mainmenu ON submenu.mMenuId = submenu.sMenuId
+ WHERE  tId = '$id'
+ ";
+
+ $data['dataValue'] = $this->db->query($sql)->row_array();
+ $this->load->view('research/backend/money_see_view',$data);
 
 }
 
@@ -284,30 +345,52 @@ public function mMajor_form_edit(){
     
 }
 
+public function money_form_edit(){
+
+    $id = $this->input->post('id');
+    $sql = "select * from tune where tId = '$id'";
+    $data['dataValue'] = $this->db->query($sql)->row_array();
+    $data['mains'] = $this->research_model->getMainMenu();
+    $data['projects'] = $this->research_model->getSubMenu(); 
+    
+    $data['send'] = "edit";
+    $data['title'] = "แก้ไขประเภททุน";
+    $this->load->view('research/backend/money_form',$data);
+
+}
+
 public function user_form_edit(){
 
     $id = $this->input->post('id');
 
+    if($id == 1){
+        $sql = "SELECT * from user";
+        $data['pass'] = "admin";
 
-    $sql = "SELECT
-    `user`.username,
-    `user`.`password`,
-    `user`.uName,
-    status_user.statusName,
-    `user`.statusId,
-    `user`.mSubjectId,
-    `subject`.mSubjectName,
-    `subject`.mMajorId,
-    major.mMajorName,
-    `user`.note,
-    `user`.uId
-    FROM
-    major
-    INNER JOIN `subject` ON major.mMajorId = `subject`.mMajorId
-    INNER JOIN `user` ON `subject`.mSubjectId = `user`.mSubjectId
-    INNER JOIN status_user ON `user`.statusId = status_user.statusId
-    WHERE  uId = '$id' 
-    ";
+    }else{
+
+        $sql = "SELECT
+        `user`.username,
+        `user`.`password`,
+        `user`.uName,
+        status_user.statusName,
+        `user`.statusId,
+        `user`.mSubjectId,
+        `subject`.mSubjectName,
+        `subject`.mMajorId,
+        major.mMajorName,
+        `user`.note,
+        `user`.uId
+        FROM
+        major
+        INNER JOIN `subject` ON major.mMajorId = `subject`.mMajorId
+        INNER JOIN `user` ON `subject`.mSubjectId = `user`.mSubjectId
+        INNER JOIN status_user ON `user`.statusId = status_user.statusId
+        WHERE  uId = '$id' 
+        ";
+        $data['pass'] = "user";
+
+    }
 
     $data['dataValue'] = $this->db->query($sql)->row_array();
     $data['major'] = $this->research_model->getMajor();
@@ -320,6 +403,114 @@ public function user_form_edit(){
 
     $this->load->view('research/backend/user_form_edit',$data);
     
+}
+
+public function edit_this(){
+    $this->load->view('research/backend/user_edit');
+}
+
+
+public function dataTable_money($id){
+    $sql = "select * from tune where sMenuId = '$id'";
+    $data['dataValues'] = $this->db->query($sql)->result_array();
+    $this->load->view('research/backend/moneyTable',$data);
+}
+
+public function edit_admin(){
+
+    $id = $this->input->post('uId');
+    $this->load->library('form_validation');
+
+    if($id == 1){
+
+        $this->form_validation->set_rules('uName', 'ชื่อ-นามสกุล', 'required');
+        $this->form_validation->set_rules('note', 'ความเชี่ยวชาญ', 'required');     
+        $this->form_validation->set_rules('username', 'ชื่อผู้ใช้', 'required');
+        $this->form_validation->set_rules('password', 'รหัสผ่าน', 'required');
+
+        $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+
+        if ($this->form_validation->run() == FALSE) {
+
+          $msg = form_error('uName');
+          $msg .= form_error('note'); 
+          $msg .= form_error('username');
+          $msg .= form_error('password');
+
+
+
+          echo json_encode(array(
+            'is_successful' => FALSE,
+            'msg' => $msg
+            ));
+
+
+      } else {
+
+        $uName = $this->input->post('uName');
+        $uNote = $this->input->post('note');
+        $username = $this->input->post('username');
+        $password = $this->input->post('password');
+
+        $sql = "update user set uName = '$uName',username = '$username',password = '$password',note = '$uNote' where uId = '$id'";
+
+        $result = $this->db->query($sql);
+
+
+        echo json_encode(array(
+            'is_successful' => TRUE,
+            'msg' =>  'แก้ไขข้อมูลเรียบร้อย'
+            ));
+    }
+
+}else{
+
+    $this->form_validation->set_rules('uName', 'ชื่อ-นามสกุล', 'required');
+    $this->form_validation->set_rules('data_major', 'ชื่อคณะ/หน่วยงาน', 'required');
+    $this->form_validation->set_rules('note', 'ความเชี่ยวชาญ', 'required');
+    $this->form_validation->set_rules('data_subject', 'ภาควิชา/หลักสูตร', 'required');
+    $this->form_validation->set_rules('username', 'ชื่อผู้ใช้', 'required');
+    $this->form_validation->set_rules('password', 'รหัสผ่าน', 'required');
+    $this->form_validation->set_rules('uStatus', 'สถานะ', 'required');
+
+    $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+
+    if ($this->form_validation->run() == FALSE) {
+
+        $msg = form_error('uName');
+        $msg .= form_error('data_major');
+        $msg .= form_error('note');
+        $msg .= form_error('data_subject');
+        $msg .= form_error('username');
+        $msg .= form_error('password');
+        $msg .= form_error('uStatus');
+
+        echo json_encode(array(
+            'is_successful' => FALSE,
+            'msg' => $msg
+            ));
+    } else {
+
+        $uName = $this->input->post('uName');
+
+        $uNote = $this->input->post('note');
+        $uSubject = $this->input->post('data_subject');
+        $username = $this->input->post('username');
+        $password = $this->input->post('password');
+        $status = $this->input->post('uStatus');
+
+
+        $sql = "update user set  username = '$username', password = '$password',uName = '$uName', statusId = '$status',mSubjectId='$uSubject',note = '$uNote' where uId = '$id'";
+        $result = $this->db->query($sql);
+
+
+        echo json_encode(array(
+            'is_successful' => TRUE,
+            'msg' =>  'แก้ไขข้อมูลเรียบร้อย'
+            ));
+    }
+}
+
 }
 
 
@@ -694,6 +885,103 @@ public function action_mMajor($actions,$menu_type){
 
 
 
+public function action_money($actions){
+
+
+
+
+    if($actions == "add"){
+
+
+       $this->load->library('form_validation');
+       $this->form_validation->set_rules('data_sub', 'หรือเพิ่ม ข้อมูลงานวิจัย/โครงการก่อน จึงจะสามารถเพิ่มประเภททุนได้', 'required');
+       $this->form_validation->set_rules('data_tune', 'ชื่อประเภททุน', 'required');
+
+       $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+
+
+       if ($this->form_validation->run() == FALSE) {
+
+        $msg = form_error('data_sub');
+        $msg.= form_error('data_tune');
+
+
+        echo json_encode(array(
+            'is_successful' => FALSE,
+            'msg' => $msg
+            ));
+    } else {
+
+        $sMenuId = $this->input->post('data_sub');
+        $tName = $this->input->post('data_tune');
+
+        $sql = "insert into tune (tName,sMenuId) values ('$tName','$sMenuId')";
+        $result = $this->db->query($sql);
+
+
+        echo json_encode(array(
+            'is_successful' => TRUE,
+            'msg' => 'บันทึกข้อมูลเรียบร้อย'
+            ));
+    }
+}else if($actions == "edit"){
+
+    $this->load->library('form_validation');
+    $this->form_validation->set_rules('data_sub', 'หรือเพิ่ม ข้อมูลงานวิจัย/โครงการก่อน จึงจะสามารถเพิ่มประเภททุนได้', 'required');
+    $this->form_validation->set_rules('data_tune', 'ชื่อประเภททุน', 'required');
+
+    $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+
+    if ($this->form_validation->run() == FALSE) {
+
+        $msg = form_error('data_sub');
+        $msg = form_error('data_tune');
+
+
+
+        echo json_encode(array(
+            'is_successful' => FALSE,
+            'msg' => $msg
+            ));
+    } else {
+
+        $tName = $this->input->post('data_tune');
+        $sMenuId = $this->input->post('data_sub');
+        $tId = $this->input->post('tId');
+
+        $sql = "update tune set  tName = '$tName',sMenuId = '$sMenuId' where tId = '$tId'";
+        $result = $this->db->query($sql);
+
+
+        echo json_encode(array(
+            'is_successful' => TRUE,
+            'msg' =>  'แก้ไขข้อมูลเรียบร้อย'
+            ));
+
+
+
+
+    }
+
+}else if($actions == "delete"){
+
+    $id = $this->input->post('id');
+    $sql = "delete from tune where tId = '$id'";
+    $result = $this->db->query($sql);
+
+
+    echo json_encode(array(
+        'is_successful' => TRUE,
+        'msg' =>  'ลบข้อมูลเรียบร้อย'
+        ));
+
+
+}
+
+}
+
+
+
 
 public function action_user($actions){
 
@@ -738,7 +1026,7 @@ public function action_user($actions){
         $username = $this->input->post('username');
         $password = $this->input->post('password');
         $status = $this->input->post('uStatus');
-       
+
         $sql = "insert into user (username,password,uName,statusId,mSubjectId,note) 
         values ('$username','$password','$uName','$status','$uSubject','$uNote')";
         $result = $this->db->query($sql);
@@ -752,13 +1040,13 @@ public function action_user($actions){
 }else if($actions == "edit"){
 
     $this->load->library('form_validation');
-       $this->form_validation->set_rules('uName', 'ชื่อ-นามสกุล', 'required');
-       $this->form_validation->set_rules('data_major', 'ชื่อคณะ/หน่วยงาน', 'required');
-       $this->form_validation->set_rules('note', 'ความเชี่ยวชาญ', 'required');
-       $this->form_validation->set_rules('data_subject', 'ภาควิชา/หลักสูตร', 'required');
-       $this->form_validation->set_rules('username', 'ชื่อผู้ใช้', 'required');
-       $this->form_validation->set_rules('password', 'รหัสผ่าน', 'required');
-       $this->form_validation->set_rules('uStatus', 'สถานะ', 'required');
+    $this->form_validation->set_rules('uName', 'ชื่อ-นามสกุล', 'required');
+    $this->form_validation->set_rules('data_major', 'ชื่อคณะ/หน่วยงาน', 'required');
+    $this->form_validation->set_rules('note', 'ความเชี่ยวชาญ', 'required');
+    $this->form_validation->set_rules('data_subject', 'ภาควิชา/หลักสูตร', 'required');
+    $this->form_validation->set_rules('username', 'ชื่อผู้ใช้', 'required');
+    $this->form_validation->set_rules('password', 'รหัสผ่าน', 'required');
+    $this->form_validation->set_rules('uStatus', 'สถานะ', 'required');
 
     $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
 

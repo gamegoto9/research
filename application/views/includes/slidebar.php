@@ -17,25 +17,32 @@
             if($this->session->userdata('status') == 1){
               // admin UI
             ?>
-            <li><a href="#"><i class="fa fa-bars"></i><span>เมนู</span></a>
+            <li><a href="#"><i class="fa fa-book"></i><span>ข้อมูลวิจัย/โครงการ</span></a>
               <ul class="sub-menu">
-                <li onclick="modi_mMenu('main')"><a href="#">เพิ่ม แก้ไข เมนูหลัก</a>
+                <li onclick="modi_mMenu('main')"><a href="#">เพิ่ม หัวข้อวิจัย</a>
                 </li>
-                <li onclick="modi_sMenu('sub')"><a href="#"><span class="label label-primary pull-right">New</span>เพิ่ม แก้ไข เมนูย่อย</a>
+                <li onclick="modi_sMenu('sub')"><a href="#"><span class="label label-primary pull-right">New</span>เพิ่ม หัวข้อโครงการ</a>
                 </li>
               </ul>
             </li>
+            <li><a href="#"><i class="fa fa-money"></i><span>ประเภททุนวิจัย/โครงการ</span></a>
+              <ul class="sub-menu">
+                <li onclick="modi_money()"><a href="#">เพิ่ม ทุนวิจัย/โครงการ</a>
+                </li>               
+              </ul>
+            </li>
 
-            <li><a href="#"><i class="fa fa-user"></i><span>ข้อมูลผุ้ใช้</span></a>
+
+            <li><a href="#"><i class="fa fa-user"></i><span>ข้อมูลนักวิจัย</span></a>
               <ul class="sub-menu">
                 <li onclick="modi_uSer()">
-                  <a href="#">พิ่มเติม แก้ไข ข้อมุลผู้ใช้
+                  <a href="#">พิ่มเติม ข้อมูลนักวิจัย
                   </a>
                 </li>
                 
               </ul>
             </li>
-            <li><a href="#"><i class="fa fa-user"></i><span>สังกัด/หน่วยงาน</span></a>
+            <li><a href="#"><i class="fa fa-briefcase"></i><span>สังกัด/หน่วยงาน</span></a>
               <ul class="sub-menu">
                 <li onclick="modi_maJor('major')">
                   <a href="#">เพิ่มข้อมูล คณะ/หน่วยงาน
@@ -68,21 +75,30 @@
     function modi_mMenu(title){
       var title = title;
       $('#main_view').load("<?php echo base_url('main/view_menu')?>/"+title);
+      $('#main_view2').html('');
     }
     function modi_sMenu(title){
       var title = title;
       $('#main_view').load("<?php echo base_url('main/view_menu')?>/"+title);
+      $('#main_view2').html('');
     }
     function modi_maJor(title){
       var title = title;
       $('#main_view').load("<?php echo base_url('main/view_major')?>/"+title);
+      $('#main_view2').html('');
     }
     function modi_maJor(title){
       var title = title;
       $('#main_view').load("<?php echo base_url('main/view_major')?>/"+title);
+      $('#main_view2').html('');
     }
     function modi_uSer(){
       
       $('#main_view').load("<?php echo base_url('main/view_user')?>");
+      $('#main_view2').html('');
+    }
+    function modi_money(){
+      $('#main_view').load("<?php echo base_url('main/view_money')?>");
+      $('#main_view2').html('');
     }
   </script>

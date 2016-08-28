@@ -5,7 +5,7 @@
 		<hr width="100%">
 	</div>
 	<div class="pull-right">
-		<button type="button" class="btn btn-success btn-block" id="test" onclick="showModel('add');"><span><i class="fa fa-plus"></i>เพิ่มผู้ใช้งาน</span></button>
+		<button type="button" class="btn btn-success btn-block" id="test" onclick="showModel('add');"><span><i class="fa fa-plus"></i>เพิ่มนักวิจัย</span></button>
 	</div>
 	<br><br>
 	<div id="showDataTable">
@@ -139,7 +139,7 @@
 		bootbox.confirm("Are you sure?", function(result) {
 			if(result){
 
-				
+
 
 				var faction = "<?php echo site_url('/main/action_user/'); ?>/"+load_view;
 				var fdata = $("#form_data").serialize();
