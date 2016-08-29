@@ -5,7 +5,7 @@
 </div>
 <div class="modal-body">
 	<div>
-		<form id="form_data">
+		<form id="form_data" name="form_data" method="post" action="" enctype="multipart/form-data">
 
 			<div class="form-group">
 				<label for="uName">ชื่อ - นามสกุล</label>
@@ -92,12 +92,12 @@
 
 						</div>
 
-					<!-- 	<div class="form-group">
+						<div class="form-group">
 
 							<label for="uStatus">รูปภาพ</label>
-							<input id="filePic" name="tilePic" type="file" class="file">
+							<input type="file" name="images" id="images" size="20" multiple required> <font color="red">*ไฟล์รูปภาพ JPG GIF PNG เท่านั้น ขนาดไม่เกิน 10MB</font>
 
-						</div> -->
+						</div>
 
 					</form>
 				</div>

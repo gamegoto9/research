@@ -142,48 +142,97 @@
 
 
 				var faction = "<?php echo site_url('/main/action_user/'); ?>/"+load_view;
-				var fdata = $("#form_data").serialize();
-				$.post(faction, fdata, function(jdata){
+				//var fdata = $("#form_data").serialize();
+				var formData = new FormData($('#form_data')[0]);
+				// $.post(faction, fdata, function(jdata){
 
-					if(jdata.is_successful){
+				// 	if(jdata.is_successful){
 
-						$.pnotify({
-							title: 'แจ้งให้ทราบ!',
-							text: jdata.msg,
-							type: 'success',
-							opacity: 1,
-							history: false
+				// 		$.pnotify({
+				// 			title: 'แจ้งให้ทราบ!',
+				// 			text: jdata.msg,
+				// 			type: 'success',
+				// 			opacity: 1,
+				// 			history: false
 
-						});
+				// 		});
 
+
+				// 		$('#myModel').modal('hide');
+				// 		bootbox.hideAll();
+
+
+
+				// 		$('#showDataTable').load("<?php echo base_url('main/modi_user')?>");
+
+
+
+				// 	}else{
+
+				// 		$.pnotify({
+				// 			title: 'เตือน!',
+				// 			text: jdata.msg,
+				// 			type: 'error',
+				// 			opacity: 1,
+				// 			history: false
+				// 		});
+				// 	}
+
+				// },'json');
+
+				$.ajax({
+					url: faction,
+					type: 'POST',
+					data: formData,
+					mimeType: "multipart/form-data",
+					contentType: false,
+					cache: false,
+					processData: false,
+					success: function(data) {
+
+						var posts = JSON.parse(data);
+						console.log(posts);
+
+
+						if (posts.is_successful) {
+							$.pnotify({
+								title: 'แจ้งให้ทราบ!',
+								text: posts.msg,
+								type: 'success',
+								opacity: 1,
+								history: false
+							});
 
 						$('#myModel').modal('hide');
 						bootbox.hideAll();
-
-						
-
 						$('#showDataTable').load("<?php echo base_url('main/modi_user')?>");
+						} else {
+							$.pnotify({
+								title: 'เตือน!',
+								text: posts.msg,
+								type: 'error',
+								opacity: 1,
+								history: false
+							});
+						}
+						//viewdataType(sid, page);
 
-
-
-					}else{
-
-						$.pnotify({
-							title: 'เตือน!',
-							text: jdata.msg,
-							type: 'error',
-							opacity: 1,
-							history: false
-						});
-					}
-
-				},'json');
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+                    //handle here error returned
+                    $.pnotify({
+								title: 'เตือน!',
+								text: 'ผิดพลาด',
+								type: 'error',
+								opacity: 1,
+								history: false
+							});
+                }
+            });
 
 
 			}
 
 		}); 
-
-
 	}
 </script>

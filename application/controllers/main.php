@@ -30,25 +30,25 @@ class Main extends CI_Controller {
 
     public function admin(){
        //$data['page'] = "0";
-     $this->load->view('content_view');
- }
+       $this->load->view('content_view');
+   }
 
- function contentShow(){
-     $this->load->view('research/site/content_view');
- }
- function slideShow(){
-     $this->load->view('research/site/includes/slidebar');
- }
+   function contentShow(){
+       $this->load->view('research/site/content_view');
+   }
+   function slideShow(){
+       $this->load->view('research/site/includes/slidebar');
+   }
 
- function logIn(){
-     $this->load->view('research/backend/login');
- }
- function logout(){
+   function logIn(){
+       $this->load->view('research/backend/login');
+   }
+   function logout(){
 
-     $this->session->sess_destroy();
- }
+       $this->session->sess_destroy();
+   }
 
- public function modi_mMenu(){
+   public function modi_mMenu(){
     $data['mainMenu'] = $this->research_model->getMainMenu();
     $data['id_menu'] = "0";
     $this->load->view('research/backend/mMenuTable',$data);
@@ -170,7 +170,8 @@ public function check_login() {
                     'user'  => $data['username'],
                     'status'     => $row['statusId'],
                     'name' => $row['uName'],
-                    'uId' => $row['uId']
+                    'uId' => $row['uId'],
+                    'image' => $row['img']
                     );
 
                 $this->session->set_userdata($dataArray);
@@ -241,6 +242,7 @@ public function money_form($view){
     $data['send'] = "add";
     $data['mains'] = $this->research_model->getMainMenu();
     $data['projects'] = $this->research_model->getSubMenu(); 
+    $data['title'] = "เพิ่มทุน";
     $this->load->view('research/backend/money_form',$data);
 
 }
@@ -250,25 +252,26 @@ public function user_form_view($id){
 
 
 
- $sql = "SELECT
- `user`.username,
- `user`.`password`,
- `user`.uName,
- status_user.statusName,
- `subject`.mSubjectName,
- major.mMajorName,
- `user`.note,
- `user`.uId
- FROM
- major
- INNER JOIN `subject` ON major.mMajorId = `subject`.mMajorId
- INNER JOIN `user` ON `subject`.mSubjectId = `user`.mSubjectId
- INNER JOIN status_user ON `user`.statusId = status_user.statusId
- WHERE  uId = '$id'
- ";
+   $sql = "SELECT
+   `user`.username,
+   `user`.`password`,
+   `user`.uName,
+   status_user.statusName,
+   `subject`.mSubjectName,
+   major.mMajorName,
+   `user`.note,
+   `user`.uId,
+   `user`.img
+   FROM
+   major
+   INNER JOIN `subject` ON major.mMajorId = `subject`.mMajorId
+   INNER JOIN `user` ON `subject`.mSubjectId = `user`.mSubjectId
+   INNER JOIN status_user ON `user`.statusId = status_user.statusId
+   WHERE  uId = '$id'
+   ";
 
- $data['dataValue'] = $this->db->query($sql)->row_array();
- $this->load->view('research/backend/user_see_view',$data);
+   $data['dataValue'] = $this->db->query($sql)->row_array();
+   $this->load->view('research/backend/user_see_view',$data);
 
 }
 
@@ -276,19 +279,19 @@ public function money_form_view($id){
 
 
 
- $sql = "SELECT
- tune.tName,
- submenu.sMenuName,
- mainmenu.mMenuName
- FROM
- tune
- INNER JOIN submenu ON tune.sMenuId = submenu.sMenuId
- INNER JOIN mainmenu ON submenu.mMenuId = submenu.sMenuId
- WHERE  tId = '$id'
- ";
+   $sql = "SELECT
+   tune.tName,
+   submenu.sMenuName,
+   mainmenu.mMenuName
+   FROM
+   tune
+   INNER JOIN submenu ON tune.sMenuId = submenu.sMenuId
+   INNER JOIN mainmenu ON submenu.mMenuId = submenu.sMenuId
+   WHERE  tId = '$id'
+   ";
 
- $data['dataValue'] = $this->db->query($sql)->row_array();
- $this->load->view('research/backend/money_see_view',$data);
+   $data['dataValue'] = $this->db->query($sql)->row_array();
+   $this->load->view('research/backend/money_see_view',$data);
 
 }
 
@@ -522,12 +525,12 @@ public function action_mMenu($actions,$menu_type){
         if($actions == "add"){
 
 
-         $this->load->library('form_validation');
-         $this->form_validation->set_rules('mMenuName_txt', 'ชื่อเมนู', 'required');
+           $this->load->library('form_validation');
+           $this->form_validation->set_rules('mMenuName_txt', 'ชื่อเมนู', 'required');
 
-         $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+           $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
 
-         if ($this->form_validation->run() == FALSE) {
+           if ($this->form_validation->run() == FALSE) {
 
             $msg = form_error('mMenuName_txt');
             
@@ -609,14 +612,14 @@ public function action_mMenu($actions,$menu_type){
     if($actions == "add"){
 
 
-     $this->load->library('form_validation');
-     $this->form_validation->set_rules('sMenuName_txt', 'ชื่อเมนูย่อย', 'required');
-     $this->form_validation->set_rules('data_mMenu', 'หรือเพิ่ม เมนูหลักก่อน จึงจะสามารถเพิ่มเมนูย่อยได้', 'required');
+       $this->load->library('form_validation');
+       $this->form_validation->set_rules('sMenuName_txt', 'ชื่อเมนูย่อย', 'required');
+       $this->form_validation->set_rules('data_mMenu', 'หรือเพิ่ม เมนูหลักก่อน จึงจะสามารถเพิ่มเมนูย่อยได้', 'required');
 
-     $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+       $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
 
 
-     if ($this->form_validation->run() == FALSE) {
+       if ($this->form_validation->run() == FALSE) {
 
         $msg = form_error('sMenuName_txt');
         $msg.= form_error('data_mMenu');
@@ -707,12 +710,12 @@ public function action_mMajor($actions,$menu_type){
         if($actions == "add"){
 
 
-           $this->load->library('form_validation');
-           $this->form_validation->set_rules('mMenuName_txt', 'ชื่อคณะ/หน่วยงาน', 'required');
+         $this->load->library('form_validation');
+         $this->form_validation->set_rules('mMenuName_txt', 'ชื่อคณะ/หน่วยงาน', 'required');
 
-           $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+         $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
 
-           if ($this->form_validation->run() == FALSE) {
+         if ($this->form_validation->run() == FALSE) {
 
             $msg = form_error('mMenuName_txt');
             
@@ -794,14 +797,14 @@ public function action_mMajor($actions,$menu_type){
     if($actions == "add"){
 
 
-       $this->load->library('form_validation');
-       $this->form_validation->set_rules('sMenuName_txt', 'ชื่อภาควิชา/หลักสูตร', 'required');
-       $this->form_validation->set_rules('data_mMenu', 'หรือเพิ่ม คณะหรือหน่วยงานก่อน จึงจะสามารถเพิ่มภาควิชา/หลักสูตรได้', 'required');
+     $this->load->library('form_validation');
+     $this->form_validation->set_rules('sMenuName_txt', 'ชื่อภาควิชา/หลักสูตร', 'required');
+     $this->form_validation->set_rules('data_mMenu', 'หรือเพิ่ม คณะหรือหน่วยงานก่อน จึงจะสามารถเพิ่มภาควิชา/หลักสูตรได้', 'required');
 
-       $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+     $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
 
 
-       if ($this->form_validation->run() == FALSE) {
+     if ($this->form_validation->run() == FALSE) {
 
         $msg = form_error('sMenuName_txt');
         $msg.= form_error('data_mMenu');
@@ -893,14 +896,14 @@ public function action_money($actions){
     if($actions == "add"){
 
 
-       $this->load->library('form_validation');
-       $this->form_validation->set_rules('data_sub', 'หรือเพิ่ม ข้อมูลงานวิจัย/โครงการก่อน จึงจะสามารถเพิ่มประเภททุนได้', 'required');
-       $this->form_validation->set_rules('data_tune', 'ชื่อประเภททุน', 'required');
+     $this->load->library('form_validation');
+     $this->form_validation->set_rules('data_sub', 'หรือเพิ่ม ข้อมูลงานวิจัย/โครงการก่อน จึงจะสามารถเพิ่มประเภททุนได้', 'required');
+     $this->form_validation->set_rules('data_tune', 'ชื่อประเภททุน', 'required');
 
-       $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+     $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
 
 
-       if ($this->form_validation->run() == FALSE) {
+     if ($this->form_validation->run() == FALSE) {
 
         $msg = form_error('data_sub');
         $msg.= form_error('data_tune');
@@ -989,18 +992,18 @@ public function action_user($actions){
     if($actions == "add"){
 
 
-       $this->load->library('form_validation');
-       $this->form_validation->set_rules('uName', 'ชื่อ-นามสกุล', 'required');
-       $this->form_validation->set_rules('data_major', 'ชื่อคณะ/หน่วยงาน', 'required');
-       $this->form_validation->set_rules('note', 'ความเชี่ยวชาญ', 'required');
-       $this->form_validation->set_rules('data_subject', 'ภาควิชา/หลักสูตร', 'required');
-       $this->form_validation->set_rules('username', 'ชื่อผู้ใช้', 'required');
-       $this->form_validation->set_rules('password', 'รหัสผ่าน', 'required');
-       $this->form_validation->set_rules('uStatus', 'สถานะ', 'required');
+     $this->load->library('form_validation');
+     $this->form_validation->set_rules('uName', 'ชื่อ-นามสกุล', 'required');
+     $this->form_validation->set_rules('data_major', 'ชื่อคณะ/หน่วยงาน', 'required');
+     $this->form_validation->set_rules('note', 'ความเชี่ยวชาญ', 'required');
+     $this->form_validation->set_rules('data_subject', 'ภาควิชา/หลักสูตร', 'required');
+     $this->form_validation->set_rules('username', 'ชื่อผู้ใช้', 'required');
+     $this->form_validation->set_rules('password', 'รหัสผ่าน', 'required');
+     $this->form_validation->set_rules('uStatus', 'สถานะ', 'required');
 
-       $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+     $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
 
-       if ($this->form_validation->run() == FALSE) {
+     if ($this->form_validation->run() == FALSE) {
 
         $msg = form_error('uName');
         $msg .= form_error('data_major');
@@ -1026,16 +1029,59 @@ public function action_user($actions){
         $username = $this->input->post('username');
         $password = $this->input->post('password');
         $status = $this->input->post('uStatus');
+        $img = "";
 
-        $sql = "insert into user (username,password,uName,statusId,mSubjectId,note) 
-        values ('$username','$password','$uName','$status','$uSubject','$uNote')";
-        $result = $this->db->query($sql);
+        foreach ($_FILES as $key => $value) {
+            $config['upload_path'] = './assets/uploads/img';
+            $part = $config['upload_path'];
+            $config['allowed_types'] = '*';
+            $config['max_size'] = '20971520';
+
+            $config['overwrite'] = FALSE;
+            $config['remove_spaces'] = TRUE;
+
+            $this->load->library('upload', $config);
+            $this->upload->initialize($config);
+
+            if (!empty($value['tmp_name']) && $value['size'] > 0) {
+
+                if (!$this->upload->do_upload($key)) {
+                    $msg = $this->upload->display_errors();
+                    echo json_encode(array(
+                        'is_successful' => FALSE,
+                        'msg' => $msg
+                        ));
+
+                } else {
+
+                    $name = $this->upload->data();
+
+                    $img = base_url().'assets/uploads/img/'.$name['file_name'];
+
+                    $sql = "insert into user (username,password,uName,statusId,mSubjectId,note,img) 
+                    values ('$username','$password','$uName','$status','$uSubject','$uNote','$img')";
+                    $result = $this->db->query($sql);
 
 
-        echo json_encode(array(
-            'is_successful' => TRUE,
-            'msg' => 'บันทึกข้อมูลเรียบร้อย'
-            ));
+                    echo json_encode(array(
+                        'is_successful' => TRUE,
+                        'msg' => 'บันทึกข้อมูลเรียบร้อย'
+                        // 'msg' => $name['file_name']
+                        ));
+
+                }
+                
+            }else{
+                echo json_encode(array(
+                    'is_successful' => FALSE,
+                    'msg' => 'ไม่มีไฟล์หรือไฟล์ใหญ่เกินไป'
+                    ));
+            }
+
+        }
+
+
+        
     }
 }else if($actions == "edit"){
 
@@ -1073,16 +1119,53 @@ public function action_user($actions){
         $username = $this->input->post('username');
         $password = $this->input->post('password');
         $status = $this->input->post('uStatus');
+        $img="";
 
+        foreach ($_FILES as $key => $value) {
+            $config['upload_path'] = './assets/uploads/img';
+            $part = $config['upload_path'];
+            $config['allowed_types'] = '*';
+            $config['max_size'] = '20971520';
 
-        $sql = "update user set  username = '$username', password = '$password',uName = '$uName', statusId = '$status',mSubjectId='$uSubject',note = '$uNote' where uId = '$uId'";
+            $config['overwrite'] = FALSE;
+            $config['remove_spaces'] = TRUE;
+
+            $this->load->library('upload', $config);
+            $this->upload->initialize($config);
+
+            if (!empty($value['tmp_name']) && $value['size'] > 0) {
+
+                if (!$this->upload->do_upload($key)) {
+                    $msg = $this->upload->display_errors();
+                    echo json_encode(array(
+                        'is_successful' => FALSE,
+                        'msg' => $msg
+                        ));
+
+                } else {
+
+                    $name = $this->upload->data();
+
+                    $img = base_url().'assets/uploads/img/'.$name['file_name'];
+                }
+                
+            }
+        }
+
+        if($img == ""){
+
+            $sql = "update user set  username = '$username', password = '$password',uName = '$uName', statusId = '$status',mSubjectId='$uSubject',note = '$uNote' where uId = '$uId'";
+
+        }else{
+            $sql = "update user set  username = '$username', password = '$password',uName = '$uName', statusId = '$status',mSubjectId='$uSubject',note = '$uNote',img = '$img' where uId = '$uId'";
+        }
+
         $result = $this->db->query($sql);
-
-
         echo json_encode(array(
             'is_successful' => TRUE,
             'msg' =>  'แก้ไขข้อมูลเรียบร้อย'
             ));
+
     }
 
 }else if($actions == "delete"){
@@ -1116,7 +1199,89 @@ function select_type_major(){
 }
 
 
+function edit_img(){
 
+    $uId = $this->input->post('uId2');
+    $this->load->library('form_validation');
+
+    if (empty($_FILES['images']['name']))
+    {
+        $this->form_validation->set_rules('images', 'รูปภาพ', 'required');
+    }
+
+
+    $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+
+    if ($this->form_validation->run() == FALSE) {
+
+        $msg = form_error('images');
+        
+
+
+        echo json_encode(array(
+            'is_successful' => FALSE,
+            'msg' => $msg
+            ));
+
+
+    } else {
+
+
+        $img = "";
+
+
+        foreach ($_FILES as $key => $value) {
+            $config['upload_path'] = './assets/uploads/img';
+            $part = $config['upload_path'];
+            $config['allowed_types'] = '*';
+            $config['max_size'] = '20971520';
+
+            $config['overwrite'] = FALSE;
+            $config['remove_spaces'] = TRUE;
+
+            $this->load->library('upload', $config);
+            $this->upload->initialize($config);
+
+            if (!empty($value['tmp_name']) && $value['size'] > 0) {
+
+                if (!$this->upload->do_upload($key)) {
+                    $msg = $this->upload->display_errors();
+                    echo json_encode(array(
+                        'is_successful' => FALSE,
+                        'msg' => $msg
+                        ));
+
+                } else {
+
+                    $name = $this->upload->data();
+
+                    $img = base_url().'assets/uploads/img/'.$name['file_name'];
+
+                    $sql = "update user set img = '$img' where uId = '$uId'";
+                    $result = $this->db->query($sql);
+
+
+                    echo json_encode(array(
+                        'is_successful' => TRUE,
+                        'msg' => 'บันทึกข้อมูลเรียบร้อย'
+                        // 'msg' => $name['file_name']
+                        ));
+
+                }
+                
+            }else{
+                echo json_encode(array(
+                    'is_successful' => FALSE,
+                    'msg' => 'ไม่มีไฟล์หรือไฟล์ใหญ่เกินไป'
+                    ));
+            }
+
+        }
+
+
+        
+    }
+}
 
 
 
