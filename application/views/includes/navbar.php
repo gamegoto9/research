@@ -1,3 +1,8 @@
+<?php
+    $uId =  $this->session->userdata('uId');
+    $sql = "select img from user where uId = '$uId'"; 
+    $img = $this->db->query($sql)->row_array(); 
+?>
 <div id="head-nav" class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -49,7 +54,7 @@
             </li>
           </ul> -->
           <ul class="nav navbar-nav navbar-right user-nav">
-            <li class="dropdown profile_menu"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><img alt="Avatar" src="<?PHP echo $this->session->userdata('image'); ?>" width="40px" height="30px" ><span><?PHP echo $this->session->userdata('name'); ?></span><b class="caret"></b></a>
+            <li class="dropdown profile_menu"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><img alt="Avatar" src="<?php echo $img['img']; ?>" width="40px" height="30px" ><span><?PHP echo $this->session->userdata('name'); ?></span><b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li onclick="account(<?PHP echo $this->session->userdata('uId'); ?>)"><a href="#">My Account</a></li>
                 <li><a href="#">Profile</a></li>

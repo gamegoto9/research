@@ -16,46 +16,65 @@
             <?php
             if($this->session->userdata('status') == 1){
               // admin UI
-            ?>
-            <li><a href="#"><i class="fa fa-book"></i><span>ข้อมูลวิจัย/โครงการ</span></a>
-              <ul class="sub-menu">
-                <li onclick="modi_mMenu('main')"><a href="#">เพิ่ม หัวข้อวิจัย</a>
-                </li>
-                <li onclick="modi_sMenu('sub')"><a href="#"><span class="label label-primary pull-right">New</span>เพิ่ม หัวข้อโครงการ</a>
-                </li>
-              </ul>
-            </li>
-            <li><a href="#"><i class="fa fa-money"></i><span>ประเภททุนวิจัย/โครงการ</span></a>
-              <ul class="sub-menu">
-                <li onclick="modi_money()"><a href="#">เพิ่ม ทุนวิจัย/โครงการ</a>
-                </li>               
-              </ul>
-            </li>
+              ?>
+              <li><a href="#"><i class="fa fa-book"></i><span>ข้อมูลวิจัย/โครงการ</span></a>
+                <ul class="sub-menu">
+                  <li onclick="modi_mMenu('main')"><a href="#">เพิ่ม หัวข้อวิจัย</a>
+                  </li>
+                  <li onclick="modi_sMenu('sub')"><a href="#"><span class="label label-primary pull-right">New</span>เพิ่ม หัวข้อโครงการ</a>
+                  </li>
+                </ul>
+              </li>
+              <li><a href="#"><i class="fa fa-money"></i><span>ประเภททุนวิจัย/โครงการ</span></a>
+                <ul class="sub-menu">
+                  <li onclick="modi_money()"><a href="#">เพิ่ม ทุนวิจัย/โครงการ</a>
+                  </li>               
+                </ul>
+              </li>
 
 
-            <li><a href="#"><i class="fa fa-user"></i><span>ข้อมูลนักวิจัย</span></a>
-              <ul class="sub-menu">
-                <li onclick="modi_uSer()">
-                  <a href="#">พิ่มเติม ข้อมูลนักวิจัย
-                  </a>
-                </li>
-                
-              </ul>
-            </li>
-            <li><a href="#"><i class="fa fa-briefcase"></i><span>สังกัด/หน่วยงาน</span></a>
-              <ul class="sub-menu">
-                <li onclick="modi_maJor('major')">
-                  <a href="#">เพิ่มข้อมูล คณะ/หน่วยงาน
-                  </a>
-                </li>
-                <li onclick="modi_maJor('subject')">
-                  <a href="#">เพิ่มข้อมูล ภาควิชา/หลักสูตร
-                  </a>
-                </li>
-                
-              </ul>
-            </li>
-            <?php  
+              <li><a href="#"><i class="fa fa-user"></i><span>ข้อมูลนักวิจัย</span></a>
+                <ul class="sub-menu">
+                  <li onclick="modi_uSer()">
+                    <a href="#">พิ่มเติม ข้อมูลนักวิจัย
+                    </a>
+                  </li>
+                  
+                </ul>
+              </li>
+              <li><a href="#"><i class="fa fa-briefcase"></i><span>สังกัด/หน่วยงาน</span></a>
+                <ul class="sub-menu">
+                  <li onclick="modi_maJor('major')">
+                    <a href="#">เพิ่มข้อมูล คณะ/หน่วยงาน
+                    </a>
+                  </li>
+                  <li onclick="modi_maJor('subject')">
+                    <a href="#">เพิ่มข้อมูล ภาควิชา/หลักสูตร
+                    </a>
+                  </li>
+                  
+                </ul>
+              </li>
+              <?php  
+            }else{
+              ?>
+              <li><a href="#"><i class="fa fa-user"></i><span>ข้อมูลส่วนตัว</span></a>
+                <ul class="sub-menu">
+                  <li onclick="account(<?PHP echo $this->session->userdata('uId'); ?>)"><a href="#"><span class="label label-primary pull-right">New</span>แก้ไขข้อมูลส่วนตัว</a>
+                  </li>
+                </ul>
+              </li>
+              <li><a href="#"><i class="fa fa-book"></i><span>ข้อมูลวิจัย/โครงการ</span></a>
+                <ul class="sub-menu">
+                <li onclick="add_researchs()"><a href="#">เพิ่มงานวิจัย</a>
+                  </li>
+                  <li onclick="add_projects()"><a href="#"><span class="label label-primary pull-right">New</span>เพิ่มโครงการ</a>
+                  </li>
+                </ul>
+              </li>
+
+
+              <?php
             }
             ?>
             
@@ -93,12 +112,16 @@
       $('#main_view2').html('');
     }
     function modi_uSer(){
-      
+
       $('#main_view').load("<?php echo base_url('main/view_user')?>");
       $('#main_view2').html('');
     }
     function modi_money(){
       $('#main_view').load("<?php echo base_url('main/view_money')?>");
+      $('#main_view2').html('');
+    }
+    function add_researchs(){
+      $('#main_view').load("<?php echo base_url('main/add_researchs')?>");
       $('#main_view2').html('');
     }
   </script>

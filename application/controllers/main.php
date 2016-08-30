@@ -30,25 +30,25 @@ class Main extends CI_Controller {
 
     public function admin(){
        //$data['page'] = "0";
-     $this->load->view('content_view');
- }
+       $this->load->view('content_view');
+   }
 
- function contentShow(){
-     $this->load->view('research/site/content_view');
- }
- function slideShow(){
-     $this->load->view('research/site/includes/slidebar');
- }
+   function contentShow(){
+       $this->load->view('research/site/content_view');
+   }
+   function slideShow(){
+       $this->load->view('research/site/includes/slidebar');
+   }
 
- function logIn(){
-     $this->load->view('research/backend/login');
- }
- function logout(){
+   function logIn(){
+       $this->load->view('research/backend/login');
+   }
+   function logout(){
 
-     $this->session->sess_destroy();
- }
+       $this->session->sess_destroy();
+   }
 
- public function modi_mMenu(){
+   public function modi_mMenu(){
     $data['mainMenu'] = $this->research_model->getMainMenu();
     $data['id_menu'] = "0";
     $this->load->view('research/backend/mMenuTable',$data);
@@ -252,26 +252,26 @@ public function user_form_view($id){
 
 
 
- $sql = "SELECT
- `user`.username,
- `user`.`password`,
- `user`.uName,
- status_user.statusName,
- `subject`.mSubjectName,
- major.mMajorName,
- `user`.note,
- `user`.uId,
- `user`.img
- FROM
- major
- INNER JOIN `subject` ON major.mMajorId = `subject`.mMajorId
- INNER JOIN `user` ON `subject`.mSubjectId = `user`.mSubjectId
- INNER JOIN status_user ON `user`.statusId = status_user.statusId
- WHERE  uId = '$id'
- ";
+   $sql = "SELECT
+   `user`.username,
+   `user`.`password`,
+   `user`.uName,
+   status_user.statusName,
+   `subject`.mSubjectName,
+   major.mMajorName,
+   `user`.note,
+   `user`.uId,
+   `user`.img
+   FROM
+   major
+   INNER JOIN `subject` ON major.mMajorId = `subject`.mMajorId
+   INNER JOIN `user` ON `subject`.mSubjectId = `user`.mSubjectId
+   INNER JOIN status_user ON `user`.statusId = status_user.statusId
+   WHERE  uId = '$id'
+   ";
 
- $data['dataValue'] = $this->db->query($sql)->row_array();
- $this->load->view('research/backend/user_see_view',$data);
+   $data['dataValue'] = $this->db->query($sql)->row_array();
+   $this->load->view('research/backend/user_see_view',$data);
 
 }
 
@@ -279,19 +279,19 @@ public function money_form_view($id){
 
 
 
- $sql = "SELECT
- tune.tName,
- submenu.sMenuName,
- mainmenu.mMenuName
- FROM
- tune
- INNER JOIN submenu ON tune.sMenuId = submenu.sMenuId
- INNER JOIN mainmenu ON submenu.mMenuId = submenu.sMenuId
- WHERE  tId = '$id'
- ";
+   $sql = "SELECT
+   tune.tName,
+   submenu.sMenuName,
+   mainmenu.mMenuName
+   FROM
+   tune
+   INNER JOIN submenu ON tune.sMenuId = submenu.sMenuId
+   INNER JOIN mainmenu ON submenu.mMenuId = submenu.sMenuId
+   WHERE  tId = '$id'
+   ";
 
- $data['dataValue'] = $this->db->query($sql)->row_array();
- $this->load->view('research/backend/money_see_view',$data);
+   $data['dataValue'] = $this->db->query($sql)->row_array();
+   $this->load->view('research/backend/money_see_view',$data);
 
 }
 
@@ -418,6 +418,18 @@ public function dataTable_money($id){
     $sql = "select * from tune where sMenuId = '$id'";
     $data['dataValues'] = $this->db->query($sql)->result_array();
     $this->load->view('research/backend/moneyTable',$data);
+}
+
+public function select_money(){
+
+    $id = $this->input->post('id');
+    $sql = "select * from tune where sMenuId = '$id'";
+    $data = $this->db->query($sql)->result_array();
+
+    echo json_encode(array(
+        'is_successful' => TRUE,
+        'data' => $data
+        ));
 }
 
 public function edit_admin(){
@@ -594,12 +606,12 @@ public function action_mMenu($actions,$menu_type){
         if($actions == "add"){
 
 
-         $this->load->library('form_validation');
-         $this->form_validation->set_rules('mMenuName_txt', 'ชื่อเมนู', 'required');
+           $this->load->library('form_validation');
+           $this->form_validation->set_rules('mMenuName_txt', 'ชื่อเมนู', 'required');
 
-         $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+           $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
 
-         if ($this->form_validation->run() == FALSE) {
+           if ($this->form_validation->run() == FALSE) {
 
             $msg = form_error('mMenuName_txt');
             
@@ -681,14 +693,14 @@ public function action_mMenu($actions,$menu_type){
     if($actions == "add"){
 
 
-     $this->load->library('form_validation');
-     $this->form_validation->set_rules('sMenuName_txt', 'ชื่อเมนูย่อย', 'required');
-     $this->form_validation->set_rules('data_mMenu', 'หรือเพิ่ม เมนูหลักก่อน จึงจะสามารถเพิ่มเมนูย่อยได้', 'required');
+       $this->load->library('form_validation');
+       $this->form_validation->set_rules('sMenuName_txt', 'ชื่อเมนูย่อย', 'required');
+       $this->form_validation->set_rules('data_mMenu', 'หรือเพิ่ม เมนูหลักก่อน จึงจะสามารถเพิ่มเมนูย่อยได้', 'required');
 
-     $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+       $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
 
 
-     if ($this->form_validation->run() == FALSE) {
+       if ($this->form_validation->run() == FALSE) {
 
         $msg = form_error('sMenuName_txt');
         $msg.= form_error('data_mMenu');
@@ -779,12 +791,12 @@ public function action_mMajor($actions,$menu_type){
         if($actions == "add"){
 
 
-           $this->load->library('form_validation');
-           $this->form_validation->set_rules('mMenuName_txt', 'ชื่อคณะ/หน่วยงาน', 'required');
+         $this->load->library('form_validation');
+         $this->form_validation->set_rules('mMenuName_txt', 'ชื่อคณะ/หน่วยงาน', 'required');
 
-           $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+         $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
 
-           if ($this->form_validation->run() == FALSE) {
+         if ($this->form_validation->run() == FALSE) {
 
             $msg = form_error('mMenuName_txt');
             
@@ -866,14 +878,14 @@ public function action_mMajor($actions,$menu_type){
     if($actions == "add"){
 
 
-       $this->load->library('form_validation');
-       $this->form_validation->set_rules('sMenuName_txt', 'ชื่อภาควิชา/หลักสูตร', 'required');
-       $this->form_validation->set_rules('data_mMenu', 'หรือเพิ่ม คณะหรือหน่วยงานก่อน จึงจะสามารถเพิ่มภาควิชา/หลักสูตรได้', 'required');
+     $this->load->library('form_validation');
+     $this->form_validation->set_rules('sMenuName_txt', 'ชื่อภาควิชา/หลักสูตร', 'required');
+     $this->form_validation->set_rules('data_mMenu', 'หรือเพิ่ม คณะหรือหน่วยงานก่อน จึงจะสามารถเพิ่มภาควิชา/หลักสูตรได้', 'required');
 
-       $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+     $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
 
 
-       if ($this->form_validation->run() == FALSE) {
+     if ($this->form_validation->run() == FALSE) {
 
         $msg = form_error('sMenuName_txt');
         $msg.= form_error('data_mMenu');
@@ -965,14 +977,14 @@ public function action_money($actions){
     if($actions == "add"){
 
 
-       $this->load->library('form_validation');
-       $this->form_validation->set_rules('data_sub', 'หรือเพิ่ม ข้อมูลงานวิจัย/โครงการก่อน จึงจะสามารถเพิ่มประเภททุนได้', 'required');
-       $this->form_validation->set_rules('data_tune', 'ชื่อประเภททุน', 'required');
+     $this->load->library('form_validation');
+     $this->form_validation->set_rules('data_sub', 'หรือเพิ่ม ข้อมูลงานวิจัย/โครงการก่อน จึงจะสามารถเพิ่มประเภททุนได้', 'required');
+     $this->form_validation->set_rules('data_tune', 'ชื่อประเภททุน', 'required');
 
-       $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+     $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
 
 
-       if ($this->form_validation->run() == FALSE) {
+     if ($this->form_validation->run() == FALSE) {
 
         $msg = form_error('data_sub');
         $msg.= form_error('data_tune');
@@ -1061,18 +1073,18 @@ public function action_user($actions){
     if($actions == "add"){
 
 
-       $this->load->library('form_validation');
-       $this->form_validation->set_rules('uName', 'ชื่อ-นามสกุล', 'required');
-       $this->form_validation->set_rules('data_major', 'ชื่อคณะ/หน่วยงาน', 'required');
-       $this->form_validation->set_rules('note', 'ความเชี่ยวชาญ', 'required');
-       $this->form_validation->set_rules('data_subject', 'ภาควิชา/หลักสูตร', 'required');
-       $this->form_validation->set_rules('username', 'ชื่อผู้ใช้', 'required');
-       $this->form_validation->set_rules('password', 'รหัสผ่าน', 'required');
-       $this->form_validation->set_rules('uStatus', 'สถานะ', 'required');
+     $this->load->library('form_validation');
+     $this->form_validation->set_rules('uName', 'ชื่อ-นามสกุล', 'required');
+     $this->form_validation->set_rules('data_major', 'ชื่อคณะ/หน่วยงาน', 'required');
+     $this->form_validation->set_rules('note', 'ความเชี่ยวชาญ', 'required');
+     $this->form_validation->set_rules('data_subject', 'ภาควิชา/หลักสูตร', 'required');
+     $this->form_validation->set_rules('username', 'ชื่อผู้ใช้', 'required');
+     $this->form_validation->set_rules('password', 'รหัสผ่าน', 'required');
+     $this->form_validation->set_rules('uStatus', 'สถานะ', 'required');
 
-       $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+     $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
 
-       if ($this->form_validation->run() == FALSE) {
+     if ($this->form_validation->run() == FALSE) {
 
         $msg = form_error('uName');
         $msg .= form_error('data_major');
@@ -1366,7 +1378,18 @@ function edit_img(){
 }
 
 
+public function add_researchs(){
+    $sql = "select sMenuId,sMenuName,submenu.mMenuId,mMenuName 
+    from submenu,mainmenu 
+    where submenu.mMenuId = mainmenu.mMenuId and
+    submenu.mMenuId = 1";
+    $data['projects'] =  $this->db->query($sql)->result_array();
+    $data['nameMain'] =  $this->db->query($sql)->row_array();
+    
 
+    $this->load->view('research/backend/add_research_form',$data);
+
+}
 
 function th() {
     $this->session->set_userdata('language', 'thai');
