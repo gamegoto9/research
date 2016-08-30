@@ -53,5 +53,7 @@ $this->load->view('includes/slidebar');
 
 
             }
+
+            
         </script>
 

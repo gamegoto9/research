@@ -39,6 +39,7 @@
 							opacity: 1,
 							history: false
 						});
+						loadDiv($('#uId').val());
 					}
 
 				},'json');

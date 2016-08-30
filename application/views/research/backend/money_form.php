@@ -45,8 +45,7 @@
 
 	<script>
 		$(document).ready(function() {
-			var values1 = <?php echo $dataValue['sMenuId']; ?>;
-			
+			var values1 = <?php echo $dataValue['sMenuId']; ?>;	
 			$('#data_sub option[value="' + values1 +'"]').attr('selected', 'selected').text();
 
 		});
