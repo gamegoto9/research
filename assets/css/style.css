@@ -1064,7 +1064,7 @@ body {
 .block-wizard {
   margin-bottom: 40px;
   padding: 20px 20px;
-  background: #FFF;
+  background: #e4e7f3;
   border-radius: 3px;
   -webkit-border-radius: 3px;
   border-left: 1px solid #efefef;
@@ -2685,7 +2685,7 @@ div.dataTables_length label select {
 .block-flat .header {
   padding: 10px;
   background-color: #FEFEFE;
-  border-bottom: 1px solid #dadada;
+  border-bottom: 1px solid #ccc;
 }
 .block .header {
   border-radius: 3px 3px 0 0;
@@ -3428,7 +3428,7 @@ div.dataTables_length label select {
 }
 .nav-tabs > li > a {
   padding: 9px 15px;
-  font-size: 13px;
+  font-size: 15px;
   margin-right: 0;
   min-width: 80px;
   text-align: center;

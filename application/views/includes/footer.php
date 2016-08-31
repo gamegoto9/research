@@ -42,6 +42,7 @@
         //initialize the javascript
         App.init();
        $('form').parsley();
+
     });
 
 </script>

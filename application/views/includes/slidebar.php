@@ -66,9 +66,12 @@
               </li>
               <li><a href="#"><i class="fa fa-book"></i><span>ข้อมูลวิจัย/โครงการ</span></a>
                 <ul class="sub-menu">
-                <li onclick="add_researchs()"><a href="#">เพิ่มงานวิจัย</a>
+                <li onclick="add_researchs()"><a href="#"><span class="label label-primary pull-right">New</span>เพิ่มงานวิจัย</a>
                   </li>
-                  <li onclick="add_projects()"><a href="#"><span class="label label-primary pull-right">New</span>เพิ่มโครงการ</a>
+                  <li onclick="add_projects()"><a href="#"><span class="label label-primary pull-right">New</span>เพิ่มงานโครงการ</a>
+                  </li>
+                  </li>
+                  <li onclick="see_researchs()"><a href="#">ข้อมูลงานวิจัย/โครงการ</a>
                   </li>
                 </ul>
               </li>
@@ -122,6 +125,10 @@
     }
     function add_researchs(){
       $('#main_view').load("<?php echo base_url('main/add_researchs')?>");
+      $('#main_view2').html('');
+    }
+    function add_projects(){
+      $('#main_view').load("<?php echo base_url('main/add_projects')?>");
       $('#main_view2').html('');
     }
   </script>
