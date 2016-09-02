@@ -18,8 +18,8 @@
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/lib/jquery.upload/css/jquery.fileupload.css'); ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/bootstrap-select.min.css'); ?>">
 
-
-    
+        <link href="<?php echo base_url("assets/js/plugin/dropzone/min/dropzone.min.css")?>" rel="stylesheet">
+      
 
         <!--AngularJS-->
        <!--  <script type="text/javascript" src="<?php echo base_url(); ?>assets/UI/angular-1.4.4/angular.min.js"></script>

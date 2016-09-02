@@ -1,7 +1,9 @@
 </div>
 
-<!--script-->
-<script type="text/javascript" src="<?PHP echo base_url('assets/lib/jquery/jquery.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/lib/jquery/jquery.min.js');?>"></script>
+<script src="<?php echo base_url("assets/js/plugin/dropzone/dropzone.js")?>"></script>
+
+
 <script type="text/javascript" src="<?PHP echo base_url('assets/lib/jquery.nanoscroller/javascripts/jquery.nanoscroller.js'); ?>"></script>
 <script type="text/javascript" src="<?PHP echo base_url('assets/js/cleanzone.js'); ?>"></script>
 <script src="<?PHP echo base_url('assets/lib/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
@@ -41,7 +43,7 @@
 	$(document).ready(function() {
         //initialize the javascript
         App.init();
-       $('form').parsley();
+       //$('form').parsley();
 
     });
 

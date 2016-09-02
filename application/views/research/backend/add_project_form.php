@@ -66,28 +66,28 @@
                   <label class="control-label">ช่วงเวลาดำเนินงาน</label>
                 </div>
                 <br><br>
-                <div class="col-sm-2 col-md-2">
+                <div class="col-sm-12 col-md-2">
                  <label class="control-label">เริ่มตั้งแต่</label>
 
                </div>
-               <div class="col-sm-4 col-md-4">
+               <div class="col-sm-12 col-md-4">
                 <input type="date" name="date_start" id="date_start" parsley-trigger="change"  class="form-control required" 
                 >
               </div>
-              <div class="col-sm-1 col-md-1">
+              <div class="col-sm-12 col-md-1">
                <label class="control-label">ถึง</label>
              </div>
-             <div class="col-sm-5 col-md-5">
+             <div class="col-sm-12 col-md-5">
               <input type="date" name="date_end" id="date_end" parsley-trigger="change"   class="form-control required" 
               >
             </div>
           </div>
           <br><br>
           <div class="form-horizontal">
-            <div class="col-sm-2 col-md-2">
+            <div class="col-sm-12 col-md-2">
               <label class="control-label">ปีงบประมาณ</label>
             </div>
-            <div class="col-sm-3 col-md-3">
+            <div class="col-sm-12 col-md-3">
               <input type="text" maxlength="4" pattern="([0-9]|[0-9]|[0-9])" name="year" id="year" parsley-trigger="change"  placeholder="25xx" class="form-control required" 
               >
             </div>
@@ -100,55 +100,22 @@
     </div>
   </div>
 </div>
-<div class="row">
-  <div class="col-sm-12 col-md-12">
-    <div class="block-flat">
-      <div class="header">
-        <h4>ข้อมูลทั่วไปเกี่ยวกับโครงการ</h4>
-      </div>
-      <br>
-      <div class="tab-container">
-        <div id="detial2">
-          <ul class="nav nav-tabs">
-            <li class="active"><a href="#home" data-toggle="tab">วัตถุประส่งค์โครงการ</a></li>
-            <li><a href="#profile" data-toggle="tab">ภาพกิจกรรม</a></li>
-            <li><a href="#messages" data-toggle="tab">วิดิทัศน์</a></li>
-          </ul>
-          <div class="tab-content">
-            <div id="home" class="tab-pane active cont">
-              <h3 class="hthin">วัตถุประส่งค์โครงการ</h3>
-              <textarea class="form-control" name="txtStandard" id="txtStandard" rows="7" placeholder="ป้อนข้อมูล"></textarea>
 
-            </div>
-            <div id="profile" class="tab-pane cont">
-             <h3 class="hthin">ภาพกิจกรรม</h3>
-
-          </div>
-          <div id="messages" class="tab-pane">
-            <h3 class="hthin">วิดิทัศน์</h3>
-            <textarea class="form-control" name="txtWork" id="txtWork" rows="7" placeholder="ป้อนข้อมูล"></textarea>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
 <div class="row">
   <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal" >ยกเลิก</button>
-    <button type="button" class="btn btn-primary" onclick="btn_saveResearch();">บันทึก</button>
+    <button type="button" class="btn btn-primary" onclick="btn_saveProjects();">บันทึก</button>
   </div>
 </div>
 </div>
 
 
 
-<script src="<?php echo base_url('assets/lib/dropzone/dist/dropzone.js'); ?>" type="text/javascript"></script>
 
 <script type="text/javascript">
   $(document).ready(function() {
 
+    $('#dataimages').show();
 
     $('#data_tune').prop('disabled', 'disabled');
     $("#detial :input").attr("disabled", "disabled");
@@ -182,7 +149,7 @@
 
                   $('#data_tune').prop('disabled', false);
                   $("#detial :input").attr("disabled", false);
-                  $("#detial2 :input").attr("disabled", false);
+                  
                 }else{
                   options += '<option value=""> ไม่มีข้อมูล</option>';
 
@@ -209,7 +176,7 @@
   });
 
 
-  function btn_saveResearch(){
+  function btn_saveProjects(){
     bootbox.confirm("ยืนยันการเพิ่มงานวิจัย?", function(result) {
       if(result){
         //alert($("#data_tune").val());
@@ -240,6 +207,8 @@
 
             });
 
+            $("#detial2 :input").attr("disabled", false);
+
         //$('#showDataTable').load("<?php echo base_url('main/modi_user')?>");
 
       }else{
@@ -251,7 +220,7 @@
         opacity: 1,
         history: false
       });
-
+       $("#detial2 :input").attr("disabled", "disabled");
      }
 
    }, 'json');

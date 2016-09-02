@@ -1485,24 +1485,62 @@ public function add_projects(){
     $this->load->view('research/backend/add_project_form',$data);
 
 }
-
-function th() {
-    $this->session->set_userdata('language', 'thai');
-
-    redirect($this->session->userdata('LASTURL'));
+public function abcd(){
+    $this->load->view('research/backend/demo');
 }
 
-function en() {
-    $this->session->set_userdata('language', 'english');
 
 
-    redirect($this->session->userdata('LASTURL'));
+function upload_file(){
+
+    $post = $this->input->post();
+
+    if(isset($post)){
+
+    $config['upload_path'] = './assets/uploads/';
+    $config['encrypt_name'] = true;
+    $config['allowed_types'] = 'jpg|png|pdf|mp4|3gp|avi|flv';
+    $config['max_size'] = '25000'; //25Mb
+
+    $this->load->library('upload', $config);
+        if($this->upload->do_upload('file'))
+        {
+            $file = $this->upload->data();
+            $data = array('title'   => $file['orig_name'],
+                'ext'       => $file['file_ext'],
+                'size'      => $file['file_size'],
+                'path'      => 'assets/uploads/'.$file['file_name'],
+            );
+
+            //Menyimpan Informasi File pada database;
+            //$this->db->insert("tb_file",$data);
+        }
+    }else{
+        return false;
+    }
 }
 
-function ch() {
-    $this->session->set_userdata('language', 'chaina');
 
-    redirect($this->session->userdata('LASTURL'));
-}
+
+
+
+    function th() {
+        $this->session->set_userdata('language', 'thai');
+
+        redirect($this->session->userdata('LASTURL'));
+    }
+
+    function en() {
+        $this->session->set_userdata('language', 'english');
+
+
+        redirect($this->session->userdata('LASTURL'));
+    }
+
+    function ch() {
+        $this->session->set_userdata('language', 'chaina');
+
+        redirect($this->session->userdata('LASTURL'));
+    }
 
 }
