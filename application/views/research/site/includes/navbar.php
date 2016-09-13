@@ -5,7 +5,7 @@
             <div class="standard">
                 <div class="five column alpha">
                     <div class="logo">
-                       <a href="index.html"><img src="<?php echo base_url('assets/them/enzyme/images/logo_new.png') ?>" /></a>
+                       <a href=""><img src="<?php echo base_url('assets/them/enzyme/images/logo_new.png') ?>" /></a>
                        <!-- Large Logo -->
                    </div>
                </div>

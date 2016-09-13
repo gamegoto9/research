@@ -9,39 +9,8 @@
 	</div>
 	
 	<hr class="hr">
-	<div class="col-sm-12">
-		<h3>ค้นหาประเภททุน</h3>
-		<div class="form-group col-sm-10">
-			<label for="">ประเภทงานวิจัย/โครงการ</label>
-			<select class="form-control" id="data_sub" name="data_sub">
-				<?php
-				foreach ($mains as $main){
-					?>	
-					<optgroup label="<?php echo $main['mMenuName']; ?>">
-						<?php
-						foreach ($projects as $project){
-							if($main['mMenuId'] == $project['mMenuId']){
-								?>
-								<option value="<?php echo $project['sMenuId']; ?>"><?php echo $project['sMenuName']; ?></option>
-
-								<?php		
-							}
-						}
-					} ?>	
-				</select>
-			</div>
-			<!-- <div class="form-group col-sm-5">
-				<label for="">ค้นหาประเภททุน</label>
-				<select class="form-control" id="data_tune" name="data_tune">
-
-				</select>
-			</div> -->
-			<div class="form-group col-sm-2">
-				<label for=""></label>
-				<button class="btn btn-block btn-warning" onclick="btnSearch()" ><i class="fa fa-search"> ค้นหา</i></button>
-			</div>
-		</div>
-		<br><br><br><br><br><br><br>
+	
+		<br><br>
 		<div id="showDataTable">
 
 		</div>
@@ -61,19 +30,7 @@
 		</div><!-- /.modal-dialog -->
 	</div>
 
-	<div class="modal fade bs-example-modal-lg" id="myModel_view" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div id="model_view_view">
-
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal" >ยกเลิก</button>
-
-				</div>
-			</div><!-- /.modal-content -->
-		</div><!-- /.modal-dialog -->
-	</div>
+	
 
 
 
@@ -85,63 +42,17 @@
 	$(document).ready(function() {
 
 
-		$('#data_tune').prop('disabled', 'disabled');
+		$('#showDataTable').load("<?php echo base_url('main/modi_tune')?>");
 
-		// $('#data_sub').change(function() {
-
-		// 				//alert($("#data_major").val());
-
-		// 				var faction = "<?php echo site_url('main/getDataTune/'); ?>";
-		// 				var fdata = {id: $("#data_sub").val()};
-
-		// 				$.post(faction, fdata, function(jdata) {
-
-		// 					if (jdata.is_successful) {
-								
-		// 						var options;
-
-		// 						if(jdata.data.length > 0){
-
-		// 							for (var i = 0; i < jdata.data.length; i++) {
-		// 								options += '<option value="' + jdata.data[i].tId + '">' +
-		// 								jdata.data[i].tName + '</option>';
-		// 							}
-
-		// 							$('#data_tune').html(options);
-		// 							$('#data_tune').prop('disabled', false);
-		// 						}else{
-		// 							options += '<option value=""> ไม่มีข้อมูล</option>';
-
-		// 							$('#data_tune').html(options);
-		// 							$('#data_tune').prop('disabled', 'disabled');
-		// 						}
-
-		// 					} else {
-
-		// 						alert("NOOOOOO");
-
-		// 					}
-
-		// 				}, 'json');
-
-		// 			});
 		
-		//$('#showDataTable').load("<?php echo base_url('main/modi_user')?>");
-
-
-
-
 	} );
 
-	function btnSearch(){
-		var id = $('#data_sub').val();
-		$('#showDataTable').load("<?php echo base_url('main/dataTable_money')?>/"+id);
-	}
+	
 
 	function showModel(view){
 
 		load_view = view;
-		$('#model_view').load("<?php echo base_url('main/money_form/');?>/"+load_view);
+		$('#model_view').load("<?php echo base_url('main/money_form1/');?>/"+load_view);
 		$('#myModel').modal('show');
 
 	}
@@ -159,7 +70,7 @@
 			id:xid
 		};
 
-		$('#model_view').load('<?php echo site_url('main/money_form_edit'); ?>',sdata);
+		$('#model_view').load('<?php echo site_url('main/money_form_edit1'); ?>',sdata);
 		$('#myModel').modal('show');
 	}
 	
@@ -187,7 +98,7 @@
 
 						if(load_view == "edit" || load_view == "delete"){
 							var id = $('#data_sub').val();
-							$('#showDataTable').load("<?php echo base_url('main/dataTable_money')?>/"+id);
+							$('#showDataTable').load("<?php echo base_url('main/modi_tune')?>/"+id);
 						}
 
 
@@ -237,10 +148,9 @@
 						bootbox.hideAll();
 
 						
-						if(load_view == "edit"){
-							var id = $('#data_sub').val();
-							$('#showDataTable').load("<?php echo base_url('main/dataTable_money')?>/"+id);
-						}
+						
+							$('#showDataTable').load("<?php echo base_url('main/modi_tune')?>");
+						
 						
 
 

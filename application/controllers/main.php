@@ -54,6 +54,12 @@ class Main extends CI_Controller {
     $this->load->view('research/backend/mMenuTable',$data);
 }
 
+public function modi_tune(){
+    $data['mainMenu'] = $this->research_model->getDataAllTune();
+
+    $this->load->view('research/backend/tuneTable',$data);
+}
+
 public function modi_mMajor(){
     $data['mainMenu'] = $this->research_model->getMajor();
     $data['id_menu'] = "0";
@@ -113,6 +119,12 @@ public function view_money(){
     $data['mains'] = $this->research_model->getMainMenu();
     $data['projects'] = $this->research_model->getSubMenu(); 
     $this->load->view('research/backend/money_view',$data);
+}
+public function view_money_type(){
+    $data['title'] = "ทุนวิจัยที่ใช้ในโครงการต่างๆ";  
+    $data['mains'] = $this->research_model->getMainMenu();
+    $data['projects'] = $this->research_model->getSubMenu(); 
+    $this->load->view('research/backend/money_view_types',$data);
 }
 
 public function getDataTune(){
@@ -247,6 +259,17 @@ public function money_form($view){
 
 }
 
+public function money_form1($view){
+
+
+    $data['send'] = "add";
+
+    $data['title'] = "เพิ่มทุน";
+    $this->load->view('research/backend/money_form_edit',$data);
+
+}
+
+
 
 public function user_form_view($id){
 
@@ -361,6 +384,18 @@ public function money_form_edit(){
     $this->load->view('research/backend/money_form',$data);
 
 }
+public function money_form_edit1(){
+
+    $id = $this->input->post('id');
+    $sql = "select * from tune where tId = '$id'";
+    $data['dataValue'] = $this->db->query($sql)->row_array();
+
+    
+    $data['send'] = "edit";
+    $data['title'] = "แก้ไขทุน";
+    $this->load->view('research/backend/money_form_edit',$data);
+
+}
 
 public function user_form_edit(){
 
@@ -422,8 +457,8 @@ public function dataTable_money($id){
 
 public function select_money(){
 
-    $id = $this->input->post('id');
-    $sql = "select * from tune where sMenuId = '$id'";
+    $year = $this->input->post('id');
+    $sql = "select * from tune where tYear = '$year'";
     $data = $this->db->query($sql)->result_array();
 
     echo json_encode(array(
@@ -976,15 +1011,16 @@ public function action_money($actions){
 
     if($actions == "add"){
 
+    /*
+    *แบบเดิม
+     $this->load->library('form_validation');
+     $this->form_validation->set_rules('data_sub', 'หรือเพิ่ม ข้อมูลงานวิจัย/โครงการก่อน จึงจะสามารถเพิ่มประเภททุนได้', 'required');
+     $this->form_validation->set_rules('data_tune', 'ชื่อประเภททุน', 'required');
 
-       $this->load->library('form_validation');
-       $this->form_validation->set_rules('data_sub', 'หรือเพิ่ม ข้อมูลงานวิจัย/โครงการก่อน จึงจะสามารถเพิ่มประเภททุนได้', 'required');
-       $this->form_validation->set_rules('data_tune', 'ชื่อประเภททุน', 'required');
-
-       $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+     $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
 
 
-       if ($this->form_validation->run() == FALSE) {
+     if ($this->form_validation->run() == FALSE) {
 
         $msg = form_error('data_sub');
         $msg.= form_error('data_tune');
@@ -1008,19 +1044,22 @@ public function action_money($actions){
             'msg' => 'บันทึกข้อมูลเรียบร้อย'
             ));
     }
-}else if($actions == "edit"){
+
+    */
+
+    //แบบใหม่
 
     $this->load->library('form_validation');
-    $this->form_validation->set_rules('data_sub', 'หรือเพิ่ม ข้อมูลงานวิจัย/โครงการก่อน จึงจะสามารถเพิ่มประเภททุนได้', 'required');
+
     $this->form_validation->set_rules('data_tune', 'ชื่อประเภททุน', 'required');
 
     $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
 
+
     if ($this->form_validation->run() == FALSE) {
 
-        $msg = form_error('data_sub');
-        $msg = form_error('data_tune');
-
+    
+        $msg.= form_error('data_tune');
 
 
         echo json_encode(array(
@@ -1029,23 +1068,83 @@ public function action_money($actions){
             ));
     } else {
 
+ 
         $tName = $this->input->post('data_tune');
-        $sMenuId = $this->input->post('data_sub');
-        $tId = $this->input->post('tId');
 
-        $sql = "update tune set  tName = '$tName',sMenuId = '$sMenuId' where tId = '$tId'";
+        $sql = "insert into tune (tName) values ('$tName')";
         $result = $this->db->query($sql);
 
 
         echo json_encode(array(
             'is_successful' => TRUE,
-            'msg' =>  'แก้ไขข้อมูลเรียบร้อย'
+            'msg' => 'บันทึกข้อมูลเรียบร้อย'
             ));
-
-
-
-
     }
+}else if($actions == "edit"){
+
+    // แบบเดิม
+    //
+    // $this->load->library('form_validation');
+    // $this->form_validation->set_rules('data_sub', 'หรือเพิ่ม ข้อมูลงานวิจัย/โครงการก่อน จึงจะสามารถเพิ่มประเภททุนได้', 'required');
+    // $this->form_validation->set_rules('data_tune', 'ชื่อประเภททุน', 'required');
+
+    // $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+
+    // if ($this->form_validation->run() == FALSE) {
+
+    //     $msg = form_error('data_sub');
+    //     $msg = form_error('data_tune');
+
+    // แบบใหม่
+
+ $this->load->library('form_validation');
+
+ $this->form_validation->set_rules('data_tune', 'ชื่อประเภททุน', 'required');
+
+ $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+
+ if ($this->form_validation->run() == FALSE) {
+
+
+    $msg = form_error('data_tune');
+
+
+
+    echo json_encode(array(
+        'is_successful' => FALSE,
+        'msg' => $msg
+        ));
+} else {
+
+    /*
+    * แบบเดิม
+    $tName = $this->input->post('data_tune');
+    $sMenuId = $this->input->post('data_sub');
+    $tId = $this->input->post('tId');
+
+    $sql = "update tune set  tName = '$tName',sMenuId = '$sMenuId' where tId = '$tId'";
+    $result = $this->db->query($sql);
+    *
+    */
+
+    //แบบใหม่
+
+    $tName = $this->input->post('data_tune');
+
+    $tId = $this->input->post('tId');
+
+    $sql = "update tune set  tName = '$tName' where tId = '$tId'";
+    $result = $this->db->query($sql);
+
+    echo json_encode(array(
+        'is_successful' => TRUE,
+        'msg' =>  'แก้ไขข้อมูลเรียบร้อย'
+        ));
+
+
+
+
+}
 
 }else if($actions == "delete"){
 
@@ -1453,13 +1552,37 @@ public function add_researchs(){
     $data['projects'] =  $this->db->query($sql)->result_array();
     $data['nameMain'] =  $this->db->query($sql)->row_array();
 
-    $sql = "SELECT MAX(researchId) as maxId
-    FROM research";
+    $sql = "SELECT MAX(researchId)+1 as maxId
+    FROM research_seq";
 
     $data['maxid'] =  $this->db->query($sql)->row_array();
     
+   
 
     $this->load->view('research/backend/add_research_form',$data);
+
+}
+
+public function add_toneResearchs(){
+    $sql = "select sMenuId,sMenuName,submenu.mMenuId,mMenuName 
+    from submenu,mainmenu 
+    where submenu.mMenuId = mainmenu.mMenuId and
+    submenu.mMenuId = 1";
+    $data['projects'] =  $this->db->query($sql)->result_array();
+    $data['nameMain'] =  $this->db->query($sql)->row_array();
+
+    $sql = "SELECT MAX(researchId)+1 as maxId
+    FROM research_seq";
+
+    $data['maxid'] =  $this->db->query($sql)->row_array();
+
+     $sql = "select tYear 
+    from tune
+    group by tyear";
+    $data['tune_years'] =  $this->db->query($sql)->result_array();
+    
+
+    $this->load->view('research/backend/add_research_form1',$data);
 
 }
 
@@ -1497,50 +1620,50 @@ function upload_file(){
 
     if(isset($post)){
 
-    $config['upload_path'] = './assets/uploads/';
-    $config['encrypt_name'] = true;
-    $config['allowed_types'] = 'jpg|png|pdf|mp4|3gp|avi|flv';
+        $config['upload_path'] = './assets/uploads/';
+        $config['encrypt_name'] = true;
+        $config['allowed_types'] = 'jpg|png|pdf|mp4|3gp|avi|flv';
     $config['max_size'] = '25000'; //25Mb
 
     $this->load->library('upload', $config);
-        if($this->upload->do_upload('file'))
-        {
-            $file = $this->upload->data();
-            $data = array('title'   => $file['orig_name'],
-                'ext'       => $file['file_ext'],
-                'size'      => $file['file_size'],
-                'path'      => 'assets/uploads/'.$file['file_name'],
+    if($this->upload->do_upload('file'))
+    {
+        $file = $this->upload->data();
+        $data = array('title'   => $file['orig_name'],
+            'ext'       => $file['file_ext'],
+            'size'      => $file['file_size'],
+            'path'      => 'assets/uploads/'.$file['file_name'],
             );
 
             //Menyimpan Informasi File pada database;
             //$this->db->insert("tb_file",$data);
-        }
-    }else{
-        return false;
     }
+}else{
+    return false;
+}
 }
 
 
 
 
 
-    function th() {
-        $this->session->set_userdata('language', 'thai');
+function th() {
+    $this->session->set_userdata('language', 'thai');
 
-        redirect($this->session->userdata('LASTURL'));
-    }
+    redirect($this->session->userdata('LASTURL'));
+}
 
-    function en() {
-        $this->session->set_userdata('language', 'english');
+function en() {
+    $this->session->set_userdata('language', 'english');
 
 
-        redirect($this->session->userdata('LASTURL'));
-    }
+    redirect($this->session->userdata('LASTURL'));
+}
 
-    function ch() {
-        $this->session->set_userdata('language', 'chaina');
+function ch() {
+    $this->session->set_userdata('language', 'chaina');
 
-        redirect($this->session->userdata('LASTURL'));
-    }
+    redirect($this->session->userdata('LASTURL'));
+}
 
 }

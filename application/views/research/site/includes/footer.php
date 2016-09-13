@@ -12,13 +12,21 @@
                             <div class="sixteen columns">
                                 <div class="first column alpha">
                                     <div class="left">
-                                        <div class="logo-caption"></div>
+                                        <!-- <div class="logo-caption"></div> -->
                                         <h5>โครงการวิจัย วิทยาสงฆ์ เชียงราย</h5>
                                         <p>
-                                            Integer eu ante in arcu viverra vehicula donec tempus consequat faucibus. Donec ne thomp nibh egestas suscipit. Donec sed lacus at massa lorem pharetra id eleifend leo.
+                                            วิทยาลัยสงฆ์เชียงราย มหาวิทยาลัยมหาจุฬาลงกรณราชวิทยาลัย <br>
+                                            ศาลากลางจังหวัดเชียงราย (หลังเดิม) <br>
+                                            ถนนฤทธิประศาสน์ ตำบลเวียง อำเภอเมือง จังหวัดเชียงราย 5700 <br>
+                                            โทร 053-715876 <br>
+                                            e-mail: mcu_cr@hotmail.com
+
+
                                         </p>
                                         <p class="extra">
-                                            Pellentesque quis felis neque, id adipiscing nunc. Ipsum elit, vitae tempus tellus. Class aptent taciti sociosq desis torquent per conubia nostra, per inceptos himenae dolar eget lacinia sem.
+                                             สงวนลิขสิทธิ์ ตาม พ.ร.บ. ลิขสิทธิ์ พ.ศ. 2537 
+                                             
+
                                         </p>
                                     </div>
                                 </div>

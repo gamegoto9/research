@@ -20,7 +20,7 @@ $this->load->view('includes/slidebar');
                 <div id="main_view"></div>
                 <div id="main_view2"></div>
 
-                <div id="dataimages">
+                <!-- <div id="dataimages">
                     <div id="detial2">
                         <div class="row">
                           <div class="col-sm-12 col-md-12">
@@ -63,12 +63,12 @@ $this->load->view('includes/slidebar');
 
     <div class="row">
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" >ยกเลิก</button>
+       
         <button id="submit-all" type="button" class="btn btn-primary">บันทึกข้อมูล</button>
     </div>
 </div>
 </div>
-</div>
+</div> -->
 </div>
 
 </div>
@@ -85,7 +85,7 @@ $this->load->view('includes/footer');
 
 
    $(document).ready(function() {
-
+/*
        $('#dataimages').hide();
 
        Dropzone.options.myDropzone = {
@@ -129,7 +129,7 @@ $this->load->view('includes/footer');
 
 
     
-
+*/
 
 });
 

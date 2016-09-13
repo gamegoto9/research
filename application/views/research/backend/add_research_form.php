@@ -9,7 +9,7 @@
         <div class="content">
 
           <div class="form-group">
-            <label>ประเภททุนวิจัย</label>
+            <label>ประเภทงานวิจัย</label>
             <select class="form-control" id="data_sub" name="data_sub">
 
               <optgroup label="<?php echo $nameMain['mMenuName']; ?>">
@@ -45,9 +45,10 @@
             <div id="detial">
 
               <div class="form-group" >
-              <!-- <label>รหัสงานวิจัย</label>
-                <input type="text" name="Rid" id="Rid" parsley-trigger="change" required="" class="form-control" value="<?php echo $maxid['maxId']+1; ?>">
-              </div> -->
+              <label>รหัสงานวิจัย</label>
+                <input type="text" name="Rid" id="Rid" parsley-trigger="change" required="" class="form-control" value="<?php echo "R".sprintf("%03d",$maxid['maxId']); ?>">
+                <input type="hidden" name="Rid_primary" id="Rid_primary" value="<?php echo "R".sprintf("%03d",$maxid['maxId']); ?>">
+              </div>
               <div class="form-group" >
                 <label>ชื่อ งานวิจัย</label>
                 <input type="text" name="name_re" id="name_re" parsley-trigger="change" required="" placeholder="ชื่อ งานวิจัย" class="form-control">

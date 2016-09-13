@@ -12,9 +12,9 @@
                                 <div class="onebyone hide" id="onebyone">
                                     <div id="slide-01" class="oneByOne_item" data-bg="<?php echo base_url('assets/them/enzyme/images/background-1.jpg')?>">
                                         <div id="left">
-                                            <h2>โครงการงานวิจัย :</h2>
-                                            <h1>The <strong>Research</strong> Modern Website Solution!</h1>
-                                            <h2>วิทยาสงฆ์ เชียงราย</h2>
+                                            <h2>โครงการงานวิจัย</h2>
+                                            
+                                            <h1>มหาวิทยาลัยมหาจุฬาลงกรณราชวิทยาลัย </h1>
                                         </div>
                                         <!-- <div class="button">
                                             <a href="#"><img src="<?php echo base_url('assets/them/enzyme/images/button-slider.png')?>" /></a>

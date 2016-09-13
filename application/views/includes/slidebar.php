@@ -28,7 +28,9 @@
               <li><a href="#"><i class="fa fa-money"></i><span>ประเภททุนวิจัย/โครงการ</span></a>
                 <ul class="sub-menu">
                   <li onclick="modi_money()"><a href="#">เพิ่ม ทุนวิจัย/โครงการ</a>
-                  </li>               
+                  </li>
+                  <!-- <li onclick="modi_money_type()"><a href="#">ทุนวิจัยที่ใช้ในโครงการต่างๆ</a>
+                  </li> -->              
                 </ul>
               </li>
 
@@ -66,6 +68,8 @@
               </li>
               <li><a href="#"><i class="fa fa-book"></i><span>ข้อมูลวิจัย/โครงการ</span></a>
                 <ul class="sub-menu">
+                <li onclick="add_toneRearchs()"><a href="#">ข้อมูลได้รับทุนสนับสนุนงานวิจัย</a>
+                  </li>
                 <li onclick="add_researchs()"><a href="#"><span class="label label-primary pull-right">New</span>เพิ่มงานวิจัย</a>
                   </li>
                   <li onclick="add_projects()"><a href="#"><span class="label label-primary pull-right">New</span>เพิ่มงานโครงการ</a>
@@ -123,12 +127,20 @@
       $('#main_view').load("<?php echo base_url('main/view_money')?>");
       $('#main_view2').html('');
     }
+    function modi_money_type(){
+      $('#main_view').load("<?php echo base_url('main/view_money_type')?>");
+      $('#main_view2').html('');
+    }
     function add_researchs(){
       $('#main_view').load("<?php echo base_url('main/add_researchs')?>");
       $('#main_view2').html('');
     }
     function add_projects(){
       $('#main_view').load("<?php echo base_url('main/add_projects')?>");
+      $('#main_view2').html('');
+    }
+    function add_toneRearchs(){
+      $('#main_view').load("<?php echo base_url('main/add_toneResearchs')?>");
       $('#main_view2').html('');
     }
   </script>
