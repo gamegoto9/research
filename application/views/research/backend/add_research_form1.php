@@ -14,10 +14,10 @@
         <div class="tab-container">
           <!-- <div id="detial2"> -->
             <ul class="nav nav-tabs" id="subItem">
-              <li class="active"><a href="#home" data-toggle="tab">ข้อมูลทั่วไป</a></li>
+              <li class="active" id="t1"><a href="#home" data-toggle="tab">ข้อมูลทั่วไป</a></li>
              
-              <li><a href="#profile" data-toggle="tab">การพิมพ์และการเผยแพร่</a></li>
-              <li><a href="#messages" data-toggle="tab">การจำไปใช้งาน</a></li>
+              <li id="t2" ><a href="#profile" data-toggle="tab">การพิมพ์และการเผยแพร่</a></li>
+              <li id="t3" ><a href="#messages" data-toggle="tab">การจำไปใช้งาน</a></li>
               
             </ul>
             <div class="tab-content">
@@ -32,7 +32,7 @@
                       <label for="inputEmail3" class="col-sm-2 control-label">รหัสงานวิจัย<font color="red">*</font></label>
                       <div class="col-sm-3">
                         <input type="text" name="Rid" id="Rid" parsley-trigger="change" required="" class="form-control" value="<?php echo "R".sprintf("%05d",$maxid['maxId']); ?>">
-                        <input type="hidden" name="Rid_primary" id="Rid_primary" value="<?php echo "R".sprintf("%05d",$maxid['maxId']); ?>">
+                        <input type="hidden" name="Rid_primary1" id="Rid_primary1" value="<?php echo "R".sprintf("%05d",$maxid['maxId']); ?>">
                       </div>
                     </div>
 
@@ -42,7 +42,7 @@
 
                       <div class="col-sm-2">
                         <select class="form-control" id="data_year" name="data_year">
-                          <option>กรุฯาเลือกปีงบประมาณ</option>
+                          <option value="">กรุณาเลือกปีงบประมาณ</option>
 
                           <?php
                           foreach ($tune_years as $tune_year){
@@ -86,7 +86,7 @@
                       <div class="form-group">
                         <label class="col-sm-2 control-label">งบประมาณที่ได้รับ<font color="red">*</font></label>
                         <div class="col-sm-2">
-                          <input type="text" name="price" id="price" parsley-trigger="change" required="" placeholder="งบประมาณที่ได้รับ" class="form-control">
+                          <input type="text" name="price1" id="price1" parsley-trigger="change" required="" placeholder="งบประมาณที่ได้รับ" class="form-control">
                         </div>
                         <label class="col-sm-1 control-label">บาท</label>
                       </div>
@@ -141,7 +141,7 @@
     });
 
     $('#data_year').change(function() {
-     alert('aaa');
+     alert($("#data_year").val());
      var faction = "<?php echo site_url('main/select_money/'); ?>";
 
      var fdata = {id: $("#data_year").val()};
@@ -166,7 +166,7 @@
           $("#detial :input").attr("disabled", false);
           $("#detial2 :input").attr("disabled", false);
         }else{
-          options += '<option value=""> ไม่มีข้อมูล</option>';
+          options += '<option> ไม่มีข้อมูล </option>';
 
           $('#data_tune').html(options);
           $('#data_tune').prop('disabled', 'disabled');
@@ -202,11 +202,13 @@
           tId: $("#data_tune").val(),
           name_re: $('#name_re').val(),
           name_en_re: $('#name_en_re').val(),
-          year: $('#year').val(),
-          sMenuId: $('#Rid_primary').val()
+          researchId: $('#Rid_primary1').val(),
+          price: $('#price1').val()
          
 
         };
+
+       console.log($('#data_year option:selected').val());
 
         $.post(faction, fdata, function(jdata) {
 
@@ -219,6 +221,18 @@
               history: false
 
             });
+
+
+            $('#subItem li:not(":first")').show();
+            //$('#t1').removeClass("active");
+            // add class to the one we clicked
+           // $('#t2').addClass("active");
+           // var selected = $("#subItem").tabs("option", "selected");
+           // $("#subItem").tabs("option", "selected", selected + 1);
+
+            // $('#subItem ul').tabs('select', 1);
+           //$( "#subItem" ).tabs({ active: 1 });
+            $('#subItem').tabs({ selected: 2 });
 
         //$('#showDataTable').load("<?php echo base_url('main/modi_user')?>");
 
