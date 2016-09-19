@@ -3,262 +3,6 @@
    text-align:left !important; 
  }
 </style>
-<div class="cl-mcont">
-  <div class="row">
-    <div class="col-sm-12 col-md-12">
-      <div class="block-flat">
-        <div class="header">
-          <h4>ข้อมูลทั่วไปเกี่ยวกับงานวิจัย</h4>
-        </div>
-        <br>
-        <div class="tab-container">
-          <!-- <div id="detial2"> -->
-          <ul class="nav nav-tabs" id="subItem">
-            <li class="active" id="t1"><a href="#home" data-toggle="tab">ข้อมูลทั่วไป</a></li>
-
-            <li id="t2" ><a href="#profile" data-toggle="tab">นักวิจัย/ผุ้วิจัยร่วม</a></li>
-            <li id="t3" ><a href="#messages" data-toggle="tab">ที่มา/วัตถุประสงค์</a></li>
-            <li id="t4" ><a href="#printtab" data-toggle="tab">การตีพิมพ์เผยแพร่</a></li>
-            <li id="t5" ><a href="#worktab" data-toggle="tab">การนำไปใช้ประโยชน์</a></li>
-            <li id="t6" ><a href="#linktab" data-toggle="tab">เอกสาร</a></li>
-
-          </ul>
-          <div class="tab-content">
-            <div id="home" class="tab-pane active cont">
-              <h3 class="hthin"></h3>
-              <div class="content">
-
-                <form class="form-horizontal">
-
-                  <div class="form-group" >
-
-                    <label for="inputEmail3" class="col-sm-2 control-label">รหัสงานวิจัย<font color="red">*</font></label>
-                    <div class="col-sm-3">
-                      <input type="text" name="Rid" id="Rid" parsley-trigger="change" required="" class="form-control" value="<?php echo "R".sprintf("%05d",$maxid['maxId']); ?>">
-                      <input type="hidden" name="Rid_primary1" id="Rid_primary1" value="<?php echo "R".sprintf("%05d",$maxid['maxId']); ?>">
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-
-                    <label class="col-sm-2 control-label">ปีงบประมาณ<font color="red">*</font></label>
-
-                    <div class="col-sm-2">
-                      <select class="form-control" id="data_year" name="data_year">
-                        <option value="">กรุณาเลือกปีงบประมาณ</option>
-
-                        <?php
-                        foreach ($tune_years as $tune_year){
-
-                          ?>
-                          <option value="<?php echo $tune_year['tYear']; ?>"><?php echo $tune_year['tYear']; ?></option>
-
-                          <?php   
-
-                        }
-                        ?>    
-                      </select>
-                    </div>
-
-
-                  </div>
-                  <div id="detial">
-                    <div class="form-group">
-                      <label class="col-sm-2 control-label">ประเภททุนวิจัย<font color="red">*</font></label>
-                      <div class="col-sm-4">
-                        <select class="form-control" id="data_tune" name="data_tune">
-                          <option>กรุฯาเลือกทุนสนับสุน</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div class="form-group">
-                      <label class="col-sm-2 control-label">ชื่อ งานวิจัย<font color="red">*</font></label>
-                      <div class="col-sm-5">
-                        <input type="text" name="name_re" id="name_re" parsley-trigger="change" required="" placeholder="ชื่อ งานวิจัย" class="form-control">
-                      </div>
-                    </div>
-
-                    <div class="form-group">
-                      <label class="col-sm-2 control-label">Article Title<font color="red">*</font></label>
-                      <div class="col-sm-5">
-                        <input type="text" name="name_en_re" id="name_en_re" parsley-trigger="change" required="" placeholder="Article Title" class="form-control">
-                      </div>
-                    </div>
-
-                    <div class="form-group">
-                      <label class="col-sm-2 control-label">งบประมาณที่ได้รับ<font color="red">*</font></label>
-                      <div class="col-sm-2">
-                        <input type="text" name="price1" id="price1" parsley-trigger="change" required="" placeholder="งบประมาณที่ได้รับ" class="form-control">
-                      </div>
-                      <label class="col-sm-1 control-label">บาท</label>
-                    </div>
-                  </div>
-
-
-                </form>
-
-
-              </div>
-
-            </div>
-            <div id="profile" class="tab-pane cont">
-             <h3 class="hthin">นักวิจัย/ผุ้วิจัยร่วม</h3>
-             <div class="content">
-
-              <form class="form-horizontal">
-
-                <div class="form-group" >
-                  <div class="modal-footer">
-
-                    <button type="button" class="btn btn-warning" onclick="btn_addPeple();">เพิ่มนักวิจัย/ผู้ร่วมวิจัย</button>
-                  </div>
-                </div>
-
-                
-                <div id="tablepeple"></div>
-
-
-              </form>
-
-
-            </div>
-
-
-          </div>
-          <div id="messages" class="tab-pane">
-            <h3 class="hthin">ที่มา/วัตถุประสงค์</h3>
-            <form name="data_standard" id="data_standard">
-            <textarea class="form-control" name="txt1" id="txt1" rows="7" placeholder="ป้อนข้อมูล"></textarea>
-
-            <div class="modal-footer">
-
-              <button type="button" class="btn btn-primary" onclick="btn_saveData_standard();">บันทึก</button>
-            </div>
-            </form>
-          </div>
-
-          <div id="printtab" class="tab-pane">
-            <h3 class="hthin">การตีพิมพ์เผยแพร่</h3>
-            <div class="content">
-
-              <form class="form-horizontal">
-
-                <div class="form-group" >
-                  <div class="modal-footer">
-
-                    <button type="button" class="btn btn-warning" onclick="btn_addprint();">เพิ่มการเผยแพร่</button>
-                  </div>
-                </div>
-
-                
-                <div id="tableprint"></div>
-
-
-              </form>
-
-
-            </div>
-          </div>
-
-          <div id="worktab" class="tab-pane">
-            <h3 class="hthin">การนำไปใช้ประโยชน์</h3>
-            <form name="data_standard" id="data_standard">
-            <textarea class="form-control" name="txtwork1" id="txtwork1" rows="7" placeholder="ป้อนข้อมูล"></textarea>
-
-            <div class="modal-footer">
-
-              <button type="button" class="btn btn-primary" onclick="btn_saveData_work();">บันทึก</button>
-            </div>
-            </form>
-          </div>
-
-          <div id="linktab" class="tab-pane">
-            <h3 class="hthin">เอกสาร</h3>
-            <div class="content">
-
-              <form class="form-horizontal">
-
-                <div class="form-group" >
-                  <div class="modal-footer">
-
-                    <button type="button" class="btn btn-warning" onclick="btn_addlink();">เพิ่มเอกสาร</button>
-                  </div>
-                </div>
-
-                
-                <div id="tablelink"></div>
-
-
-              </form>
-
-
-            </div>
-          </div>
-
-        </div>
-        <!-- </div> -->
-      </div>
-      <div class="modal-footer" id="btnS">
-        <button type="button" class="btn btn-default" data-dismiss="modal" >ยกเลิก</button>
-        <button type="button" class="btn btn-primary" onclick="btn_saveResearch();">บันทึก</button>
-      </div>
-    </div>
-
-
-
-  </div>
-</div>
-
-
-
-</div>
-
-<div class="modal fade bs-example-modal-lg" id="myModel" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div id="model_view">
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" >ยกเลิก</button>
-        <button type="button" class="btn btn-primary" onclick="btn_insertPeples();">บันทึก</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div>
-
-
-<div class="modal fade bs-example-modal-lg" id="myModel2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div id="model_view2">
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" >ยกเลิก</button>
-        <button type="button" class="btn btn-primary" onclick="btn_insertPrint();">บันทึก</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div>
-
-
-<div class="modal fade bs-example-modal-lg" id="myModel3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div id="model_view3">
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" >ยกเลิก</button>
-        <button type="button" class="btn btn-primary" onclick="btn_insertLink();">บันทึก</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div>
-
-
 
 
 <script type="text/javascript">
@@ -361,72 +105,7 @@
 
   }
 
-  $(document).ready(function() {
-
-
-
-    $('#Rid').prop('disabled', 'disabled');
-    $("#detial :input").attr("disabled", "disabled");
-
-    
-    //$("#subItem :input").attr("disabled", "disabled");
-    
-    //$('#subItem li:not(":first")').hide();
-    
-
-    $("#year").keyup(function() {
-      $("#year").val(this.value.match(/[0-9]*/));
-    });
-
-    $('#data_year').change(function() {
-     alert($("#data_year").val());
-     var faction = "<?php echo site_url('main/select_money/'); ?>";
-
-     var fdata = {id: $("#data_year").val()};
-
-     $.post(faction, fdata, function(jdata) {
-
-      if (jdata.is_successful) {
-
-
-        var options;
-
-        if(jdata.data.length > 0){
-
-          for (var i = 0; i < jdata.data.length; i++) {
-            options += '<option value="' + jdata.data[i].tId + '">' +
-            jdata.data[i].tName + '</option>';
-          }
-
-          $('#data_tune').html(options);
-
-          $('#data_tune').prop('disabled', false);
-          $("#detial :input").attr("disabled", false);
-          $("#detial2 :input").attr("disabled", false);
-        }else{
-          options += '<option> ไม่มีข้อมูล </option>';
-
-          $('#data_tune').html(options);
-          $('#data_tune').prop('disabled', 'disabled');
-          $("#detial :input").attr("disabled", "disabled");
-          $("#detial2 :input").attr("disabled", "disabled");
-        }
-
-      } else {
-
-        alert("NOOOOOO");
-
-      }
-
-    }, 'json');
-
-   });
-
-    $('#data_tune').change(function() {
-     $("#detial :input").attr("disabled", false);
-     $("#detial2 :input").attr("disabled", false);
-   });
-  });
+  
 
 
   function btn_saveResearch(){
@@ -1057,3 +736,620 @@ function table_link(researchId){
 
             }
           </script>
+
+<?php if($viewview == "2"){
+?>
+
+<div class="cl-mcont">
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <div class="block-flat">
+        <div class="header">
+          <h4>ข้อมูลทั่วไปเกี่ยวกับงานวิจัย</h4>
+        </div>
+        <br>
+        <div class="tab-container">
+          <!-- <div id="detial2"> -->
+          <ul class="nav nav-tabs" id="subItem">
+            <li class="active" id="t1"><a href="#home" data-toggle="tab">ข้อมูลทั่วไป</a></li>
+
+            <li id="t2" ><a href="#profile" data-toggle="tab">นักวิจัย/ผุ้วิจัยร่วม</a></li>
+            <li id="t3" ><a href="#messages" data-toggle="tab">ที่มา/วัตถุประสงค์</a></li>
+            <li id="t4" ><a href="#printtab" data-toggle="tab">การตีพิมพ์เผยแพร่</a></li>
+            <li id="t5" ><a href="#worktab" data-toggle="tab">การนำไปใช้ประโยชน์</a></li>
+            <li id="t6" ><a href="#linktab" data-toggle="tab">เอกสาร</a></li>
+
+          </ul>
+          <div class="tab-content">
+            <div id="home" class="tab-pane active cont">
+              <h3 class="hthin"></h3>
+              <div class="content">
+
+                <form class="form-horizontal">
+
+                  <div class="form-group" >
+
+                    <label for="inputEmail3" class="col-sm-2 control-label">รหัสงานวิจัย<font color="red">*</font></label>
+                    <div class="col-sm-3">
+                      <input type="text" name="Rid" id="Rid" parsley-trigger="change" required="" class="form-control" value="<?php echo $researchs1['researchId']; ?>">
+                      <input type="hidden" name="Rid_primary1" id="Rid_primary1" value="<?php echo $researchs1['researchId']; ?>">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+
+                    <label class="col-sm-2 control-label">ปีงบประมาณ<font color="red">*</font></label>
+
+                    <div class="col-sm-2">
+                      <select class="form-control" id="data_year" name="data_year">
+                        <option value="">กรุณาเลือกปีงบประมาณ</option>
+
+                        <?php
+                        foreach ($tune_years as $tune_year){
+
+                          ?>
+                          <option value="<?php echo $tune_year['tYear']; ?>"><?php echo $tune_year['tYear']; ?></option>
+
+                          <?php   
+
+                        }
+                        ?>    
+                      </select>
+                    </div>
+
+
+                  </div>
+                  <div id="detial">
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label">ประเภททุนวิจัย<font color="red">*</font></label>
+                      <div class="col-sm-6">
+                        <select class="form-control" id="data_tune" name="data_tune">
+                          <option>กรุณาเลือกทุนสนับสุน</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label">ชื่อ งานวิจัย<font color="red">*</font></label>
+                      <div class="col-sm-5">
+                        <input type="text" name="name_re" id="name_re" parsley-trigger="change" required="" placeholder="ชื่อ งานวิจัย" class="form-control" value="<?php echo $researchs1['researchName']; ?>">
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label">Article Title<font color="red">*</font></label>
+                      <div class="col-sm-5">
+                        <input type="text" name="name_en_re" id="name_en_re" parsley-trigger="change" required="" placeholder="Article Title" class="form-control" value="<?php echo $researchs1['researchName_en']; ?>">
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label">งบประมาณที่ได้รับ<font color="red">*</font></label>
+                      <div class="col-sm-2">
+                        <input type="text" name="price1" id="price1" parsley-trigger="change" required="" placeholder="งบประมาณที่ได้รับ" class="form-control" value="<?php echo $researchs1['price']; ?>">
+                      </div>
+                      <label class="col-sm-1 control-label">บาท</label>
+                    </div>
+                  </div>
+
+
+                </form>
+
+
+              </div>
+
+            </div>
+            <div id="profile" class="tab-pane cont">
+             <h3 class="hthin">นักวิจัย/ผุ้วิจัยร่วม</h3>
+             <div class="content">
+
+              <form class="form-horizontal">
+
+                <div class="form-group" >
+                  <div class="modal-footer">
+
+                    <button type="button" class="btn btn-warning" onclick="btn_addPeple();">เพิ่มนักวิจัย/ผู้ร่วมวิจัย</button>
+                  </div>
+                </div>
+
+                
+                <div id="tablepeple"></div>
+
+
+              </form>
+
+
+            </div>
+
+
+          </div>
+          <div id="messages" class="tab-pane">
+            <h3 class="hthin">ที่มา/วัตถุประสงค์</h3>
+            <form name="data_standard" id="data_standard">
+            <textarea class="form-control" name="txt1" id="txt1" rows="7" placeholder="ป้อนข้อมูล"><?php echo $researchs1['researchData_standard']; ?></textarea>
+
+            <div class="modal-footer">
+
+              <button type="button" class="btn btn-primary" onclick="btn_saveData_standard();">บันทึก</button>
+            </div>
+            </form>
+          </div>
+
+          <div id="printtab" class="tab-pane">
+            <h3 class="hthin">การตีพิมพ์เผยแพร่</h3>
+            <div class="content">
+
+              <form class="form-horizontal">
+
+                <div class="form-group" >
+                  <div class="modal-footer">
+
+                    <button type="button" class="btn btn-warning" onclick="btn_addprint();">เพิ่มการเผยแพร่</button>
+                  </div>
+                </div>
+
+                
+                <div id="tableprint"></div>
+
+
+              </form>
+
+
+            </div>
+          </div>
+
+          <div id="worktab" class="tab-pane">
+            <h3 class="hthin">การนำไปใช้ประโยชน์</h3>
+            <form name="data_standard" id="data_standard">
+            <textarea class="form-control" name="txtwork1" id="txtwork1" rows="7" placeholder="ป้อนข้อมูล"><?php echo $researchs1['researchData_work']; ?></textarea>
+
+            <div class="modal-footer">
+
+              <button type="button" class="btn btn-primary" onclick="btn_saveData_work();">บันทึก</button>
+            </div>
+            </form>
+          </div>
+
+          <div id="linktab" class="tab-pane">
+            <h3 class="hthin">เอกสาร</h3>
+            <div class="content">
+
+              <form class="form-horizontal">
+
+                <div class="form-group" >
+                  <div class="modal-footer">
+
+                    <button type="button" class="btn btn-warning" onclick="btn_addlink();">เพิ่มเอกสาร</button>
+                  </div>
+                </div>
+
+                
+                <div id="tablelink"></div>
+
+
+              </form>
+
+
+            </div>
+          </div>
+
+        </div>
+        <!-- </div> -->
+      </div>
+      <!--
+      <div class="modal-footer" id="btnS">
+        <button type="button" class="btn btn-default" data-dismiss="modal" >ยกเลิก</button>
+        <button type="button" class="btn btn-primary" onclick="btn_saveResearch();">บันทึก</button>
+      </div>
+      -->
+    </div>
+
+
+
+  </div>
+</div>
+
+
+
+</div>
+<script>
+  $(document).ready(function() {
+    $('#Rid').prop('disabled', 'disabled');
+    $('#data_year').val('<?php echo $researchs1['researchYear']; ?>');
+    getDataTone();
+    
+
+    $('#data_year').change(function() {
+        getDataTone();
+
+   });
+    $('#data_tune').change(function() {
+     $("#detial :input").attr("disabled", false);
+     $("#detial2 :input").attr("disabled", false);
+   });
+
+    table_peple($('#Rid_primary1').val());
+    table_print($('#Rid_primary1').val());
+    table_link($('#Rid_primary1').val());
+
+  });
+
+  function getDataTone(){
+     //alert($("#data_year").val());
+     var faction = "<?php echo site_url('main/select_money/'); ?>";
+
+     var fdata = {id: $("#data_year").val()};
+
+     $.post(faction, fdata, function(jdata) {
+
+      if (jdata.is_successful) {
+
+
+        var options;
+
+        if(jdata.data.length > 0){
+
+          for (var i = 0; i < jdata.data.length; i++) {
+            options += '<option value="' + jdata.data[i].tId + '">' +
+            jdata.data[i].tName + '</option>';
+          }
+
+          $('#data_tune').html(options);
+
+          $('#data_tune').prop('disabled', false);
+          $("#detial :input").attr("disabled", false);
+          $("#detial2 :input").attr("disabled", false);
+        }else{
+          options += '<option> ไม่มีข้อมูล </option>';
+
+          $('#data_tune').html(options);
+          $('#data_tune').prop('disabled', 'disabled');
+          $("#detial :input").attr("disabled", "disabled");
+          $("#detial2 :input").attr("disabled", "disabled");
+        }
+
+      } else {
+
+        alert("NOOOOOO");
+
+      }
+
+    }, 'json');
+  }
+  console.log('<?php echo $researchs1['tId']; ?>');
+  $('#data_tune').val('<?php echo $researchs1['tId']; ?>');
+
+</script>
+
+<?php
+}else{ ?>
+
+<div class="cl-mcont">
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <div class="block-flat">
+        <div class="header">
+          <h4>ข้อมูลทั่วไปเกี่ยวกับงานวิจัย</h4>
+        </div>
+        <br>
+        <div class="tab-container">
+          <!-- <div id="detial2"> -->
+          <ul class="nav nav-tabs" id="subItem">
+            <li class="active" id="t1"><a href="#home" data-toggle="tab">ข้อมูลทั่วไป</a></li>
+
+            <li id="t2" ><a href="#profile" data-toggle="tab">นักวิจัย/ผุ้วิจัยร่วม</a></li>
+            <li id="t3" ><a href="#messages" data-toggle="tab">ที่มา/วัตถุประสงค์</a></li>
+            <li id="t4" ><a href="#printtab" data-toggle="tab">การตีพิมพ์เผยแพร่</a></li>
+            <li id="t5" ><a href="#worktab" data-toggle="tab">การนำไปใช้ประโยชน์</a></li>
+            <li id="t6" ><a href="#linktab" data-toggle="tab">เอกสาร</a></li>
+
+          </ul>
+          <div class="tab-content">
+            <div id="home" class="tab-pane active cont">
+              <h3 class="hthin"></h3>
+              <div class="content">
+
+                <form class="form-horizontal">
+
+                  <div class="form-group" >
+
+                    <label for="inputEmail3" class="col-sm-2 control-label">รหัสงานวิจัย<font color="red">*</font></label>
+                    <div class="col-sm-3">
+                      <input type="text" name="Rid" id="Rid" parsley-trigger="change" required="" class="form-control" value="<?php echo "R".sprintf("%05d",$maxid['maxId']); ?>">
+                      <input type="hidden" name="Rid_primary1" id="Rid_primary1" value="<?php echo "R".sprintf("%05d",$maxid['maxId']); ?>">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+
+                    <label class="col-sm-2 control-label">ปีงบประมาณ<font color="red">*</font></label>
+
+                    <div class="col-sm-2">
+                      <select class="form-control" id="data_year" name="data_year">
+                        <option value="">กรุณาเลือกปีงบประมาณ</option>
+
+                        <?php
+                        foreach ($tune_years as $tune_year){
+
+                          ?>
+                          <option value="<?php echo $tune_year['tYear']; ?>"><?php echo $tune_year['tYear']; ?></option>
+
+                          <?php   
+
+                        }
+                        ?>    
+                      </select>
+                    </div>
+
+
+                  </div>
+                  <div id="detial">
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label">ประเภททุนวิจัย<font color="red">*</font></label>
+                      <div class="col-sm-6">
+                        <select class="form-control" id="data_tune" name="data_tune">
+                          <option>กรุฯาเลือกทุนสนับสุน</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label">ชื่อ งานวิจัย<font color="red">*</font></label>
+                      <div class="col-sm-5">
+                        <input type="text" name="name_re" id="name_re" parsley-trigger="change" required="" placeholder="ชื่อ งานวิจัย" class="form-control">
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label">Article Title<font color="red">*</font></label>
+                      <div class="col-sm-5">
+                        <input type="text" name="name_en_re" id="name_en_re" parsley-trigger="change" required="" placeholder="Article Title" class="form-control">
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label">งบประมาณที่ได้รับ<font color="red">*</font></label>
+                      <div class="col-sm-2">
+                        <input type="text" name="price1" id="price1" parsley-trigger="change" required="" placeholder="งบประมาณที่ได้รับ" class="form-control">
+                      </div>
+                      <label class="col-sm-1 control-label">บาท</label>
+                    </div>
+                  </div>
+
+
+                </form>
+
+
+              </div>
+
+            </div>
+            <div id="profile" class="tab-pane cont">
+             <h3 class="hthin">นักวิจัย/ผุ้วิจัยร่วม</h3>
+             <div class="content">
+
+              <form class="form-horizontal">
+
+                <div class="form-group" >
+                  <div class="modal-footer">
+
+                    <button type="button" class="btn btn-warning" onclick="btn_addPeple();">เพิ่มนักวิจัย/ผู้ร่วมวิจัย</button>
+                  </div>
+                </div>
+
+                
+                <div id="tablepeple"></div>
+
+
+              </form>
+
+
+            </div>
+
+
+          </div>
+          <div id="messages" class="tab-pane">
+            <h3 class="hthin">ที่มา/วัตถุประสงค์</h3>
+            <form name="data_standard" id="data_standard">
+            <textarea class="form-control" name="txt1" id="txt1" rows="7" placeholder="ป้อนข้อมูล"></textarea>
+
+            <div class="modal-footer">
+
+              <button type="button" class="btn btn-primary" onclick="btn_saveData_standard();">บันทึก</button>
+            </div>
+            </form>
+          </div>
+
+          <div id="printtab" class="tab-pane">
+            <h3 class="hthin">การตีพิมพ์เผยแพร่</h3>
+            <div class="content">
+
+              <form class="form-horizontal">
+
+                <div class="form-group" >
+                  <div class="modal-footer">
+
+                    <button type="button" class="btn btn-warning" onclick="btn_addprint();">เพิ่มการเผยแพร่</button>
+                  </div>
+                </div>
+
+                
+                <div id="tableprint"></div>
+
+
+              </form>
+
+
+            </div>
+          </div>
+
+          <div id="worktab" class="tab-pane">
+            <h3 class="hthin">การนำไปใช้ประโยชน์</h3>
+            <form name="data_standard" id="data_standard">
+            <textarea class="form-control" name="txtwork1" id="txtwork1" rows="7" placeholder="ป้อนข้อมูล"></textarea>
+
+            <div class="modal-footer">
+
+              <button type="button" class="btn btn-primary" onclick="btn_saveData_work();">บันทึก</button>
+            </div>
+            </form>
+          </div>
+
+          <div id="linktab" class="tab-pane">
+            <h3 class="hthin">เอกสาร</h3>
+            <div class="content">
+
+              <form class="form-horizontal">
+
+                <div class="form-group" >
+                  <div class="modal-footer">
+
+                    <button type="button" class="btn btn-warning" onclick="btn_addlink();">เพิ่มเอกสาร</button>
+                  </div>
+                </div>
+
+                
+                <div id="tablelink"></div>
+
+
+              </form>
+
+
+            </div>
+          </div>
+
+        </div>
+        <!-- </div> -->
+      </div>
+      <div class="modal-footer" id="btnS">
+        <button type="button" class="btn btn-default" data-dismiss="modal" >ยกเลิก</button>
+        <button type="button" class="btn btn-primary" onclick="btn_saveResearch();">บันทึก</button>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>
+
+
+
+</div>
+
+<script>
+  $(document).ready(function() {
+
+
+
+    $('#Rid').prop('disabled', 'disabled');
+    $("#detial :input").attr("disabled", "disabled");
+
+    
+    //$("#subItem :input").attr("disabled", "disabled");
+    
+    $('#subItem li:not(":first")').hide();
+    
+
+    $("#year").keyup(function() {
+      $("#year").val(this.value.match(/[0-9]*/));
+    });
+
+    $('#data_year').change(function() {
+     alert($("#data_year").val());
+     var faction = "<?php echo site_url('main/select_money/'); ?>";
+
+     var fdata = {id: $("#data_year").val()};
+
+     $.post(faction, fdata, function(jdata) {
+
+      if (jdata.is_successful) {
+
+
+        var options;
+
+        if(jdata.data.length > 0){
+
+          for (var i = 0; i < jdata.data.length; i++) {
+            options += '<option value="' + jdata.data[i].tId + '">' +
+            jdata.data[i].tName + '</option>';
+          }
+
+          $('#data_tune').html(options);
+
+          $('#data_tune').prop('disabled', false);
+          $("#detial :input").attr("disabled", false);
+          $("#detial2 :input").attr("disabled", false);
+        }else{
+          options += '<option> ไม่มีข้อมูล </option>';
+
+          $('#data_tune').html(options);
+          $('#data_tune').prop('disabled', 'disabled');
+          $("#detial :input").attr("disabled", "disabled");
+          $("#detial2 :input").attr("disabled", "disabled");
+        }
+
+      } else {
+
+        alert("NOOOOOO");
+
+      }
+
+    }, 'json');
+
+   });
+
+    $('#data_tune').change(function() {
+     $("#detial :input").attr("disabled", false);
+     $("#detial2 :input").attr("disabled", false);
+   });
+  });
+</script>
+
+<?php } ?>
+
+<div class="modal fade bs-example-modal-lg" id="myModel" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div id="model_view">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" >ยกเลิก</button>
+        <button type="button" class="btn btn-primary" onclick="btn_insertPeples();">บันทึก</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
+
+<div class="modal fade bs-example-modal-lg" id="myModel2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div id="model_view2">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" >ยกเลิก</button>
+        <button type="button" class="btn btn-primary" onclick="btn_insertPrint();">บันทึก</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
+
+<div class="modal fade bs-example-modal-lg" id="myModel3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div id="model_view3">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" >ยกเลิก</button>
+        <button type="button" class="btn btn-primary" onclick="btn_insertLink();">บันทึก</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
+
+
+

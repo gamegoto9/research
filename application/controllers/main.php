@@ -1545,7 +1545,7 @@ public function insert_rerearchs(){
         // $result = $this->db->query($sql);
 
 
-    // if($this->db->insert('research', $data)){
+     if($this->db->insert('research', $data)){
 
     $sql = "insert into researchpeple values('0','".$data['researchId']."','".$data['uId']."','ผู้รับทุน (หัวหน้าโครงการวิจัย')";
     $result = $this->db->query($sql);
@@ -1554,7 +1554,7 @@ public function insert_rerearchs(){
         'is_successful' => TRUE,
         'msg' => 'บันทึกข้อมูลเรียบร้อย'
         ));
-    // }
+     }
 }
 }
 public function show_link_table(){
@@ -1642,9 +1642,46 @@ public function add_toneResearchs(){
     $data['peples'] =  $this->db->query($sql)->result_array();
     
 
+    $data['viewview'] = "1";
     $this->load->view('research/backend/add_research_form1',$data);
 
 }
+
+public function edit_toneResearchs($researchId){
+    $sql = "select sMenuId,sMenuName,submenu.mMenuId,mMenuName 
+    from submenu,mainmenu 
+    where submenu.mMenuId = mainmenu.mMenuId and
+    submenu.mMenuId = 1";
+    $data['projects'] =  $this->db->query($sql)->result_array();
+    $data['nameMain'] =  $this->db->query($sql)->row_array();
+
+    // $sql = "SELECT MAX(researchId)+1 as maxId
+    // FROM research_seq";
+
+    // $data['maxid'] =  $this->db->query($sql)->row_array();
+
+    $sql = "select tYear 
+    from tune
+    group by tyear";
+    $data['tune_years'] =  $this->db->query($sql)->result_array();
+
+    // $sql = "select * 
+    // from user
+    // where statusId != '1'
+    // order by uId";
+    // $data['peples'] =  $this->db->query($sql)->result_array();
+    
+    $sql = "select * 
+    from research
+    where researchId = '$researchId'";
+    $data['researchs1'] =  $this->db->query($sql)->row_array();
+
+
+    $data['viewview'] = "2";
+    $this->load->view('research/backend/add_research_form1',$data);
+
+}
+
 public function add_link($view,$rid){
 
 
@@ -2056,6 +2093,17 @@ public function delete_pepleResearchs(){
             ));
 }
 
+public function delete_Researchs(){
+    $Id = $this->input->post('id');
+
+   $this->db->delete('research', array('researchId' => $Id)); 
+
+    echo json_encode(array(
+            'is_successful' => TRUE,
+            'msg' => 'ลบงานวิจัยเรียบร้อย'
+            ));
+}
+
 
 public function insert_linkResearchs(){
 
@@ -2328,8 +2376,58 @@ function upload_file(){
 }
 }
 
+public function show_data_research(){
+    $uId = $this->session->userdata('uId');
+    //$sql="select * from research where uId = '$uId'";
+
+    //
 
 
+    $data['start_row'] = $this->uri->segment(3, '0');
+        $sql = "select * from research where uId = '$uId'";
+        $data['total_row'] = $this->db->query($sql)->num_rows(); //นับแถวทั้งหมด     
+
+
+
+        $this->load->library('pagination');
+        $config['base_url'] = site_url('main/show_data_research');
+        $config['total_rows'] = $data['total_row'];
+        $config['per_page'] = 10;
+        $config['num_links'] = 6;
+        $config['uri_segment'] = 3;
+        $config['full_tag_open'] = '<div class="text-center"><ul class="pagination">';
+        $this->pagination->initialize($config);
+
+        $start = $data['start_row'];
+        $limit = $config['per_page'];
+
+//Edit To Do --> ORDER BY id ให้เปลี่ยน field id เป็น field ที่ต้องการเรียงลำดับ
+        $sql = $sql . " LIMIT $limit OFFSET $start";
+
+
+       $data['researchs'] =  $this->db->query($sql)->result_array();
+
+        $data['is_search'] = FALSE;
+        $data['txt_search'] = '';
+
+
+
+    $this->load->view('research/backend/show_table_researchs',$data);
+}
+public function show_toneResearchs(){
+
+    $uId = $this->session->userdata('uId');
+    
+
+    $sql="select researchYear from research where uId = '$uId' group by researchYear ";
+    $data['years'] =  $this->db->query($sql)->result_array();
+
+    $sql="select count(*) as sum_research from research where uId = '$uId'";
+    $data['count'] =  $this->db->query($sql)->row_array();
+
+    $this->load->view('research/backend/show_researchs',$data);
+
+}
 
 
 function th() {
