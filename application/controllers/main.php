@@ -1557,7 +1557,30 @@ public function insert_rerearchs(){
     // }
 }
 }
+public function show_link_table(){
+    $researchId = $this->input->post('id');
+    $sql ="SELECT *
+    FROM
+    researchlink
+    
+    WHERE researchId = '$researchId'";
 
+    $data['peples'] =  $this->db->query($sql)->result_array();
+
+    $this->load->view('research/backend/table_link_research',$data);
+}
+public function show_print_table(){
+    $researchId = $this->input->post('id');
+    $sql ="SELECT *
+    FROM
+    researchprint
+    
+    WHERE researchId = '$researchId'";
+
+    $data['peples'] =  $this->db->query($sql)->result_array();
+
+    $this->load->view('research/backend/table_print_research',$data);
+}
 public function show_peple_table(){
     $researchId = $this->input->post('id');
     $sql ="SELECT
@@ -1622,6 +1645,24 @@ public function add_toneResearchs(){
     $this->load->view('research/backend/add_research_form1',$data);
 
 }
+public function add_link($view,$rid){
+
+
+        $data['view'] = "1";
+        $data['rid'] = $rid;
+  
+        $this->load->view('research/backend/insert_link_research',$data);
+
+}
+public function add_print($view,$rid){
+
+
+        $data['view'] = "1";
+        $data['rid'] = $rid;
+  
+    $this->load->view('research/backend/insert_print_research',$data);
+
+}
 public function add_peples($view,$rid){
    
         $sql = "select * 
@@ -1654,6 +1695,200 @@ public function edit_peples($peple_id){
   
      $this->load->view('research/backend/insert_peple_research',$data);
 
+}
+
+public function edit_link($peple_id){
+
+  
+     $sql = "select * 
+        from researchlink
+        where researchIdLink = '".$peple_id."'";
+        $data['keypeple'] =  $this->db->query($sql)->row_array();
+
+        $data['view'] = "2";
+  
+  
+     $this->load->view('research/backend/insert_link_research',$data);
+
+}
+
+public function edit_print($peple_id){
+
+  
+     $sql = "select * 
+        from researchprint
+        where researchIdPrint = '".$peple_id."'";
+        $data['keypeple'] =  $this->db->query($sql)->row_array();
+
+        $data['view'] = "2";
+  
+  
+     $this->load->view('research/backend/insert_print_research',$data);
+
+}
+
+public function edit_linkResearchs(){
+     $this->load->library('form_validation');
+
+    
+    $this->form_validation->set_rules('type_link', 'ประเภทเอกสาร', 'required');
+    $this->form_validation->set_rules('namelink', 'ชื่อเอกสาร', 'required');
+    //$this->form_validation->set_rules('filelink', 'ไฟล์ข้อมูล', 'required');
+       
+    $this->form_validation->set_rules('Rid_peple', 'รหัสโครการงานวิจัย', 'required');
+
+
+
+    $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+
+
+    if ($this->form_validation->run() == FALSE) {
+
+
+     $msg = form_error('Rid_peple');
+
+     $msg.= form_error('type_link');
+     $msg.= form_error('namelink');
+     //$msg.= form_error('filelink');
+
+     echo json_encode(array(
+        'is_successful' => FALSE,
+        'msg' => $msg
+        ));
+ } else {
+
+     $id = $this->input->post('Rid_peple');
+
+  
+    $data['nameLink'] = $this->input->post('namelink');
+    $data['typeLink'] = $this->input->post('type_link');
+
+    $file1 = "";
+
+        foreach ($_FILES as $key => $value) {
+            $config['upload_path'] = './assets/uploads/files';
+            $part = $config['upload_path'];
+            $config['allowed_types'] = '*';
+            $config['max_size'] = '20971520';
+
+            $config['overwrite'] = FALSE;
+            $config['remove_spaces'] = TRUE;
+
+            $this->load->library('upload', $config);
+            $this->upload->initialize($config);
+
+            if (!empty($value['tmp_name']) && $value['size'] > 0) {
+
+                if (!$this->upload->do_upload($key)) {
+                    $msg = $this->upload->display_errors();
+                    echo json_encode(array(
+                        'is_successful' => FALSE,
+                        'msg' => $msg
+                        ));
+
+                } else {
+
+                    $name = $this->upload->data();
+
+                    $file1 = base_url().'assets/uploads/files/'.$name['file_name'];
+                    $data['link'] = $file1;
+
+                    // $sql = "insert into researchlink (researchIdLink,researchId,nameLink,typeLink,link) 
+                    // values ('$username','$password','$uName','$status','$uSubject','$uNote','$img')";
+                    // $result = $this->db->query($sql);
+
+                     $this->db->where('researchIdLink',$id);
+                     if($this->db->update('researchlink', $data)){
+
+                        echo json_encode(array(
+                            'is_successful' => TRUE,
+                            'msg' => 'บันทึกข้อมูลเรียบร้อย'
+                        ));
+                     }
+
+                    // echo json_encode(array(
+                    //     'is_successful' => TRUE,
+                    //     'msg' => 'บันทึกข้อมูลเรียบร้อย'
+                    //     // 'msg' => $name['file_name']
+                    //     ));
+
+                }
+                
+            }else{
+
+                if($file1 == ""){
+
+                     $this->db->where('researchIdLink',$id);
+                     if($this->db->update('researchlink', $data)){
+
+                        echo json_encode(array(
+                            'is_successful' => TRUE,
+                            'msg' => 'บันทึกข้อมูลเรียบร้อย'
+                        ));
+                     }
+
+                }else{
+                echo json_encode(array(
+                    'is_successful' => FALSE,
+                    'msg' => 'ไม่มีไฟล์หรือไฟล์ใหญ่เกินไป'
+                    ));
+            }
+
+            }
+
+        }
+  
+} 
+}
+
+public function edit_printResearchs(){
+    $this->load->library('form_validation');
+
+    
+    $this->form_validation->set_rules('txtName', 'ขื่อผลงาน/แหล่งตีพิมพ์/เผยแพร่', 'required');
+    $this->form_validation->set_rules('txttype', 'ประเภทการเผยแพร่', 'required');
+       
+    $this->form_validation->set_rules('Rid_peple', 'รหัสอ้างอิง', 'required');
+
+
+
+    $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+
+
+
+    if ($this->form_validation->run() == FALSE) {
+
+
+     $msg = form_error('Rid_peple');
+
+     $msg.= form_error('txtName');
+     $msg.= form_error('txttype');
+
+     echo json_encode(array(
+        'is_successful' => FALSE,
+        'msg' => $msg
+        ));
+ } else {
+
+
+    $id = $this->input->post('Rid_peple');
+
+    
+    $data['namePrint'] = $this->input->post('txtName');
+    $data['typePrint'] = $this->input->post('txttype');
+
+
+    $this->db->where('researchIdPrint',$id);
+
+
+    if($this->db->update('researchprint', $data)){
+
+        echo json_encode(array(
+            'is_successful' => TRUE,
+            'msg' => 'แก้ไขการเผยแพร่เรียบร้อย'
+            ));
+    }
+} 
 }
 
 public function edit_pepleResearchs(){
@@ -1709,6 +1944,107 @@ public function edit_pepleResearchs(){
 }    
 }
 
+public function insert_data_standard_researchs(){
+
+    $txt = $this->input->post('txt');
+    $id = $this->input->post('id');
+    $this->load->library('form_validation');
+
+
+    if($txt == ""){
+       echo json_encode(array(
+        'is_successful' => FALSE,
+        'msg' => "กรุุณาป้อน ข้อมูลวัตถุประสงค์"
+        ));
+   
+   }else if($id == ""){
+    echo json_encode(array(
+        'is_successful' => FALSE,
+        'msg' => "กรุุณาป้อน รหัสโครการงานวิจัย"
+        ));
+
+   }else {
+
+
+
+
+    $data['researchData_standard'] = $this->input->post('txt');
+
+    $this->db->where('researchId',$id);
+
+    if($this->db->update('research', $data)){
+
+        echo json_encode(array(
+            'is_successful' => TRUE,
+            'msg' => 'เพิ่มวัถุประส่งค์เรียบร้อย'
+            ));
+    }
+}
+
+}
+
+
+public function insert_data_work_researchs(){
+
+    $txt = $this->input->post('txt');
+    $id = $this->input->post('id');
+
+    $this->load->library('form_validation');
+
+
+    if($txt == ""){
+       echo json_encode(array(
+        'is_successful' => FALSE,
+        'msg' => "กรุณาป้อน ข้อมูลการนำไปใช้ประโยชน์"
+        ));
+   
+   }else if($id == ""){
+    echo json_encode(array(
+        'is_successful' => FALSE,
+        'msg' => "กรุณาป้อน รหัสโครการงานวิจัย"
+        ));
+
+   }else {
+
+
+
+
+    $data['researchData_work'] = $this->input->post('txt');
+
+    $this->db->where('researchId',$id);
+
+    if($this->db->update('research', $data)){
+
+        echo json_encode(array(
+            'is_successful' => TRUE,
+            'msg' => 'เพิ่มการนำไปใช้เรียบร้อย'
+            ));
+    }
+}
+
+}
+
+public function delete_linkResearchs(){
+    $pepleId = $this->input->post('id');
+
+   $this->db->delete('researchlink', array('researchIdLink' => $pepleId)); 
+
+    echo json_encode(array(
+            'is_successful' => TRUE,
+            'msg' => 'ลบเอกสารเรียบร้อย'
+            ));
+}
+public function delete_printResearchs(){
+    $pepleId = $this->input->post('id');
+
+   $this->db->delete('researchprint', array('researchIdPrint' => $pepleId)); 
+
+    echo json_encode(array(
+            'is_successful' => TRUE,
+            'msg' => 'ลบการเผยแพร่เรียบร้อย'
+            ));
+}
+
 public function delete_pepleResearchs(){
     $pepleId = $this->input->post('id');
 
@@ -1719,6 +2055,168 @@ public function delete_pepleResearchs(){
             'msg' => 'ลบนักวิจัยเรียบร้อย'
             ));
 }
+
+
+public function insert_linkResearchs(){
+
+    $this->load->library('form_validation');
+
+    
+    $this->form_validation->set_rules('type_link', 'ประเภทเอกสาร', 'required');
+    $this->form_validation->set_rules('namelink', 'ชื่อเอกสาร', 'required');
+    //$this->form_validation->set_rules('filelink', 'ไฟล์ข้อมูล', 'required');
+       
+    $this->form_validation->set_rules('Rid_peple', 'รหัสโครการงานวิจัย', 'required');
+
+
+
+    $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+
+
+    if ($this->form_validation->run() == FALSE) {
+
+
+     $msg = form_error('Rid_peple');
+
+     $msg.= form_error('type_link');
+     $msg.= form_error('namelink');
+     //$msg.= form_error('filelink');
+
+     echo json_encode(array(
+        'is_successful' => FALSE,
+        'msg' => $msg
+        ));
+ } else {
+
+
+
+
+    $data['researchId'] = $this->input->post('Rid_peple');
+    $data['nameLink'] = $this->input->post('namelink');
+    $data['typeLink'] = $this->input->post('type_link');
+
+    $file1 = "";
+
+        foreach ($_FILES as $key => $value) {
+            $config['upload_path'] = './assets/uploads/files';
+            $part = $config['upload_path'];
+            $config['allowed_types'] = '*';
+            $config['max_size'] = '20971520';
+
+            $config['overwrite'] = FALSE;
+            $config['remove_spaces'] = TRUE;
+
+            $this->load->library('upload', $config);
+            $this->upload->initialize($config);
+
+            if (!empty($value['tmp_name']) && $value['size'] > 0) {
+
+                if (!$this->upload->do_upload($key)) {
+                    $msg = $this->upload->display_errors();
+                    echo json_encode(array(
+                        'is_successful' => FALSE,
+                        'msg' => $msg
+                        ));
+
+                } else {
+
+                    $name = $this->upload->data();
+
+                    $file1 = base_url().'assets/uploads/files/'.$name['file_name'];
+                    $data['link'] = $file1;
+
+                    // $sql = "insert into researchlink (researchIdLink,researchId,nameLink,typeLink,link) 
+                    // values ('$username','$password','$uName','$status','$uSubject','$uNote','$img')";
+                    // $result = $this->db->query($sql);
+
+
+                     if($this->db->insert('researchlink', $data)){
+
+                        echo json_encode(array(
+                            'is_successful' => TRUE,
+                            'msg' => 'บันทึกข้อมูลเรียบร้อย'
+                        ));
+                     }
+
+                    // echo json_encode(array(
+                    //     'is_successful' => TRUE,
+                    //     'msg' => 'บันทึกข้อมูลเรียบร้อย'
+                    //     // 'msg' => $name['file_name']
+                    //     ));
+
+                }
+                
+            }else{
+                echo json_encode(array(
+                    'is_successful' => FALSE,
+                    'msg' => 'ไม่มีไฟล์หรือไฟล์ใหญ่เกินไป'
+                    ));
+            }
+
+        }
+
+
+
+    // if($this->db->insert('researchprint', $data)){
+
+    //     echo json_encode(array(
+    //         'is_successful' => TRUE,
+    //         'msg' => 'เพิ่มการเผยแพร่เรียบร้อย'
+    //         ));
+    // }
+}
+}
+
+public function insert_printResearchs(){
+
+    $this->load->library('form_validation');
+
+    
+    $this->form_validation->set_rules('txtName', 'ขื่อผลงาน/แหล่งตีพิมพ์/เผยแพร่', 'required');
+    $this->form_validation->set_rules('txttype', 'ประเภทการเผยแพร่', 'required');
+       
+    $this->form_validation->set_rules('Rid_peple', 'รหัสโครการงานวิจัย', 'required');
+
+
+
+    $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+
+
+    if ($this->form_validation->run() == FALSE) {
+
+
+     $msg = form_error('Rid_peple');
+
+     $msg.= form_error('txtName');
+     $msg.= form_error('txttype');
+
+     echo json_encode(array(
+        'is_successful' => FALSE,
+        'msg' => $msg
+        ));
+ } else {
+
+
+
+
+    $data['researchId'] = $this->input->post('Rid_peple');
+    $data['namePrint'] = $this->input->post('txtName');
+    $data['typePrint'] = $this->input->post('txttype');
+
+
+
+
+
+    if($this->db->insert('researchprint', $data)){
+
+        echo json_encode(array(
+            'is_successful' => TRUE,
+            'msg' => 'เพิ่มการเผยแพร่เรียบร้อย'
+            ));
+    }
+}
+}
+
 public function insert_pepleResearchs(){
 
     $this->load->library('form_validation');

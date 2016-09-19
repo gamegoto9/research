@@ -17,7 +17,10 @@
             <li class="active" id="t1"><a href="#home" data-toggle="tab">ข้อมูลทั่วไป</a></li>
 
             <li id="t2" ><a href="#profile" data-toggle="tab">นักวิจัย/ผุ้วิจัยร่วม</a></li>
-            <li id="t3" ><a href="#messages" data-toggle="tab">การจำไปใช้งาน</a></li>
+            <li id="t3" ><a href="#messages" data-toggle="tab">ที่มา/วัตถุประสงค์</a></li>
+            <li id="t4" ><a href="#printtab" data-toggle="tab">การตีพิมพ์เผยแพร่</a></li>
+            <li id="t5" ><a href="#worktab" data-toggle="tab">การนำไปใช้ประโยชน์</a></li>
+            <li id="t6" ><a href="#linktab" data-toggle="tab">เอกสาร</a></li>
 
           </ul>
           <div class="tab-content">
@@ -124,9 +127,75 @@
 
           </div>
           <div id="messages" class="tab-pane">
-            <h3 class="hthin">การนำไปใช้งาน</h3>
-            <textarea class="form-control" name="txtWork" id="txtWork" rows="7" placeholder="ป้อนข้อมูล"></textarea>
+            <h3 class="hthin">ที่มา/วัตถุประสงค์</h3>
+            <form name="data_standard" id="data_standard">
+            <textarea class="form-control" name="txt1" id="txt1" rows="7" placeholder="ป้อนข้อมูล"></textarea>
+
+            <div class="modal-footer">
+
+              <button type="button" class="btn btn-primary" onclick="btn_saveData_standard();">บันทึก</button>
+            </div>
+            </form>
           </div>
+
+          <div id="printtab" class="tab-pane">
+            <h3 class="hthin">การตีพิมพ์เผยแพร่</h3>
+            <div class="content">
+
+              <form class="form-horizontal">
+
+                <div class="form-group" >
+                  <div class="modal-footer">
+
+                    <button type="button" class="btn btn-warning" onclick="btn_addprint();">เพิ่มการเผยแพร่</button>
+                  </div>
+                </div>
+
+                
+                <div id="tableprint"></div>
+
+
+              </form>
+
+
+            </div>
+          </div>
+
+          <div id="worktab" class="tab-pane">
+            <h3 class="hthin">การนำไปใช้ประโยชน์</h3>
+            <form name="data_standard" id="data_standard">
+            <textarea class="form-control" name="txtwork1" id="txtwork1" rows="7" placeholder="ป้อนข้อมูล"></textarea>
+
+            <div class="modal-footer">
+
+              <button type="button" class="btn btn-primary" onclick="btn_saveData_work();">บันทึก</button>
+            </div>
+            </form>
+          </div>
+
+          <div id="linktab" class="tab-pane">
+            <h3 class="hthin">เอกสาร</h3>
+            <div class="content">
+
+              <form class="form-horizontal">
+
+                <div class="form-group" >
+                  <div class="modal-footer">
+
+                    <button type="button" class="btn btn-warning" onclick="btn_addlink();">เพิ่มเอกสาร</button>
+                  </div>
+                </div>
+
+                
+                <div id="tablelink"></div>
+
+
+              </form>
+
+
+            </div>
+          </div>
+
         </div>
         <!-- </div> -->
       </div>
@@ -149,14 +218,44 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div id="model_view">
-        
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-default" data-dismiss="modal" >ยกเลิก</button>
-      <button type="button" class="btn btn-primary" onclick="btn_insertPeples();">บันทึก</button>
-    </div>
-  </div><!-- /.modal-content -->
-</div><!-- /.modal-dialog -->
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" >ยกเลิก</button>
+        <button type="button" class="btn btn-primary" onclick="btn_insertPeples();">บันทึก</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
+
+<div class="modal fade bs-example-modal-lg" id="myModel2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div id="model_view2">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" >ยกเลิก</button>
+        <button type="button" class="btn btn-primary" onclick="btn_insertPrint();">บันทึก</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
+
+<div class="modal fade bs-example-modal-lg" id="myModel3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div id="model_view3">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" >ยกเลิก</button>
+        <button type="button" class="btn btn-primary" onclick="btn_insertLink();">บันทึก</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
 </div>
 
 
@@ -166,6 +265,102 @@
 
 
   var actions="";
+
+
+  function btn_saveData_work() {
+
+    bootbox.confirm("ยืนยันการเพิ่มการนำไปใช้ประโยชน์?", function(result) {
+      if(result){
+
+    var faction = "<?php echo site_url('main/insert_data_work_researchs/'); ?>";
+
+     var fdata = {
+      txt: $("#txtwork1").val(),
+      id: $('#Rid_primary1').val()
+    };
+
+     $.post(faction, fdata, function(jdata) {
+
+          if (jdata.is_successful) {
+            $.pnotify({
+              title: 'แจ้งให้ทราบ!',
+              text: jdata.msg,
+              type: 'success',
+              opacity: 1,
+              history: false
+
+            });
+
+            //table_peple($('#Rid_primary1').val());
+                   
+      }else{
+
+       $.pnotify({
+        title: 'เตือน!',
+        text: jdata.msg,
+        type: 'error',
+        opacity: 1,
+        history: false
+      });
+
+     }
+
+   }, 'json');
+     }
+    });
+
+  }
+
+  function btn_saveData_standard() {
+
+    bootbox.confirm("ยืนยันการเพิ่มงานวิจัย?", function(result) {
+      if(result){
+
+    var faction = "<?php echo site_url('main/insert_data_standard_researchs/'); ?>";
+
+     var fdata = {
+      txt: $("#txt1").val(),
+      id: $('#Rid_primary1').val()
+    };
+
+     $.post(faction, fdata, function(jdata) {
+
+          if (jdata.is_successful) {
+            $.pnotify({
+              title: 'แจ้งให้ทราบ!',
+              text: jdata.msg,
+              type: 'success',
+              opacity: 1,
+              history: false
+
+            });
+
+
+            
+           
+
+            //table_peple($('#Rid_primary1').val());
+            
+           
+
+      }else{
+
+       $.pnotify({
+        title: 'เตือน!',
+        text: jdata.msg,
+        type: 'error',
+        opacity: 1,
+        history: false
+      });
+
+     }
+
+   }, 'json');
+     }
+    });
+
+  }
+
   $(document).ready(function() {
 
 
@@ -333,12 +528,12 @@
                 $('#myModel').modal('show');
               }
 
-   function btn_insertPeples(){
+              function btn_insertPeples(){
 
 
-    if(actions == "add"){
-      bootbox.confirm("ยืนยันการเพิ่มงานวิจัย?", function(result) {
-        if(result){
+                if(actions == "add"){
+                  bootbox.confirm("ยืนยันการเพิ่มงานวิจัย?", function(result) {
+                    if(result){
         //alert($("#data_tune").val());
 
         var faction = "<?php echo site_url('main/insert_pepleResearchs/'); ?>";
@@ -359,8 +554,8 @@
             });
 
             table_peple($('#Rid_peple').val());
-             $('#myModel').modal('hide');
-        
+            $('#myModel').modal('hide');
+
           }else{
 
            $.pnotify({
@@ -376,9 +571,9 @@
        }, 'json');
       }
     });
-    }else if(actions == "edit"){
-       bootbox.confirm("ยืนยันการแก้ไข?", function(result) {
-        if(result){
+                }else if(actions == "edit"){
+                 bootbox.confirm("ยืนยันการแก้ไข?", function(result) {
+                  if(result){
         //alert($("#data_tune").val());
 
         var faction = "<?php echo site_url('main/edit_pepleResearchs/'); ?>";
@@ -399,8 +594,8 @@
             });
 
             table_peple($('#Rid_primary1').val());
-             $('#myModel').modal('hide');
-        
+            $('#myModel').modal('hide');
+
           }else{
 
            $.pnotify({
@@ -416,25 +611,25 @@
        }, 'json');
       }
     });
-    }
-  }
+               }
+             }
 
-function eidt_peple(peple_id){
+             function eidt_peple(peple_id){
 
-     actions = "edit";
-                console.log(actions);
-    var peple_id = peple_id;
-    $('#model_view').load("<?php echo base_url('main/edit_peples/');?>/"+peple_id);
-    $('#myModel').modal('show');
-  }
+               actions = "edit";
+               console.log(actions);
+               var peple_id = peple_id;
+               $('#model_view').load("<?php echo base_url('main/edit_peples/');?>/"+peple_id);
+               $('#myModel').modal('show');
+             }
 
-  function delete_peple(peple_id){
-    bootbox.confirm("ยืนยันการลบ?", function(result) {
-        if(result){
+             function delete_peple(peple_id){
+              bootbox.confirm("ยืนยันการลบ?", function(result) {
+                if(result){
         //alert($("#data_tune").val());
 
         var faction = "<?php echo site_url('main/delete_pepleResearchs/'); ?>";
-         var fdata = {id: peple_id};
+        var fdata = {id: peple_id};
 
         
 
@@ -452,7 +647,7 @@ function eidt_peple(peple_id){
 
             table_peple($('#Rid_primary1').val());
             
-        
+
           }else{
 
            $.pnotify({
@@ -469,5 +664,396 @@ function eidt_peple(peple_id){
       }
     });
 
-  }
-            </script>
+            }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+function table_print(researchId){
+
+                var a = researchId;
+                //alert(a);
+                var sdata = {
+                  id:researchId
+                };
+                var page = '<?php echo site_url('main/show_print_table');?>';
+                //alert(page);
+
+                $.ajax({
+                  type: "POST",
+                  url: page,
+                  data: sdata
+                }).done(function(data) {
+                  $('#tableprint').html(data);
+                });
+
+
+
+              }
+
+
+              function btn_addprint(){
+                actions = "add";
+                console.log(actions);
+                load_view = "1";
+                var rid = $('#Rid_primary1').val();
+                $('#model_view2').load("<?php echo base_url('main/add_print/');?>/"+load_view+"/"+rid);
+                $('#myModel2').modal('show');
+              }
+
+              function btn_insertPrint(){
+
+
+                if(actions == "add"){
+                  bootbox.confirm("ยืนยันการเพิ่มการเผยแพร่?", function(result) {
+                    if(result){
+        //alert($("#data_tune").val());
+
+        var faction = "<?php echo site_url('main/insert_printResearchs/'); ?>";
+        var fdata = $("#formPrint").serialize();
+
+        
+
+        $.post(faction, fdata, function(jdata) {
+
+          if (jdata.is_successful) {
+            $.pnotify({
+              title: 'แจ้งให้ทราบ!',
+              text: jdata.msg,
+              type: 'success',
+              opacity: 1,
+              history: false
+
+            });
+
+            table_print($('#Rid_peple').val());
+            $('#myModel2').modal('hide');
+
+          }else{
+
+           $.pnotify({
+            title: 'เตือน!',
+            text: jdata.msg,
+            type: 'error',
+            opacity: 1,
+            history: false
+          });
+
+         }
+
+       }, 'json');
+      }
+    });
+                }else if(actions == "edit"){
+                 bootbox.confirm("ยืนยันการแก้ไข?", function(result) {
+                  if(result){
+        //alert($("#data_tune").val());
+
+        var faction = "<?php echo site_url('main/edit_printResearchs/'); ?>";
+        var fdata = $("#formPrint").serialize();
+
+        
+
+        $.post(faction, fdata, function(jdata) {
+
+          if (jdata.is_successful) {
+            $.pnotify({
+              title: 'แจ้งให้ทราบ!',
+              text: jdata.msg,
+              type: 'success',
+              opacity: 1,
+              history: false
+
+            });
+
+             table_print($('#Rid_primary1').val());
+            $('#myModel2').modal('hide');
+            console.log($('#Rid_peple').val());
+
+          }else{
+
+           $.pnotify({
+            title: 'เตือน!',
+            text: jdata.msg,
+            type: 'error',
+            opacity: 1,
+            history: false
+          });
+
+         }
+
+       }, 'json');
+      }
+    });
+               }
+             }
+
+        function eidt_print(peple_id){
+
+               actions = "edit";
+               console.log(actions);
+               var peple_id = peple_id;
+               $('#model_view2').load("<?php echo base_url('main/edit_print/');?>/"+peple_id);
+               $('#myModel2').modal('show');
+             }
+
+        function delete_print(peple_id){
+              bootbox.confirm("ยืนยันการลบ?", function(result) {
+                if(result){
+        //alert($("#data_tune").val());
+
+        var faction = "<?php echo site_url('main/delete_printResearchs/'); ?>";
+        var fdata = {id: peple_id};
+
+        
+
+        $.post(faction, fdata, function(jdata) {
+
+          if (jdata.is_successful) {
+            $.pnotify({
+              title: 'แจ้งให้ทราบ!',
+              text: jdata.msg,
+              type: 'success',
+              opacity: 1,
+              history: false
+
+            });
+
+            table_print($('#Rid_primary1').val());
+            
+
+          }else{
+
+           $.pnotify({
+            title: 'เตือน!',
+            text: jdata.msg,
+            type: 'error',
+            opacity: 1,
+            history: false
+          });
+
+         }
+
+       }, 'json');
+      }
+    });
+
+            }
+
+
+//3///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function table_link(researchId){
+
+                var a = researchId;
+                //alert(a);
+                var sdata = {
+                  id:researchId
+                };
+                var page = '<?php echo site_url('main/show_link_table');?>';
+                //alert(page);
+
+                $.ajax({
+                  type: "POST",
+                  url: page,
+                  data: sdata
+                }).done(function(data) {
+                  $('#tablelink').html(data);
+                });
+
+
+
+              }
+
+
+              function btn_addlink(){
+                actions = "add";
+                console.log(actions);
+                load_view = "1";
+                var rid = $('#Rid_primary1').val();
+                $('#model_view3').load("<?php echo base_url('main/add_link/');?>/"+load_view+"/"+rid);
+                $('#myModel3').modal('show');
+              }
+
+              function btn_insertLink(){
+
+
+                if(actions == "add"){
+                  bootbox.confirm("ยืนยันเพิ่มเอกสาร?", function(result) {
+                    if(result){
+        //alert($("#data_tune").val());
+
+        var faction = "<?php echo site_url('main/insert_linkResearchs/'); ?>";
+        var formData =  new FormData($('#formLink')[0]);
+
+        
+        $.ajax({
+          url: faction,
+          type: 'POST',
+          data: formData,
+          mimeType: "multipart/form-data",
+          contentType: false,
+          cache: false,
+          processData: false,
+          success: function(data) {
+
+            var posts = JSON.parse(data);
+            console.log(posts);
+
+
+            if (posts.is_successful) {
+              $.pnotify({
+                title: 'แจ้งให้ทราบ!',
+                text: posts.msg,
+                type: 'success',
+                opacity: 2,
+                history: false
+              });
+
+                table_link($('#Rid_peple').val());
+                $('#myModel3').modal('hide');
+           
+            } else {
+              $.pnotify({
+                title: 'เตือน!',
+                text: posts.msg,
+                type: 'error',
+                opacity: 2,
+                history: false
+              });
+            }
+            //viewdataType(sid, page);
+
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+                    //handle here error returned
+                    $.pnotify({
+                title: 'เตือน!',
+                text: 'ผิดพลาด',
+                type: 'error',
+                opacity: 2,
+                history: false
+              });
+                }
+            });
+
+       
+      }
+    });
+                }else if(actions == "edit"){
+                 bootbox.confirm("ยืนยันการแก้ไข?", function(result) {
+                  if(result){
+        //alert($("#data_tune").val());
+
+        var faction = "<?php echo site_url('main/edit_linkResearchs/'); ?>";
+        var formData =  new FormData($('#formLink')[0]);
+
+        $.ajax({
+          url: faction,
+          type: 'POST',
+          data: formData,
+          mimeType: "multipart/form-data",
+          contentType: false,
+          cache: false,
+          processData: false,
+          success: function(data) {
+
+            var posts = JSON.parse(data);
+            console.log(posts);
+
+
+            if (posts.is_successful) {
+              $.pnotify({
+                title: 'แจ้งให้ทราบ!',
+                text: posts.msg,
+                type: 'success',
+                opacity: 2,
+                history: false
+              });
+
+                table_link($('#Rid_primary1').val());
+                $('#myModel3').modal('hide');
+           
+            } else {
+              $.pnotify({
+                title: 'เตือน!',
+                text: posts.msg,
+                type: 'error',
+                opacity: 2,
+                history: false
+              });
+            }
+            //viewdataType(sid, page);
+
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+                    //handle here error returned
+                    $.pnotify({
+                title: 'เตือน!',
+                text: 'ผิดพลาด',
+                type: 'error',
+                opacity: 2,
+                history: false
+              });
+                }
+            });
+
+       
+      }
+    });
+               }
+             }
+
+        function eidt_link(peple_id){
+
+               actions = "edit";
+               console.log(actions);
+               var peple_id = peple_id;
+               $('#model_view3').load("<?php echo base_url('main/edit_link/');?>/"+peple_id);
+               $('#myModel3').modal('show');
+             }
+
+        function delete_link(peple_id){
+              bootbox.confirm("ยืนยันการลบ?", function(result) {
+                if(result){
+        //alert($("#data_tune").val());
+
+        var faction = "<?php echo site_url('main/delete_linkResearchs/'); ?>";
+        var fdata = {id: peple_id};
+
+        
+
+        $.post(faction, fdata, function(jdata) {
+
+          if (jdata.is_successful) {
+            $.pnotify({
+              title: 'แจ้งให้ทราบ!',
+              text: jdata.msg,
+              type: 'success',
+              opacity: 1,
+              history: false
+
+            });
+
+            table_link($('#Rid_primary1').val());
+            
+
+          }else{
+
+           $.pnotify({
+            title: 'เตือน!',
+            text: jdata.msg,
+            type: 'error',
+            opacity: 1,
+            history: false
+          });
+
+         }
+
+       }, 'json');
+      }
+    });
+
+            }
+          </script>
