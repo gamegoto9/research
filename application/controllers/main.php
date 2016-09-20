@@ -1477,6 +1477,86 @@ function edit_img(){
 }
 
 
+public function update_kortone(){
+
+
+    $this->load->library('form_validation');
+
+    $tId = $this->input->post('tId');
+    $year = $this->input->post('year');
+    $type = $this->input->post('type_re');
+    
+    if(empty($year) || empty($tId) || empty($type)){
+
+        if($year == ""){
+            $this->form_validation->set_rules('year', 'ปีงบประมาณ', 'required');
+
+        }else if($tId == ""){
+            $this->form_validation->set_rules('tune', 'ปรเภททุนที่ขอ', 'required');
+
+        }else if($type == ""){
+             $this->form_validation->set_rules('type', 'ปรเภทงานวิจัย', 'required');
+        }
+    }
+    $this->form_validation->set_rules('name_re', 'ขื่องานวิจัย', 'required');
+    $this->form_validation->set_rules('name_en_re', 'ชื่องานวิจัย อังกฤษ', 'required');
+
+    $this->form_validation->set_rules('researchId', 'รหัสโครการงานวิจัย', 'required');
+    $this->form_validation->set_rules('price', 'งบประมาณ', 'required');
+
+    $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+
+
+    if ($this->form_validation->run() == FALSE) {
+
+
+     $msg = form_error('name_re');
+
+     $msg.= form_error('name_en_re');
+
+     $msg.= form_error('year');
+     $msg.= form_error('tune');
+     $msg.= form_error('type');
+     $msg.= form_error('researchId');
+     $msg.= form_error('price');
+
+
+
+     echo json_encode(array(
+        'is_successful' => FALSE,
+        'msg' => $msg
+        ));
+ } else {
+
+    $idResearch = $this->input->post('researchId');
+
+    $data['researchName'] = $this->input->post('name_re');
+    $data['researchName_en'] = $this->input->post('name_en_re');
+    
+    $data['price'] = $this->input->post('price');
+    
+
+    
+    $data['tId'] = $this->input->post('tId');
+    $data['typebotkoum'] = $this->input->post('type_re');
+    $data['researchYear'] = $this->input->post('year');
+
+     //$data['date'] = date("Y-m-d");
+
+        // $sql = "insert into research (researchName,tId,sMenuId,researchName_en,researchPeple,researchYear,researchData_standard,researchData_print,researchData_work,uId,date) values ('nameTh','$tId','$sMenuId','$nameEn','$nickName','$year','$txtStandard','$txtPrint','$txtWork','$uId','$ddate')";
+        // $result = $this->db->query($sql);
+    $this->db->where('researchId',$idResearch);
+
+    if($this->db->update('research', $data)){
+
+        echo json_encode(array(
+            'is_successful' => TRUE,
+            'msg' => 'แก้ไขข้อมูลเรียบร้อย'
+            ));
+    }
+}
+}
+
 public function update_botkoum(){
 
 
@@ -1706,6 +1786,7 @@ public function insert_kortone(){
     $data['researchYear'] = $this->input->post('year');
 
     $data['kortone'] = "1";
+    $data['sMenuId'] = "2";
 
      //$data['date'] = date("Y-m-d");
 
@@ -2143,7 +2224,7 @@ public function search_Researchs(){
     public function add_botkoum(){
 
         $uId = $this->session->userdata('uId');
-        $sql = "select * from mainmenu";
+        $sql = "select * from typeresearch";
 
         $data['nameMains'] =  $this->db->query($sql)->result_array();
 
@@ -2169,7 +2250,7 @@ public function search_Researchs(){
     public function add_kortone(){
 
         $uId = $this->session->userdata('uId');
-        $sql = "select * from mainmenu";
+        $sql = "select * from typeresearch";
 
         $data['nameMains'] =  $this->db->query($sql)->result_array();
 
@@ -2196,12 +2277,38 @@ public function search_Researchs(){
 
     }
 
+    public function edit_kortone($researchId){
+
+
+        $uId = $this->session->userdata('uId');
+        $sql = "select * from typeresearch";
+
+        $data['nameMains'] =  $this->db->query($sql)->result_array();
+
+       
+
+        $sql = "select tYear 
+        from tune
+        group by tyear";
+        $data['tune_years'] =  $this->db->query($sql)->result_array();
+
+
+        $sql = "select * 
+        from research
+        where researchId = '$researchId'";
+        $data['researchs1'] =  $this->db->query($sql)->row_array();
+
+
+        $data['viewview'] = "2";
+        $this->load->view('research/kortone/add_kortone_form1',$data);
+
+    }
 
     public function edit_botkoum($researchId){
 
 
         $uId = $this->session->userdata('uId');
-        $sql = "select * from mainmenu";
+        $sql = "select * from typeresearch";
 
         $data['nameMains'] =  $this->db->query($sql)->result_array();
 

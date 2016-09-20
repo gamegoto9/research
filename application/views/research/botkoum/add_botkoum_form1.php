@@ -857,7 +857,7 @@ function table_link(researchId){
                         foreach ($nameMains as $nameMain){
 
                           ?>
-                          <option value="<?php echo $nameMain['mMenuId']; ?>"><?php echo $nameMain['mMenuName']; ?></option>
+                          <option value="<?php echo $nameMain['typeId']; ?>"><?php echo $nameMain['typeName']; ?></option>
 
                           <?php   
 
@@ -1019,8 +1019,8 @@ function table_link(researchId){
 <script>
   $(document).ready(function() {
     $('#Rid').prop('disabled', 'disabled');
-    $('#data_tune').val('<?php echo $researchs1['typebotkoum']; ?>');
-    $('#data_year').val('<?php echo $researchs1['researchYear']; ?>');
+    $('.modal-body #data_tune').val('<?php echo $researchs1['typebotkoum']; ?>');
+    $('.modal-body #data_year').val('<?php echo $researchs1['researchYear']; ?>');
    
     
 
@@ -1114,7 +1114,7 @@ function table_link(researchId){
                         foreach ($nameMains as $nameMain){
 
                           ?>
-                          <option value="<?php echo $nameMain['mMenuId']; ?>"><?php echo $nameMain['mMenuName']; ?></option>
+                          <option value="<?php echo $nameMain['typeId']; ?>"><?php echo $nameMain['typeName']; ?></option>
 
                           <?php   
 

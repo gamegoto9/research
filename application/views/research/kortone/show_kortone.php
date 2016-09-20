@@ -133,8 +133,7 @@
     // $('#showTableData').load("<?php echo base_url('main/show_data_research/');?>");
    btnSeR();
 
-
-
+   
     
   });
 
@@ -159,7 +158,8 @@
 
   function eidt_researchs(researchId){
     var id = researchId;
-    $('#model_viewMain').load("<?php echo base_url('main/edit_botkoum/')?>/"+id);
+    $('#model_viewMain').load("<?php echo base_url('main/edit_kortone/')?>/"+id);
+    //$('#main_view').load("<?php echo base_url('main/edit_kortone/')?>/"+id);
     //$('#main_view2').html('');
     $('#myModelMain').modal('show');
   }

@@ -9,17 +9,17 @@ $conf = 0;
 <!--  <div id="tablepeple"></div> -->
 <table>
 	<thead>
-		<th>ลำดับ</th>
-		<th>รายการ</th>
-		<th>สถานะ</th>
+		<th width="50"><center>ลำดับ</center></th>
+		<th><center>รายการ</center></th>
+		<th width="50"><center>สถานะ</center></th>
 		
 	</thead>
 	<tbody>
 		
 		<tr>
-			<td>1</td>
+			<td><center>1</center></td>
 			<td>ข้อมูลทั่วไปของโครงการวิจัย</td>
-			<td>
+			<td><center>
 				<?php if(isset($researchs['researchId']) && isset($researchs['researchName']) && isset($researchs['tId']) && isset($researchs['researchName_en']) && isset($researchs['typebotkoum']) && isset($researchs['researchYear']) && isset($researchs['price'])){
 					?>
 
@@ -35,14 +35,14 @@ $conf = 0;
 				}
 				?>
 				
-			</td>
+			</center></td>
 			
 			
 		</tr>
 		<tr>
-			<td>2</td>
+			<td><center>2</center></td>
 			<td>นักวิจัย/ผู้ร่วมวิจัย</td>
-			<td>
+			<td><center>
 				<?php if($peples > 0){
 					?>
 
@@ -57,14 +57,14 @@ $conf = 0;
 				}
 				?>
 				
-			</td>
+			</center></td>
 			
 			
 		</tr>
 		<tr>
-			<td>3</td>
+			<td><center>3</center></td>
 			<td>ความเป็นมา/วัตถุประสงค์</td>
-			<td>
+			<td><center>
 				<?php if(isset($researchs['researchData_standard'])){
 					?>
 
@@ -79,15 +79,15 @@ $conf = 0;
 				}
 				?>
 				
-			</td>
+			</center></td>
 			
 			
 		</tr>
 
 		<tr>
-			<td>4</td>
+			<td><center>4</center></td>
 			<td>เอกสารแนบ</td>
-			<td>
+			<td><center>
 				<?php if($links > 0){
 					?>
 
@@ -102,7 +102,7 @@ $conf = 0;
 				}
 				?>
 				
-			</td>
+			</center></td>
 			
 			
 		</tr>
@@ -112,8 +112,9 @@ $conf = 0;
 
 <div class="form-group" >
 	<div class="modal-footer">
-
+		
 		<button type="button" class="btn btn-warning" id="summ" name="summ" onclick="btn_conf();">ยืนยัน</button>
+		
 	</div>
 </div>
 
@@ -160,6 +161,9 @@ $conf = 0;
 
         		
         		show_kortone();
+
+        		$('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
 
         	}else{
 

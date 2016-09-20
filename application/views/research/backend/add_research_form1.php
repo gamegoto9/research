@@ -1008,14 +1008,16 @@ function table_link(researchId){
 <script>
   $(document).ready(function() {
     $('#Rid').prop('disabled', 'disabled');
-    $('#data_year').val('<?php echo $researchs1['researchYear']; ?>').change();
+    $('.modal-body #data_year').val('<?php echo $researchs1['researchYear']; ?>');
+    //$('.modal-body #data_tune').val('<?php echo $researchs1['tId']; ?>');
     getDataTone();
     
 
-    $('#data_year').change(function() {
+    $('.modal-body #data_year').change(function() {
         getDataTone();
 
    });
+
     $('#data_tune').change(function() {
      $("#detial :input").attr("disabled", false);
      $("#detial2 :input").attr("disabled", false);
@@ -1031,7 +1033,7 @@ function table_link(researchId){
      //alert($("#data_year").val());
      var faction = "<?php echo site_url('main/select_money/'); ?>";
 
-     var fdata = {id: $("#data_year").val()};
+     var fdata = {id: $(".modal-body #data_year").val()};
 
      $.post(faction, fdata, function(jdata) {
 
@@ -1070,7 +1072,7 @@ function table_link(researchId){
     }, 'json');
   }
   console.log('<?php echo $researchs1['tId']; ?>');
-  $('#data_tune').val('<?php echo $researchs1['tId']; ?>');
+  
 
 </script>
 
