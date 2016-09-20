@@ -1477,6 +1477,338 @@ function edit_img(){
 }
 
 
+public function update_botkoum(){
+
+
+    $this->load->library('form_validation');
+
+    $tId = $this->input->post('tId');
+    $year = $this->input->post('year');
+    
+    if(empty($year)){
+
+        if($year == ""){
+            $this->form_validation->set_rules('year', 'ปีงบประมาณ', 'required');
+            $this->form_validation->set_rules('tune', 'ปรเภทงานวิจัย', 'required');
+            // echo json_encode(array(
+            //     'is_successful' => FALSE,
+            //     'msg' => $year
+            //     ));
+            // exit();
+        }
+    }
+    $this->form_validation->set_rules('name_re', 'ขื่องานวิจัย', 'required');
+    $this->form_validation->set_rules('name_en_re', 'ชื่องานวิจัย อังกฤษ', 'required');
+
+    $this->form_validation->set_rules('researchId', 'รหัสโครการงานวิจัย', 'required');
+    $this->form_validation->set_rules('price', 'งบประมาณ', 'required');
+
+    $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+
+
+    if ($this->form_validation->run() == FALSE) {
+
+
+     $msg = form_error('name_re');
+
+     $msg.= form_error('name_en_re');
+
+     $msg.= form_error('year');
+     $msg.= form_error('tune');
+     $msg.= form_error('researchId');
+     $msg.= form_error('price');
+
+
+
+     echo json_encode(array(
+        'is_successful' => FALSE,
+        'msg' => $msg
+        ));
+ } else {
+
+    $idResearch = $this->input->post('researchId');
+
+    $data['researchName'] = $this->input->post('name_re');
+    $data['researchName_en'] = $this->input->post('name_en_re');
+    
+    $data['price'] = $this->input->post('price');
+    
+
+    
+    $data['typebotkoum'] = $this->input->post('tId');
+    $data['researchYear'] = $this->input->post('year');
+
+     //$data['date'] = date("Y-m-d");
+
+        // $sql = "insert into research (researchName,tId,sMenuId,researchName_en,researchPeple,researchYear,researchData_standard,researchData_print,researchData_work,uId,date) values ('nameTh','$tId','$sMenuId','$nameEn','$nickName','$year','$txtStandard','$txtPrint','$txtWork','$uId','$ddate')";
+        // $result = $this->db->query($sql);
+    $this->db->where('researchId',$idResearch);
+
+    if($this->db->update('research', $data)){
+
+        echo json_encode(array(
+            'is_successful' => TRUE,
+            'msg' => 'แก้ไขข้อมูลเรียบร้อย'
+            ));
+    }
+}
+}
+
+public function update_rerearchs(){
+
+
+    $this->load->library('form_validation');
+
+    $tId = $this->input->post('tId');
+    $year = $this->input->post('year');
+    
+    if(empty($year)){
+
+        if($year == ""){
+            $this->form_validation->set_rules('year', 'ปีงบประมาณ', 'required');
+            $this->form_validation->set_rules('tune', 'ปรเภทงานวิจัย', 'required');
+            // echo json_encode(array(
+            //     'is_successful' => FALSE,
+            //     'msg' => $year
+            //     ));
+            // exit();
+        }
+    }
+    $this->form_validation->set_rules('name_re', 'ขื่องานวิจัย', 'required');
+    $this->form_validation->set_rules('name_en_re', 'ชื่องานวิจัย อังกฤษ', 'required');
+
+    $this->form_validation->set_rules('researchId', 'รหัสโครการงานวิจัย', 'required');
+    $this->form_validation->set_rules('price', 'งบประมาณ', 'required');
+
+    $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+
+
+    if ($this->form_validation->run() == FALSE) {
+
+
+     $msg = form_error('name_re');
+
+     $msg.= form_error('name_en_re');
+
+     $msg.= form_error('year');
+     $msg.= form_error('tune');
+     $msg.= form_error('researchId');
+     $msg.= form_error('price');
+
+
+
+     echo json_encode(array(
+        'is_successful' => FALSE,
+        'msg' => $msg
+        ));
+ } else {
+
+    $idResearch = $this->input->post('researchId');
+
+    $data['researchName'] = $this->input->post('name_re');
+    $data['researchName_en'] = $this->input->post('name_en_re');
+    
+    $data['price'] = $this->input->post('price');
+    
+
+    
+    $data['tId'] = $this->input->post('tId');
+    $data['researchYear'] = $this->input->post('year');
+
+     //$data['date'] = date("Y-m-d");
+
+        // $sql = "insert into research (researchName,tId,sMenuId,researchName_en,researchPeple,researchYear,researchData_standard,researchData_print,researchData_work,uId,date) values ('nameTh','$tId','$sMenuId','$nameEn','$nickName','$year','$txtStandard','$txtPrint','$txtWork','$uId','$ddate')";
+        // $result = $this->db->query($sql);
+    $this->db->where('researchId',$idResearch);
+
+    if($this->db->update('research', $data)){
+
+        echo json_encode(array(
+            'is_successful' => TRUE,
+            'msg' => 'แก้ไขข้อมูลเรียบร้อย'
+            ));
+    }
+}
+}
+
+public function insert_kortone(){
+
+
+    $this->load->library('form_validation');
+
+    $tId = $this->input->post('tId');
+    $year = $this->input->post('year');
+    $type = $this->input->post('type_re');
+    
+    if(empty($year)){
+
+        if($year == ""){
+            $this->form_validation->set_rules('year', 'ปีงบประมาณ', 'required');
+        }
+    }
+
+    if(empty($tId)){
+        if($tId == ""){
+            
+            $this->form_validation->set_rules('tune', 'ทุนที่ต้องการขอ', 'required');
+        }
+        
+    }
+
+    if(empty($type)){
+        if($type == ""){
+            
+            $this->form_validation->set_rules('type', 'ปรเภทงานวิจัย', 'required');
+        }
+        
+    }
+    $this->form_validation->set_rules('name_re', 'ขื่องานวิจัย', 'required');
+    $this->form_validation->set_rules('name_en_re', 'ชื่องานวิจัย อังกฤษ', 'required');
+
+    $this->form_validation->set_rules('researchId', 'รหัสโครการงานวิจัย', 'required');
+    $this->form_validation->set_rules('price', 'งบประมาณ', 'required');
+
+    $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+
+
+    if ($this->form_validation->run() == FALSE) {
+
+
+     $msg = form_error('name_re');
+
+     $msg.= form_error('name_en_re');
+
+     $msg.= form_error('year');
+     $msg.= form_error('tune');
+     $msg.= form_error('type');
+     $msg.= form_error('researchId');
+     $msg.= form_error('price');
+
+
+
+     echo json_encode(array(
+        'is_successful' => FALSE,
+        'msg' => $msg
+        ));
+ } else {
+
+
+
+    $data['researchName'] = $this->input->post('name_re');
+    $data['researchName_en'] = $this->input->post('name_en_re');
+    
+    $data['price'] = $this->input->post('price');
+    $data['researchId'] = $this->input->post('researchId');
+
+    $data['uId'] = $this->session->userdata('uId');
+    $data['typebotkoum'] = $this->input->post('type_re');
+    $data['tId'] = $this->input->post('tId');
+    $data['researchYear'] = $this->input->post('year');
+
+    $data['kortone'] = "1";
+
+     //$data['date'] = date("Y-m-d");
+
+        // $sql = "insert into research (researchName,tId,sMenuId,researchName_en,researchPeple,researchYear,researchData_standard,researchData_print,researchData_work,uId,date) values ('nameTh','$tId','$sMenuId','$nameEn','$nickName','$year','$txtStandard','$txtPrint','$txtWork','$uId','$ddate')";
+        // $result = $this->db->query($sql);
+
+
+    if($this->db->insert('research', $data)){
+
+        $sql = "insert into researchpeple values('0','".$data['researchId']."','".$data['uId']."','หัวหน้าโครงการวิจัย')";
+        $result = $this->db->query($sql);
+
+        echo json_encode(array(
+            'is_successful' => TRUE,
+            'msg' => 'บันทึกข้อมูลเรียบร้อย'
+            ));
+    }
+}
+}
+
+public function insert_botkoum(){
+
+
+    $this->load->library('form_validation');
+
+    $tId = $this->input->post('tId');
+    $year = $this->input->post('year');
+    
+    if(empty($year)){
+
+        if($year == ""){
+            $this->form_validation->set_rules('year', 'ปีงบประมาณ', 'required');
+        }
+    }
+
+    if(empty($tId)){
+        if($tId == ""){
+            
+            $this->form_validation->set_rules('tune', 'ปรเภทงานวิจัย', 'required');
+        }
+        
+    }
+    $this->form_validation->set_rules('name_re', 'ขื่องานวิจัย', 'required');
+    $this->form_validation->set_rules('name_en_re', 'ชื่องานวิจัย อังกฤษ', 'required');
+
+    $this->form_validation->set_rules('researchId', 'รหัสโครการงานวิจัย', 'required');
+    $this->form_validation->set_rules('price', 'งบประมาณ', 'required');
+
+    $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+
+
+    if ($this->form_validation->run() == FALSE) {
+
+
+     $msg = form_error('name_re');
+
+     $msg.= form_error('name_en_re');
+
+     $msg.= form_error('year');
+     $msg.= form_error('tune');
+     $msg.= form_error('researchId');
+     $msg.= form_error('price');
+
+
+
+     echo json_encode(array(
+        'is_successful' => FALSE,
+        'msg' => $msg
+        ));
+ } else {
+
+
+
+    $data['researchName'] = $this->input->post('name_re');
+    $data['researchName_en'] = $this->input->post('name_en_re');
+    
+    $data['price'] = $this->input->post('price');
+    $data['researchId'] = $this->input->post('researchId');
+
+    $data['uId'] = $this->session->userdata('uId');
+    $data['typebotkoum'] = $this->input->post('tId');
+    $data['researchYear'] = $this->input->post('year');
+
+    $data['sMenuId'] = "4";
+
+     //$data['date'] = date("Y-m-d");
+
+        // $sql = "insert into research (researchName,tId,sMenuId,researchName_en,researchPeple,researchYear,researchData_standard,researchData_print,researchData_work,uId,date) values ('nameTh','$tId','$sMenuId','$nameEn','$nickName','$year','$txtStandard','$txtPrint','$txtWork','$uId','$ddate')";
+        // $result = $this->db->query($sql);
+
+
+    if($this->db->insert('research', $data)){
+
+        $sql = "insert into researchpeple values('0','".$data['researchId']."','".$data['uId']."','หัวหน้าโครงการวิจัย')";
+        $result = $this->db->query($sql);
+
+        echo json_encode(array(
+            'is_successful' => TRUE,
+            'msg' => 'บันทึกข้อมูลเรียบร้อย'
+            ));
+    }
+}
+}
 
 public function insert_rerearchs(){
 
@@ -1539,22 +1871,24 @@ public function insert_rerearchs(){
     $data['tId'] = $this->input->post('tId');
     $data['researchYear'] = $this->input->post('year');
 
+    $data['sMenuId'] = "1";
+
      //$data['date'] = date("Y-m-d");
 
         // $sql = "insert into research (researchName,tId,sMenuId,researchName_en,researchPeple,researchYear,researchData_standard,researchData_print,researchData_work,uId,date) values ('nameTh','$tId','$sMenuId','$nameEn','$nickName','$year','$txtStandard','$txtPrint','$txtWork','$uId','$ddate')";
         // $result = $this->db->query($sql);
 
 
-     if($this->db->insert('research', $data)){
+    if($this->db->insert('research', $data)){
 
-    $sql = "insert into researchpeple values('0','".$data['researchId']."','".$data['uId']."','ผู้รับทุน (หัวหน้าโครงการวิจัย')";
-    $result = $this->db->query($sql);
+        $sql = "insert into researchpeple values('0','".$data['researchId']."','".$data['uId']."','ผู้รับทุน (หัวหน้าโครงการวิจัย')";
+        $result = $this->db->query($sql);
 
-    echo json_encode(array(
-        'is_successful' => TRUE,
-        'msg' => 'บันทึกข้อมูลเรียบร้อย'
-        ));
-     }
+        echo json_encode(array(
+            'is_successful' => TRUE,
+            'msg' => 'บันทึกข้อมูลเรียบร้อย'
+            ));
+    }
 }
 }
 public function show_link_table(){
@@ -1581,127 +1915,373 @@ public function show_print_table(){
 
     $this->load->view('research/backend/table_print_research',$data);
 }
-public function show_peple_table(){
-    $researchId = $this->input->post('id');
-    $sql ="SELECT
-    `user`.uName,
-    researchpeple.`status`,
-    researchpeple.researchPepleId
-    FROM
-    researchpeple
-    INNER JOIN `user` ON `user`.uId = researchpeple.uId
-    WHERE researchpeple.researchId = '$researchId'";
 
-    $data['peples'] =  $this->db->query($sql)->result_array();
+public function search_kortone(){
 
-    $this->load->view('research/backend/table_peple_research',$data);
-}
+   $uId = $this->session->userdata('uId');
+   $Nname = $this->input->post('Rname');
+   $year = $this->input->post('data_year');
+   $smenuid = $this->input->post('kortone');
 
+   if($Nname == "" && $year == ""){
+        $sql = "select * from research where uId = '$uId' and kortone = '$smenuid'";
+   }else if($Nname == "" && $year != ""){
+        $sql = "select * from research where uId = '$uId' and researchYear = '$year' and kortone = '$smenuid'";
+   }else if($year == "" && $Nname != ""){
+        $sql = "select * from research where uId = '$uId' and researchName LIKE '%$Nname%' and kortone = '$smenuid'";
+   }else{
+         $sql = "select * from research where uId = '$uId' 
+   and researchName LIKE '%$Nname%'
+   and researchYear = '$year'
+   and kortone = '$smenuid'";
+   }
+  
 
-public function add_researchs(){
-    $sql = "select sMenuId,sMenuName,submenu.mMenuId,mMenuName 
-    from submenu,mainmenu 
-    where submenu.mMenuId = mainmenu.mMenuId and
-    submenu.mMenuId = 1";
-    $data['projects'] =  $this->db->query($sql)->result_array();
-    $data['nameMain'] =  $this->db->query($sql)->row_array();
-
-    $sql = "SELECT MAX(researchId)+1 as maxId
-    FROM research_seq";
-
-    $data['maxid'] =  $this->db->query($sql)->row_array();
-    
+        $data['start_row'] = $this->input->post('page');
 
 
-    $this->load->view('research/backend/add_research_form',$data);
 
-}
+        if ($data['start_row'] != 0) {
+            $start = ($data['start_row'] - 1) * 20;
+        } else {
 
-public function add_toneResearchs(){
-    $sql = "select sMenuId,sMenuName,submenu.mMenuId,mMenuName 
-    from submenu,mainmenu 
-    where submenu.mMenuId = mainmenu.mMenuId and
-    submenu.mMenuId = 1";
-    $data['projects'] =  $this->db->query($sql)->result_array();
-    $data['nameMain'] =  $this->db->query($sql)->row_array();
+            $start = 0;
+        }
 
-    $sql = "SELECT MAX(researchId)+1 as maxId
-    FROM research_seq";
+        
 
-    $data['maxid'] =  $this->db->query($sql)->row_array();
+        
+        $data['total_row'] = $this->db->query($sql)->num_rows(); //นับแถวทั้งหมด   
 
-    $sql = "select tYear 
-    from tune
-    group by tyear";
-    $data['tune_years'] =  $this->db->query($sql)->result_array();
+        if($data['total_row'] > 0){
 
-    $sql = "select * 
-    from user
-    where statusId != '1'
-    order by uId";
-    $data['peples'] =  $this->db->query($sql)->result_array();
-    
+        $limit = 20;
 
-    $data['viewview'] = "1";
-    $this->load->view('research/backend/add_research_form1',$data);
+//Edit To Do --> ORDER BY id ให้เปลี่ยน field id เป็น field ที่ต้องการเรียงลำดับ
+        $sql = $sql . " LIMIT $limit OFFSET $start";
+       
+        $data['researchs'] =  $this->db->query($sql)->result_array();
 
-}
+        $this->load->view('research/kortone/show_table_kortone',$data);
+    }else{
+        echo "<center>+ + ไม่มีข้อมูล ที่ค้นหา + +</center>";
+    }
 
-public function edit_toneResearchs($researchId){
-    $sql = "select sMenuId,sMenuName,submenu.mMenuId,mMenuName 
-    from submenu,mainmenu 
-    where submenu.mMenuId = mainmenu.mMenuId and
-    submenu.mMenuId = 1";
-    $data['projects'] =  $this->db->query($sql)->result_array();
-    $data['nameMain'] =  $this->db->query($sql)->row_array();
+    }
+
+public function search_Researchs(){
+   $uId = $this->session->userdata('uId');
+   $Nname = $this->input->post('Rname');
+   $year = $this->input->post('data_year');
+   $smenuid = $this->input->post('smenu');
+
+   if($Nname == "" && $year == ""){
+        $sql = "select * from research where uId = '$uId' and sMenuId = '$smenuid'";
+   }else if($Nname == "" && $year != ""){
+        $sql = "select * from research where uId = '$uId' and researchYear = '$year' and sMenuId = '$smenuid'";
+   }else if($year == "" && $Nname != ""){
+        $sql = "select * from research where uId = '$uId' and researchName LIKE '%$Nname%' and sMenuId = '$smenuid'";
+   }else{
+         $sql = "select * from research where uId = '$uId' 
+   and researchName LIKE '%$Nname%'
+   and researchYear = '$year'
+   and sMenuId = '$smenuid'";
+   }
+   /*
+
+   $data['start_row'] = $this->uri->segment(3, '0');
+  
+        $data['total_row'] = $this->db->query($sql)->num_rows(); //นับแถวทั้งหมด     
+
+
+        if($data['total_row'] > 0){
+            $this->load->library('pagination');
+            $config['base_url'] = $('#showTableData').load("<?php echo base_url('main/search_Researchs/');?>");
+            $config['total_rows'] = $data['total_row'];
+            $config['per_page'] = 1;
+            $config['num_links'] = 2;
+            $config['uri_segment'] = 2;
+            $config['full_tag_open'] = '<div class="text-center"><ul class="pagination">';
+            $this->pagination->initialize($config);
+
+            $start = $data['start_row'];
+            $limit = $config['per_page'];
+
+//Edit To Do --> ORDER BY id ให้เปลี่ยน field id เป็น field ที่ต้องการเรียงลำดับ
+            $sql = $sql . " LIMIT $limit OFFSET $start";
+
+
+            $data['researchs'] =  $this->db->query($sql)->result_array();
+
+            $data['is_search'] = FALSE;
+            $data['txt_search'] = '';
+
+            $this->load->view('research/backend/show_table_researchs',$data);
+        }else{
+            echo "<center>+ + ไม่มีข้อมูล ที่ค้นหา + +</center>";
+
+        }
+        */
+
+        $data['start_row'] = $this->input->post('page');
+
+
+
+        if ($data['start_row'] != 0) {
+            $start = ($data['start_row'] - 1) * 20;
+        } else {
+
+            $start = 0;
+        }
+
+        
+
+        
+        $data['total_row'] = $this->db->query($sql)->num_rows(); //นับแถวทั้งหมด   
+
+        if($data['total_row'] > 0){
+
+        $limit = 20;
+
+//Edit To Do --> ORDER BY id ให้เปลี่ยน field id เป็น field ที่ต้องการเรียงลำดับ
+        $sql = $sql . " LIMIT $limit OFFSET $start";
+       
+        $data['researchs'] =  $this->db->query($sql)->result_array();
+
+        $this->load->view('research/backend/show_table_researchs',$data);
+    }else{
+        echo "<center>+ + ไม่มีข้อมูล ที่ค้นหา + +</center>";
+    }
+
+    }
+
+
+    public function show_peple_table(){
+        $researchId = $this->input->post('id');
+        $sql ="SELECT
+        `user`.uName,
+        researchpeple.`status`,
+        researchpeple.researchPepleId
+        FROM
+        researchpeple
+        INNER JOIN `user` ON `user`.uId = researchpeple.uId
+        WHERE researchpeple.researchId = '$researchId'";
+
+        $data['peples'] =  $this->db->query($sql)->result_array();
+
+        $this->load->view('research/backend/table_peple_research',$data);
+    }
+
+    public function show_status_table(){
+
+        $researchId = $this->input->post('id');
+
+       
+
+        $sql = "select * from research where researchId = '$researchId'";
+        $data['researchs'] =  $this->db->query($sql)->row_array();
+
+        $sql = "select * from researchpeple where researchId = '$researchId'";
+        $data['peples'] =  $this->db->query($sql)->num_rows();
+
+        $sql = "select * from researchlink where researchId = '$researchId'";
+        $data['links'] =  $this->db->query($sql)->num_rows();
+
+
+        $this->load->view('research/kortone/table_kortone_status',$data);
+    }
+
+
+    public function add_researchs(){
+        $sql = "select sMenuId,sMenuName,submenu.mMenuId,mMenuName 
+        from submenu,mainmenu 
+        where submenu.mMenuId = mainmenu.mMenuId and
+        submenu.mMenuId = 1";
+        $data['projects'] =  $this->db->query($sql)->result_array();
+        $data['nameMain'] =  $this->db->query($sql)->row_array();
+
+        $sql = "SELECT MAX(researchId)+1 as maxId
+        FROM research_seq";
+
+        $data['maxid'] =  $this->db->query($sql)->row_array();
+
+
+
+        $this->load->view('research/backend/add_research_form',$data);
+
+    }
+
+    public function add_toneResearchs(){
+        $sql = "select sMenuId,sMenuName,submenu.mMenuId,mMenuName 
+        from submenu,mainmenu 
+        where submenu.mMenuId = mainmenu.mMenuId and
+        submenu.mMenuId = 1";
+        $data['projects'] =  $this->db->query($sql)->result_array();
+        $data['nameMain'] =  $this->db->query($sql)->row_array();
+
+        $sql = "SELECT MAX(researchId)+1 as maxId
+        FROM research_seq";
+
+        $data['maxid'] =  $this->db->query($sql)->row_array();
+
+        $sql = "select tYear 
+        from tune
+        group by tyear";
+        $data['tune_years'] =  $this->db->query($sql)->result_array();
+
+        $sql = "select * 
+        from user
+        where statusId != '1'
+        order by uId";
+        $data['peples'] =  $this->db->query($sql)->result_array();
+
+
+        $data['viewview'] = "1";
+        $this->load->view('research/backend/add_research_form1',$data);
+
+    }
+    public function add_botkoum(){
+
+        $uId = $this->session->userdata('uId');
+        $sql = "select * from mainmenu";
+
+        $data['nameMains'] =  $this->db->query($sql)->result_array();
+
+        $sql = "SELECT MAX(researchId)+1 as maxId
+        FROM research_seq";
+
+        $data['maxid'] =  $this->db->query($sql)->row_array();
+
+        $sql = "select * from years";
+        $data['tune_years'] =  $this->db->query($sql)->result_array();
+
+        $sql = "select * 
+        from user
+        where statusId != '1' and uId != '$uId'
+        order by uId";
+        $data['peples'] =  $this->db->query($sql)->result_array();
+
+
+        $data['viewview'] = "1";
+        $this->load->view('research/botkoum/add_botkoum_form1',$data);
+
+    }
+    public function add_kortone(){
+
+        $uId = $this->session->userdata('uId');
+        $sql = "select * from mainmenu";
+
+        $data['nameMains'] =  $this->db->query($sql)->result_array();
+
+        $sql = "SELECT MAX(researchId)+1 as maxId
+        FROM research_seq";
+
+        $data['maxid'] =  $this->db->query($sql)->row_array();
+
+        $sql = "select tYear 
+        from tune
+        group by tyear";
+        $data['tune_years'] =  $this->db->query($sql)->result_array();
+
+        $sql = "select * 
+        from user
+        where statusId != '1' and uId != '$uId'
+        order by uId";
+        $data['peples'] =  $this->db->query($sql)->result_array();
+
+
+        $data['viewview'] = "1";
+
+        $this->load->view('research/kortone/add_kortone_form1',$data);
+
+    }
+
+
+    public function edit_botkoum($researchId){
+
+
+        $uId = $this->session->userdata('uId');
+        $sql = "select * from mainmenu";
+
+        $data['nameMains'] =  $this->db->query($sql)->result_array();
+
+
+
+        
+
+        $sql = "select * from years";
+        $data['tune_years'] =  $this->db->query($sql)->result_array();
+
+
+
+
+
+
+        $sql = "select * 
+        from research
+        where researchId = '$researchId'";
+        $data['researchs1'] =  $this->db->query($sql)->row_array();
+
+
+        $data['viewview'] = "2";
+        $this->load->view('research/botkoum/add_botkoum_form1',$data);
+
+    }
+    public function edit_toneResearchs($researchId){
+        $sql = "select sMenuId,sMenuName,submenu.mMenuId,mMenuName 
+        from submenu,mainmenu 
+        where submenu.mMenuId = mainmenu.mMenuId and
+        submenu.mMenuId = 1";
+        $data['projects'] =  $this->db->query($sql)->result_array();
+        $data['nameMain'] =  $this->db->query($sql)->row_array();
 
     // $sql = "SELECT MAX(researchId)+1 as maxId
     // FROM research_seq";
 
     // $data['maxid'] =  $this->db->query($sql)->row_array();
 
-    $sql = "select tYear 
-    from tune
-    group by tyear";
-    $data['tune_years'] =  $this->db->query($sql)->result_array();
+        $sql = "select tYear 
+        from tune
+        group by tyear";
+        $data['tune_years'] =  $this->db->query($sql)->result_array();
 
     // $sql = "select * 
     // from user
     // where statusId != '1'
     // order by uId";
     // $data['peples'] =  $this->db->query($sql)->result_array();
-    
-    $sql = "select * 
-    from research
-    where researchId = '$researchId'";
-    $data['researchs1'] =  $this->db->query($sql)->row_array();
+
+        $sql = "select * 
+        from research
+        where researchId = '$researchId'";
+        $data['researchs1'] =  $this->db->query($sql)->row_array();
 
 
-    $data['viewview'] = "2";
-    $this->load->view('research/backend/add_research_form1',$data);
+        $data['viewview'] = "2";
+        $this->load->view('research/backend/add_research_form1',$data);
 
-}
+    }
 
-public function add_link($view,$rid){
+    public function add_link($view,$rid){
 
 
         $data['view'] = "1";
         $data['rid'] = $rid;
-  
+
         $this->load->view('research/backend/insert_link_research',$data);
 
-}
-public function add_print($view,$rid){
+    }
+    public function add_print($view,$rid){
 
 
         $data['view'] = "1";
         $data['rid'] = $rid;
-  
-    $this->load->view('research/backend/insert_print_research',$data);
 
-}
-public function add_peples($view,$rid){
-   
+        $this->load->view('research/backend/insert_print_research',$data);
+
+    }
+    public function add_peples($view,$rid){
+
         $sql = "select * 
         from user
         where statusId != '1'
@@ -1710,99 +2290,99 @@ public function add_peples($view,$rid){
 
         $data['view'] = "1";
         $data['rid'] = $rid;
-  
-    $this->load->view('research/backend/insert_peple_research',$data);
-}
-public function edit_peples($peple_id){
+
+        $this->load->view('research/backend/insert_peple_research',$data);
+    }
+    public function edit_peples($peple_id){
 
      $sql = "select * 
-        from user
-        where statusId != '1'
-        order by uId";
-        $data['peples'] =  $this->db->query($sql)->result_array();
+     from user
+     where statusId != '1'
+     order by uId";
+     $data['peples'] =  $this->db->query($sql)->result_array();
 
 
      $sql = "select * 
-        from researchpeple
-        where researchPepleId = '".$peple_id."'";
-        $data['keypeple'] =  $this->db->query($sql)->row_array();
+     from researchpeple
+     where researchPepleId = '".$peple_id."'";
+     $data['keypeple'] =  $this->db->query($sql)->row_array();
 
-        $data['view'] = "2";
-  
-  
+     $data['view'] = "2";
+
+
      $this->load->view('research/backend/insert_peple_research',$data);
 
-}
+ }
 
-public function edit_link($peple_id){
+ public function edit_link($peple_id){
 
-  
+
      $sql = "select * 
-        from researchlink
-        where researchIdLink = '".$peple_id."'";
-        $data['keypeple'] =  $this->db->query($sql)->row_array();
+     from researchlink
+     where researchIdLink = '".$peple_id."'";
+     $data['keypeple'] =  $this->db->query($sql)->row_array();
 
-        $data['view'] = "2";
-  
-  
+     $data['view'] = "2";
+
+
      $this->load->view('research/backend/insert_link_research',$data);
 
-}
+ }
 
-public function edit_print($peple_id){
+ public function edit_print($peple_id){
 
-  
+
      $sql = "select * 
-        from researchprint
-        where researchIdPrint = '".$peple_id."'";
-        $data['keypeple'] =  $this->db->query($sql)->row_array();
+     from researchprint
+     where researchIdPrint = '".$peple_id."'";
+     $data['keypeple'] =  $this->db->query($sql)->row_array();
 
-        $data['view'] = "2";
-  
-  
+     $data['view'] = "2";
+
+
      $this->load->view('research/backend/insert_print_research',$data);
 
-}
+ }
 
-public function edit_linkResearchs(){
+ public function edit_linkResearchs(){
      $this->load->library('form_validation');
 
-    
-    $this->form_validation->set_rules('type_link', 'ประเภทเอกสาร', 'required');
-    $this->form_validation->set_rules('namelink', 'ชื่อเอกสาร', 'required');
+
+     $this->form_validation->set_rules('type_link', 'ประเภทเอกสาร', 'required');
+     $this->form_validation->set_rules('namelink', 'ชื่อเอกสาร', 'required');
     //$this->form_validation->set_rules('filelink', 'ไฟล์ข้อมูล', 'required');
-       
-    $this->form_validation->set_rules('Rid_peple', 'รหัสโครการงานวิจัย', 'required');
+
+     $this->form_validation->set_rules('Rid_peple', 'รหัสโครการงานวิจัย', 'required');
 
 
 
-    $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
+     $this->form_validation->set_message('required', 'กรุุณาป้อน %s');
 
 
-    if ($this->form_validation->run() == FALSE) {
+     if ($this->form_validation->run() == FALSE) {
 
 
-     $msg = form_error('Rid_peple');
+         $msg = form_error('Rid_peple');
 
-     $msg.= form_error('type_link');
-     $msg.= form_error('namelink');
+         $msg.= form_error('type_link');
+         $msg.= form_error('namelink');
      //$msg.= form_error('filelink');
 
-     echo json_encode(array(
-        'is_successful' => FALSE,
-        'msg' => $msg
-        ));
- } else {
+         echo json_encode(array(
+            'is_successful' => FALSE,
+            'msg' => $msg
+            ));
+     } else {
 
-     $id = $this->input->post('Rid_peple');
+         $id = $this->input->post('Rid_peple');
 
-  
-    $data['nameLink'] = $this->input->post('namelink');
-    $data['typeLink'] = $this->input->post('type_link');
 
-    $file1 = "";
+         $data['nameLink'] = $this->input->post('namelink');
+         $data['typeLink'] = $this->input->post('type_link');
 
-        foreach ($_FILES as $key => $value) {
+         $file1 = "";
+
+         foreach ($_FILES as $key => $value) {
             $config['upload_path'] = './assets/uploads/files';
             $part = $config['upload_path'];
             $config['allowed_types'] = '*';
@@ -1834,14 +2414,14 @@ public function edit_linkResearchs(){
                     // values ('$username','$password','$uName','$status','$uSubject','$uNote','$img')";
                     // $result = $this->db->query($sql);
 
-                     $this->db->where('researchIdLink',$id);
-                     if($this->db->update('researchlink', $data)){
+                    $this->db->where('researchIdLink',$id);
+                    if($this->db->update('researchlink', $data)){
 
                         echo json_encode(array(
                             'is_successful' => TRUE,
                             'msg' => 'บันทึกข้อมูลเรียบร้อย'
-                        ));
-                     }
+                            ));
+                    }
 
                     // echo json_encode(array(
                     //     'is_successful' => TRUE,
@@ -1855,26 +2435,26 @@ public function edit_linkResearchs(){
 
                 if($file1 == ""){
 
-                     $this->db->where('researchIdLink',$id);
-                     if($this->db->update('researchlink', $data)){
+                 $this->db->where('researchIdLink',$id);
+                 if($this->db->update('researchlink', $data)){
 
-                        echo json_encode(array(
-                            'is_successful' => TRUE,
-                            'msg' => 'บันทึกข้อมูลเรียบร้อย'
+                    echo json_encode(array(
+                        'is_successful' => TRUE,
+                        'msg' => 'บันทึกข้อมูลเรียบร้อย'
                         ));
-                     }
+                }
 
-                }else{
+            }else{
                 echo json_encode(array(
                     'is_successful' => FALSE,
                     'msg' => 'ไม่มีไฟล์หรือไฟล์ใหญ่เกินไป'
                     ));
             }
 
-            }
-
         }
-  
+
+    }
+
 } 
 }
 
@@ -1884,7 +2464,7 @@ public function edit_printResearchs(){
     
     $this->form_validation->set_rules('txtName', 'ขื่อผลงาน/แหล่งตีพิมพ์/เผยแพร่', 'required');
     $this->form_validation->set_rules('txttype', 'ประเภทการเผยแพร่', 'required');
-       
+
     $this->form_validation->set_rules('Rid_peple', 'รหัสอ้างอิง', 'required');
 
 
@@ -1963,7 +2543,7 @@ public function edit_pepleResearchs(){
 
     $id = $this->input->post('Rid_peple');
 
-   
+
     $data['uId'] = $this->input->post('data_peple');
     $data['status'] = $this->input->post('status_peple');
 
@@ -1993,14 +2573,14 @@ public function insert_data_standard_researchs(){
         'is_successful' => FALSE,
         'msg' => "กรุุณาป้อน ข้อมูลวัตถุประสงค์"
         ));
-   
+
    }else if($id == ""){
     echo json_encode(array(
         'is_successful' => FALSE,
         'msg' => "กรุุณาป้อน รหัสโครการงานวิจัย"
         ));
 
-   }else {
+}else {
 
 
 
@@ -2034,14 +2614,14 @@ public function insert_data_work_researchs(){
         'is_successful' => FALSE,
         'msg' => "กรุณาป้อน ข้อมูลการนำไปใช้ประโยชน์"
         ));
-   
+
    }else if($id == ""){
     echo json_encode(array(
         'is_successful' => FALSE,
         'msg' => "กรุณาป้อน รหัสโครการงานวิจัย"
         ));
 
-   }else {
+}else {
 
 
 
@@ -2060,48 +2640,59 @@ public function insert_data_work_researchs(){
 }
 
 }
+public function conf_kortone(){
+    $Id = $this->input->post('id');
 
+    $data['status_kortone'] = '1';
+    $this->db->where('researchId',$Id);
+    $this->db->update('research',$data); 
+
+    echo json_encode(array(
+        'is_successful' => TRUE,
+        'msg' => 'บันทึกการขอทุน เรียบร้อย'
+        ));
+}
 public function delete_linkResearchs(){
     $pepleId = $this->input->post('id');
 
-   $this->db->delete('researchlink', array('researchIdLink' => $pepleId)); 
+    $this->db->delete('researchlink', array('researchIdLink' => $pepleId)); 
 
     echo json_encode(array(
-            'is_successful' => TRUE,
-            'msg' => 'ลบเอกสารเรียบร้อย'
-            ));
+        'is_successful' => TRUE,
+        'msg' => 'ลบเอกสารเรียบร้อย'
+        ));
 }
 public function delete_printResearchs(){
     $pepleId = $this->input->post('id');
 
-   $this->db->delete('researchprint', array('researchIdPrint' => $pepleId)); 
+    $this->db->delete('researchprint', array('researchIdPrint' => $pepleId)); 
 
     echo json_encode(array(
-            'is_successful' => TRUE,
-            'msg' => 'ลบการเผยแพร่เรียบร้อย'
-            ));
+        'is_successful' => TRUE,
+        'msg' => 'ลบการเผยแพร่เรียบร้อย'
+        ));
 }
 
 public function delete_pepleResearchs(){
     $pepleId = $this->input->post('id');
 
-   $this->db->delete('researchpeple', array('researchPepleId' => $pepleId)); 
+    $this->db->delete('researchpeple', array('researchPepleId' => $pepleId)); 
 
     echo json_encode(array(
-            'is_successful' => TRUE,
-            'msg' => 'ลบนักวิจัยเรียบร้อย'
-            ));
+        'is_successful' => TRUE,
+        'msg' => 'ลบนักวิจัยเรียบร้อย'
+        ));
 }
 
 public function delete_Researchs(){
     $Id = $this->input->post('id');
 
-   $this->db->delete('research', array('researchId' => $Id)); 
+    $this->db->delete('research', array('researchId' => $Id)); 
 
     echo json_encode(array(
-            'is_successful' => TRUE,
-            'msg' => 'ลบงานวิจัยเรียบร้อย'
-            ));
+        'is_successful' => TRUE,
+        'msg' => 'ลบงานวิจัยเรียบร้อย'
+        ));
 }
 
 
@@ -2113,7 +2704,7 @@ public function insert_linkResearchs(){
     $this->form_validation->set_rules('type_link', 'ประเภทเอกสาร', 'required');
     $this->form_validation->set_rules('namelink', 'ชื่อเอกสาร', 'required');
     //$this->form_validation->set_rules('filelink', 'ไฟล์ข้อมูล', 'required');
-       
+
     $this->form_validation->set_rules('Rid_peple', 'รหัสโครการงานวิจัย', 'required');
 
 
@@ -2145,46 +2736,46 @@ public function insert_linkResearchs(){
 
     $file1 = "";
 
-        foreach ($_FILES as $key => $value) {
-            $config['upload_path'] = './assets/uploads/files';
-            $part = $config['upload_path'];
-            $config['allowed_types'] = '*';
-            $config['max_size'] = '20971520';
+    foreach ($_FILES as $key => $value) {
+        $config['upload_path'] = './assets/uploads/files';
+        $part = $config['upload_path'];
+        $config['allowed_types'] = '*';
+        $config['max_size'] = '20971520';
 
-            $config['overwrite'] = FALSE;
-            $config['remove_spaces'] = TRUE;
+        $config['overwrite'] = FALSE;
+        $config['remove_spaces'] = TRUE;
 
-            $this->load->library('upload', $config);
-            $this->upload->initialize($config);
+        $this->load->library('upload', $config);
+        $this->upload->initialize($config);
 
-            if (!empty($value['tmp_name']) && $value['size'] > 0) {
+        if (!empty($value['tmp_name']) && $value['size'] > 0) {
 
-                if (!$this->upload->do_upload($key)) {
-                    $msg = $this->upload->display_errors();
-                    echo json_encode(array(
-                        'is_successful' => FALSE,
-                        'msg' => $msg
-                        ));
+            if (!$this->upload->do_upload($key)) {
+                $msg = $this->upload->display_errors();
+                echo json_encode(array(
+                    'is_successful' => FALSE,
+                    'msg' => $msg
+                    ));
 
-                } else {
+            } else {
 
-                    $name = $this->upload->data();
+                $name = $this->upload->data();
 
-                    $file1 = base_url().'assets/uploads/files/'.$name['file_name'];
-                    $data['link'] = $file1;
+                $file1 = base_url().'assets/uploads/files/'.$name['file_name'];
+                $data['link'] = $file1;
 
                     // $sql = "insert into researchlink (researchIdLink,researchId,nameLink,typeLink,link) 
                     // values ('$username','$password','$uName','$status','$uSubject','$uNote','$img')";
                     // $result = $this->db->query($sql);
 
 
-                     if($this->db->insert('researchlink', $data)){
+                if($this->db->insert('researchlink', $data)){
 
-                        echo json_encode(array(
-                            'is_successful' => TRUE,
-                            'msg' => 'บันทึกข้อมูลเรียบร้อย'
+                    echo json_encode(array(
+                        'is_successful' => TRUE,
+                        'msg' => 'บันทึกข้อมูลเรียบร้อย'
                         ));
-                     }
+                }
 
                     // echo json_encode(array(
                     //     'is_successful' => TRUE,
@@ -2192,16 +2783,16 @@ public function insert_linkResearchs(){
                     //     // 'msg' => $name['file_name']
                     //     ));
 
-                }
-                
-            }else{
-                echo json_encode(array(
-                    'is_successful' => FALSE,
-                    'msg' => 'ไม่มีไฟล์หรือไฟล์ใหญ่เกินไป'
-                    ));
             }
 
+        }else{
+            echo json_encode(array(
+                'is_successful' => FALSE,
+                'msg' => 'ไม่มีไฟล์หรือไฟล์ใหญ่เกินไป'
+                ));
         }
+
+    }
 
 
 
@@ -2222,7 +2813,7 @@ public function insert_printResearchs(){
     
     $this->form_validation->set_rules('txtName', 'ขื่อผลงาน/แหล่งตีพิมพ์/เผยแพร่', 'required');
     $this->form_validation->set_rules('txttype', 'ประเภทการเผยแพร่', 'required');
-       
+
     $this->form_validation->set_rules('Rid_peple', 'รหัสโครการงานวิจัย', 'required');
 
 
@@ -2384,7 +2975,7 @@ public function show_data_research(){
 
 
     $data['start_row'] = $this->uri->segment(3, '0');
-        $sql = "select * from research where uId = '$uId'";
+    $sql = "select * from research where uId = '$uId'";
         $data['total_row'] = $this->db->query($sql)->num_rows(); //นับแถวทั้งหมด     
 
 
@@ -2405,48 +2996,76 @@ public function show_data_research(){
         $sql = $sql . " LIMIT $limit OFFSET $start";
 
 
-       $data['researchs'] =  $this->db->query($sql)->result_array();
+        $data['researchs'] =  $this->db->query($sql)->result_array();
 
         $data['is_search'] = FALSE;
         $data['txt_search'] = '';
 
 
 
-    $this->load->view('research/backend/show_table_researchs',$data);
-}
-public function show_toneResearchs(){
+        $this->load->view('research/backend/show_table_researchs',$data);
+    }
+    public function show_toneResearchs(){
 
-    $uId = $this->session->userdata('uId');
-    
-
-    $sql="select researchYear from research where uId = '$uId' group by researchYear ";
-    $data['years'] =  $this->db->query($sql)->result_array();
-
-    $sql="select count(*) as sum_research from research where uId = '$uId'";
-    $data['count'] =  $this->db->query($sql)->row_array();
-
-    $this->load->view('research/backend/show_researchs',$data);
-
-}
+        $uId = $this->session->userdata('uId');
 
 
-function th() {
-    $this->session->set_userdata('language', 'thai');
+        $sql="select researchYear from research where uId = '$uId' and sMenuId = '1' group by researchYear ";
+        $data['years'] =  $this->db->query($sql)->result_array();
 
-    redirect($this->session->userdata('LASTURL'));
-}
+        $sql="select count(*) as sum_research from research where uId = '$uId' and sMenuId = '1'";
+        $data['count'] =  $this->db->query($sql)->row_array();
 
-function en() {
-    $this->session->set_userdata('language', 'english');
+        $this->load->view('research/backend/show_researchs',$data);
+
+    }
+    public function show_botKoum(){
+
+        $uId = $this->session->userdata('uId');
 
 
-    redirect($this->session->userdata('LASTURL'));
-}
+        $sql="select researchYear from research where uId = '$uId' and sMenuId = '4' group by researchYear ";
+        $data['years'] =  $this->db->query($sql)->result_array();
 
-function ch() {
-    $this->session->set_userdata('language', 'chaina');
+        $sql="select count(*) as sum_research from research where uId = '$uId' and sMenuId = '4'";
+        $data['count'] =  $this->db->query($sql)->row_array();
 
-    redirect($this->session->userdata('LASTURL'));
-}
+        $this->load->view('research/botkoum/show_botKoum',$data);
+
+    }
+    public function show_kortone(){
+
+        $uId = $this->session->userdata('uId');
+
+
+        $sql="select researchYear from research where uId = '$uId' and kortone = '1' group by researchYear ";
+        $data['years'] =  $this->db->query($sql)->result_array();
+
+        $sql="select count(*) as sum_research from research where uId = '$uId' and kortone = '1'";
+        $data['count'] =  $this->db->query($sql)->row_array();
+
+        $this->load->view('research/kortone/show_kortone',$data);
+
+    }
+
+
+    function th() {
+        $this->session->set_userdata('language', 'thai');
+
+        redirect($this->session->userdata('LASTURL'));
+    }
+
+    function en() {
+        $this->session->set_userdata('language', 'english');
+
+
+        redirect($this->session->userdata('LASTURL'));
+    }
+
+    function ch() {
+        $this->session->set_userdata('language', 'chaina');
+
+        redirect($this->session->userdata('LASTURL'));
+    }
 
 }

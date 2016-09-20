@@ -20,7 +20,7 @@
     <div class="col-sm-12 col-md-12">
       <div class="block-flat">
         <div class="header">
-          <h4>ค้นหาจากชื่อโครงการ/ปีงบประมาณ</h4>
+          <h4>ค้นหาจากชื่อโครงการงานวิจัย/ปีงบประมาณ</h4>
         </div>
         <br>
         <div id="content">
@@ -32,7 +32,7 @@
               <div class="col-sm-12">
                 <input type="text" name="Rname" id="Rname" required class="form-control" placeholder="ค้นหาจากชื่อโครงการ">
                 <input type="hidden" name="page" id="page" required class="form-control" value="0">
-                <input type="hidden" name="smenu" id="smenu" required class="form-control" value="1">
+                <input type="hidden" name="smenu" id="smenu" required class="form-control" value="4">
               </div>
             </div>
 
@@ -83,7 +83,7 @@
           <div class="form-group" >
             <div class="modal-footer">
 
-              <button type="button" class="btn btn-warning" onclick="add_toneRearchs();">เพิ่มข้อมูลการได้รับทุน</button>
+              <button type="button" class="btn btn-warning" onclick="add_botkoum();">เพิ่มข้อมูล</button>
             </div>
           </div>
 
@@ -132,6 +132,9 @@
   $(document).ready(function() {
     // $('#showTableData').load("<?php echo base_url('main/show_data_research/');?>");
    btnSeR();
+
+
+
     
   });
 
@@ -156,7 +159,7 @@
 
   function eidt_researchs(researchId){
     var id = researchId;
-    $('#model_viewMain').load("<?php echo base_url('main/edit_toneResearchs/')?>/"+id);
+    $('#model_viewMain').load("<?php echo base_url('main/edit_botkoum/')?>/"+id);
     //$('#main_view2').html('');
     $('#myModelMain').modal('show');
   }
@@ -184,6 +187,7 @@
             });
 
 
+            
             btnSeR();
 
           }else{

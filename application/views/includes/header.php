@@ -40,7 +40,7 @@
         <link rel="stylesheet" type="text/css" href="<?PHP echo base_url('assets/lib/bootstrap.slider/css/bootstrap-slider.css'); ?>">
         <link rel="stylesheet" type="text/css" href="<?PHP echo base_url('assets/lib/bootstrap.daterangepicker/daterangepicker-bs3.css'); ?>">
         <link rel="stylesheet" type="text/css" href="<?PHP echo base_url('assets/lib/jquery.icheck/skins/square/blue.css"'); ?>">
-        <link href="<?PHP echo base_url('assets/css/style.css" rel="stylesheet'); ?>">
+        <link href="<?PHP echo base_url('assets/css/style1.css" rel="stylesheet'); ?>">
         
 
 

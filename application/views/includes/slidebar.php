@@ -76,6 +76,12 @@
                 <li onclick="show_toneRearchs()"><a href="#">ข้อมูลได้รับทุนสนับสนุนงานวิจัย</a>
                   </li>
 
+                  <li onclick="show_BotKoum()"><a href="#">บทความทางวิชาการ/งานวิจัย/งานสร้างสรรค์</a>
+                  </li>
+
+                   <li onclick="show_kortone()"><a href="#">ขอรับทุนโครงการวิจัย</a>
+                  </li>
+<!--
                 <li onclick="add_researchs()"><a href="#"><span class="label label-primary pull-right">New</span>เพิ่มงานวิจัย</a>
                   </li>
                   <li onclick="add_projects()"><a href="#"><span class="label label-primary pull-right">New</span>เพิ่มงานโครงการ</a>
@@ -83,6 +89,7 @@
                   </li>
                   <li onclick="see_researchs()"><a href="#">ข้อมูลงานวิจัย/โครงการ</a>
                   </li>
+-->
                 </ul>
               </li>
 
@@ -149,8 +156,26 @@
       $('#main_view').load("<?php echo base_url('main/add_toneResearchs')?>");
       $('#main_view2').html('');
     }
+    function add_botkoum(){
+      $('#main_view').load("<?php echo base_url('main/add_botkoum')?>");
+      $('#main_view2').html('');
+    }
+    function add_kortone(){
+      $('#main_view').load("<?php echo base_url('main/add_kortone')?>");
+      $('#main_view2').html('');
+    }
     function show_toneRearchs(){
       $('#main_view').load("<?php echo base_url('main/show_toneResearchs')?>");
+      $('#main_view2').html('');
+    }
+
+    function show_BotKoum(){
+      $('#main_view').load("<?php echo base_url('main/show_botKoum')?>");
+      $('#main_view2').html('');
+    }
+
+    function show_kortone(){
+      $('#main_view').load("<?php echo base_url('main/show_kortone')?>");
       $('#main_view2').html('');
     }
   </script>
