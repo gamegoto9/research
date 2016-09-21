@@ -25,6 +25,15 @@
                   </li>
                 </ul>
               </li>
+              <li><a href="#"><i class="fa fa-calendar"></i><span>ปีงบประมาณ</span></a>
+                <ul class="sub-menu">
+                  <li onclick="modi_year()">
+                    <a href="#">เพิ่ม ปีงบประมาณ
+                    </a>
+                  </li>
+                  
+                </ul>
+              </li>
               <li><a href="#"><i class="fa fa-money"></i><span>ประเภททุนวิจัย/โครงการ</span></a>
                 <ul class="sub-menu">
                   <li onclick="modi_money()"><a href="#">เพิ่ม ทุนวิจัย/โครงการ</a>
@@ -33,18 +42,28 @@
                   </li> -->              
                 </ul>
               </li>
-
-
-              <li><a href="#"><i class="fa fa-user"></i><span>ข้อมูลนักวิจัย</span></a>
+              <li><a href="#"><i class="fa fa-briefcase"></i><span>ประเภทงานวิจัย</span></a>
                 <ul class="sub-menu">
-                  <li onclick="modi_uSer()">
-                    <a href="#">พิ่มเติม ข้อมูลนักวิจัย
+                  <li onclick="modi_typeRe()">
+                    <a href="#">เพิ่ม ประเภทงานวิจัย
                     </a>
                   </li>
                   
                 </ul>
               </li>
-              <li><a href="#"><i class="fa fa-briefcase"></i><span>สังกัด/หน่วยงาน</span></a>
+
+
+
+              <li><a href="#"><i class="fa fa-user"></i><span>ข้อมูลนักวิจัย</span></a>
+                <ul class="sub-menu">
+                  <li onclick="modi_uSer()">
+                    <a href="#">เพิ่มเติม ข้อมูลนักวิจัย
+                    </a>
+                  </li>
+                  
+                </ul>
+              </li>
+              <li><a href="#"><i class="fa fa-credit-card"></i><span>สังกัด/หน่วยงาน</span></a>
                 <ul class="sub-menu">
                   <li onclick="modi_maJor('major')">
                     <a href="#">เพิ่มข้อมูล คณะ/หน่วยงาน
@@ -74,6 +93,9 @@
                   -->
 
                 <li onclick="show_toneRearchs()"><a href="#">ข้อมูลได้รับทุนสนับสนุนงานวิจัย</a>
+                  </li>
+
+                    <li onclick="show_projects()"><a href="#">โครงการงานวิจัย</a>
                   </li>
 
                   <li onclick="show_BotKoum()"><a href="#">บทความทางวิชาการ/งานวิจัย/งานสร้างสรรค์</a>
@@ -126,6 +148,16 @@
       $('#main_view').load("<?php echo base_url('main/view_major')?>/"+title);
       $('#main_view2').html('');
     }
+    function modi_typeRe(){
+      
+      $('#main_view').load("<?php echo base_url('main/view_typeRe')?>");
+      $('#main_view2').html('');
+    }
+    function modi_year(){
+      
+      $('#main_view').load("<?php echo base_url('main/view_year')?>");
+      $('#main_view2').html('');
+    }
     function modi_maJor(title){
       var title = title;
       $('#main_view').load("<?php echo base_url('main/view_major')?>/"+title);
@@ -164,6 +196,10 @@
       $('#main_view').load("<?php echo base_url('main/add_kortone')?>");
       $('#main_view2').html('');
     }
+    function add_projects1(){
+      $('#main_view').load("<?php echo base_url('main/add_projects1')?>");
+      $('#main_view2').html('');
+    }
     function show_toneRearchs(){
       $('#main_view').load("<?php echo base_url('main/show_toneResearchs')?>");
       $('#main_view2').html('');
@@ -176,6 +212,11 @@
 
     function show_kortone(){
       $('#main_view').load("<?php echo base_url('main/show_kortone')?>");
+      $('#main_view2').html('');
+    }
+
+     function show_projects(){
+      $('#main_view').load("<?php echo base_url('main/show_project')?>");
       $('#main_view2').html('');
     }
   </script>

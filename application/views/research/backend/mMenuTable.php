@@ -20,13 +20,30 @@ if($id_menu == "0"){ ?>
 			$i = 0;
 			foreach ($mainMenu as $mMenu){
 				$i++;
+				$sid = $mMenu['mMenuId']
 				?>
 				<tr>
 					<td><?php echo $i; ?></td>
 					<td><?php echo $mMenu['mMenuName']; ?></td>
 					<!-- <td><a class="btn btn-primary"><i class="fa fa-exclamation-circle"></i></a></td> -->
-					<td><a class="btn btn-warning" onclick="showModel_edit(<?php echo $mMenu['mMenuId']; ?>);" ><i class="fa fa-edit"></i></a></td>
-					<td><a class="btn btn-danger" onclick="showModel_delete(<?php echo $mMenu['mMenuId']; ?>);"><i class="fa fa-trash-o"></i></a></td>
+
+					<?php 
+					if($sid > "3"){
+						?>
+						<td><a class="btn btn-warning" onclick="showModel_edit(<?php echo $mMenu['mMenuId']; ?>);" ><i class="fa fa-edit"></i></a></td>
+						<td><a class="btn btn-danger" onclick="showModel_delete(<?php echo $mMenu['mMenuId']; ?>);"><i class="fa fa-trash-o"></i></a></td>
+						<?php
+					}else{
+						?>
+						<td><a class="btn btn-warning" onclick="showModel_edit(<?php echo $mMenu['mMenuId']; ?>);" ><i class="fa fa-edit"></i></a></td>
+						<td></td>
+						<?php
+						
+					}
+					?>
+
+
+					
 				</tr>
 				<?php } ?>
 			</tbody>
@@ -51,14 +68,31 @@ if($id_menu == "0"){ ?>
 			$i = 0;
 			foreach ($mainMenu as $mMenu){
 				$i++;
+				$sid = $mMenu['sMenuId'];
 				?>
 				<tr>
 					<td><?php echo $i; ?></td>
 					<td><?php echo $mMenu['sMenuName']; ?></td>
 					<td><?php echo $mMenu['mMenuName']; ?></td>
-					<!-- <td><a class="btn btn-primary"><i class="fa fa-exclamation-circle"></i></a></td> -->
-					<td><a class="btn btn-warning" onclick="showModel_edit(<?php echo $mMenu['sMenuId'];?>);" ><i class="fa fa-edit"></i></a></td>
-					<td><a class="btn btn-danger" onclick="showModel_delete(<?php echo $mMenu['sMenuId']; ?>);"><i class="fa fa-trash-o"></i></a></td>
+
+					<?php 
+					if($sid > "12"){
+						?>
+						<td><a class="btn btn-warning" onclick="showModel_edit(<?php echo $mMenu['sMenuId'];?>);" ><i class="fa fa-edit"></i></a></td>
+						<td><a class="btn btn-danger" onclick="showModel_delete(<?php echo $mMenu['sMenuId']; ?>);"><i class="fa fa-trash-o"></i></a></td>
+						<?php
+					}else{
+						?>
+						<td><a class="btn btn-warning" onclick="showModel_edit(<?php echo $mMenu['sMenuId'];?>);" ><i class="fa fa-edit"></i></a></td>
+						<td></td>
+						<?php
+						
+					}
+					?>
+						
+						
+
+					
 				</tr>
 				<?php } ?>
 			</tbody>

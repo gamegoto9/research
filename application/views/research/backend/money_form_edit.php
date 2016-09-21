@@ -20,6 +20,16 @@
 					}
 					?>">
 				</div>
+				<div class="form-group">
+					<label for="sMenuName">ปีงบประมาณ : </label>
+					<input type="text" class="form-control"  id="data_year" name="data_year" placeholder="ปีงบประมาณ" value="<?php 
+					if($send == 'edit'){
+						echo $dataValue['tYear'];
+					}
+					?>">
+					<font color="red">ตัวอย่าง 2559</font>
+					
+				</div>
 			</form>
 		</div>
 	</div>

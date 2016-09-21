@@ -113,8 +113,8 @@
 
         var faction = "<?php echo site_url('main/update_botkoum/'); ?>";
         var fdata = {
-          year: $("#data_year").val(),
-          tId: $("#data_tune").val(),
+          year: $(".modal-body #data_year").val(),
+          tId: $(".modal-body #data_tune").val(),
           name_re: $('#name_re').val(),
           name_en_re: $('#name_en_re').val(),
           researchId: $('#Rid_primary1').val(),
@@ -123,8 +123,8 @@
 
         };
 
-        console.log('year = ' + $('#data_year option:selected').val());
-        console.log('tune = ' + $('#data_tune option:selected').val());
+        console.log('year = ' + $('.modal-body #data_year option:selected').val());
+        console.log('tune = ' + $('.modal-body #data_tune option:selected').val());
 
         $.post(faction, fdata, function(jdata) {
 
@@ -1025,9 +1025,9 @@ function table_link(researchId){
     
 
     
-    $('#data_tune').change(function() {
-     $("#detial :input").attr("disabled", false);
-     $("#detial2 :input").attr("disabled", false);
+    $('.modal-body #data_tune').change(function() {
+     $(".modal-body #detial :input").attr("disabled", false);
+     $(".modal-body #detial2 :input").attr("disabled", false);
    });
 
     table_peple($('#Rid_primary1').val());
